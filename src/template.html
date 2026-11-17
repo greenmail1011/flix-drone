@@ -32,7 +32,8 @@ aside{display:flex;flex-direction:column;gap:12px}
 #stepCheck{margin:8px 0 0;padding-left:0;list-style:none;font-size:13.5px;line-height:1.6}
 #stepCheck li{padding-left:22px;position:relative}
 #stepCheck li:before{content:"☐";position:absolute;left:2px;color:#2c8a4a}
-#stepParts{font-size:13px;margin-top:8px;color:#5b6573}
+#stepParts{font-size:13px;margin-top:8px;color:#5b6573;max-height:320px;overflow:auto}
+td small.fn{display:block;color:#3d5a80;margin-top:2px;line-height:1.45}
 .nav{display:flex;gap:8px;margin-top:12px}
 button.btn{border:1px solid #2c5fb3;background:#2c5fb3;color:#fff;border-radius:8px;padding:7px 14px;font-size:14px;cursor:pointer}
 button.alt{background:#fff;color:#2c5fb3}
@@ -57,12 +58,26 @@ td img{display:block;border-radius:6px;background:#eef1f5}
 .sum b{font-size:18px}
 .note{font-size:13px;color:#5b6573;line-height:1.7}
 a{color:#2c5fb3}
+.ptag{position:absolute;transform:translate(-50%,-150%);font-size:11px;font-weight:700;padding:1px 6px;border-radius:5px;white-space:nowrap;pointer-events:none;border:1px solid rgba(0,0,0,.25);background:#fff}
+.ptag.r{transform:translate(0,-50%)}.ptag.sig{background:#ffe14d;color:#3d3000}.ptag.pw{background:#d62828;color:#fff}.ptag.gnd{background:#1b1b1b;color:#fff}.ptag.d{background:#c9ccd0;color:#222}
+.sw{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px;border:1px solid rgba(0,0,0,.3)}
+table.wt{width:100%;margin-top:8px;font-size:12.5px;border:0;border-radius:0}
+table.wt td{padding:4px 5px;vertical-align:top;border-bottom:1px solid #eceff3}
+table.wt tr{cursor:pointer}table.wt tr:hover,table.wt tr.sel{background:#eaf2ff}
+#info .fn{background:#f2f7ff;border-left:3px solid #2c5fb3;padding:6px 9px;border-radius:4px}
+section.wiring{padding:0 24px 20px}
+section.wiring h2,section.tbl h2{font-size:19px;margin:8px 0 6px}
+#wiringSvg{background:#fff;border:1px solid #d9dee6;border-radius:12px;overflow:hidden}
+#wiringSvg svg{display:block;width:100%;height:auto}
+tr.grp th{background:#e8eef7;text-align:left}
+#wireTable td{font-size:13.5px;line-height:1.5}
+#wireTable tr[data-w]{cursor:pointer}#wireTable tr[data-w]:hover{background:#f7faff}
 </style>
 </head>
 <body>
 <header>
   <h1>FutureZebra 程控無人機（Flix 路線）｜3D 組裝教學</h1>
-  <p class="sub">機身、支架、墊片使用 Flix 官方 STL 實際幾何；其他零件依規格書尺寸建模。拖曳旋轉、滾輪縮放、右鍵平移。</p>
+  <p class="sub">機身、支架、墊片使用 Flix 官方 STL 實際幾何；主板、IMU 照官方照片建模，電線都接到真實的腳位孔。拖曳旋轉、滾輪縮放、右鍵平移。</p>
 </header>
 <div id="chips"></div>
 <main>
@@ -70,10 +85,11 @@ a{color:#2c5fb3}
     <div id="view"></div>
     <div class="ctrl">
       <label><input id="labels" type="checkbox" checked> 名稱標籤</label>
-      <label><input id="spin" type="checkbox" checked> 轉動（步驟 9–10）</label>
+      <label><input id="spin" type="checkbox" checked> 轉動（步驟 12–13）</label>
       <label><input id="dims" type="checkbox"> 尺寸標註</label>
       <label><input id="xray" type="checkbox"> 機身半透明</label>
       <label><input id="section" type="checkbox"> 剖面（看電池槽）</label>
+      <label><input id="pinNames" type="checkbox"> 主板腳位名稱</label>
     </div>
     <div class="ctrl">
       <label>自由拆解 <input id="free" type="range" min="0" max="100" value="0"></label>
@@ -83,7 +99,7 @@ a{color:#2c5fb3}
       <label><input type="radio" name="board" value="mini" checked> MINI32（官方尺寸）</label>
       <label><input type="radio" name="board" value="nodemcu"> NODEMCU-32S（購物車）</label>
     </div>
-    <p id="sizeWarn" hidden><b>NODEMCU-32S 放不上官方支架。</b>板長約 51 mm，比支架（39 mm）長 12 mm 以上。如果排針已經焊好朝下，紅色處是排針塑膠座撞到支架兩端橫桿和支柱的位置，板子放不平。可以改買 MINI32 小板，或修改支架 STL。（NODEMCU-32S 的尺寸和排針列距 25.4 mm 是估計值，請拿實板量過再決定。）</p>
+    <p id="sizeWarn" hidden><b>NODEMCU-32S 放不上官方支架。</b>板長約 51 mm，比支架（39 mm）長 12 mm 以上。如果排針已經焊好朝下，紅色處是排針塑膠座撞到支架兩端橫桿和支柱的位置，板子放不平。可以改買 MINI32 小板，或修改支架 STL。（NODEMCU-32S 的尺寸和排針列距 25.4 mm 是估計值，請拿實板量過再決定。3D 裡的電線位置是照 MINI32 畫的。）</p>
   </div>
   <aside>
     <div class="panel">
@@ -100,7 +116,17 @@ a{color:#2c5fb3}
     <div class="panel" id="info"></div>
   </aside>
 </main>
+<section class="wiring">
+  <h2>接線圖與接線表</h2>
+  <p class="note">每條線都標出起點、終點和用途。點表格的任一列，上方 3D 會跳到那一步並標出那條線。<a id="svgDl" download="futurezebra-flix-wiring.svg">下載接線圖（SVG）</a></p>
+  <div id="wiringSvg"></div>
+  <table id="wireTable" style="margin-top:12px">
+    <thead><tr><th>編號</th><th>線色</th><th>從</th><th>到</th><th>功能</th></tr></thead>
+    <tbody id="wireRows"></tbody>
+  </table>
+</section>
 <section class="tbl">
+  <h2>零件表</h2>
   <div class="sum"><div>購物車合計 <b id="total"></b></div></div>
   <table>
     <thead><tr><th>圖</th><th>零件</th><th>數量</th><th>單價</th><th>小計</th><th>狀態</th><th>連結</th></tr></thead>
@@ -108,7 +134,7 @@ a{color:#2c5fb3}
   </table>
   <p class="note">
     縮圖由 3D 模型產生，不是商品照片。價格是 2026/11/17 蝦皮購物車單價，合計只算「已在購物車」且有價格的項目，不含 MOSFET、電池、螺絲、膠帶、運費和優惠券。<br>
-    機頭為 +X、左方為 +Y，與 Flix 的 Gazebo 模型一致；馬達位置、轉向、線色、GPIO 取自官方 docs/assembly.md 與 config.h。走線與 IMU 排針朝向是示意，實際接線以官方接線表為準。<br>
+    機頭為 +X、左方為 +Y，與 Flix 的 Gazebo 模型一致；馬達位置、轉向、線色、GPIO 取自官方 docs/assembly.md 與 config.h。主板腳位依 MH-ET LIVE MiniKit 腳位圖與官方照片背面絲印；IMU 接法、馬達 GPIO 依官方 README 與 assembly.md。GY-91 的裝法（印字面朝上）依官方組裝照片，方向參數請裝好後用 QGroundControl 確認。<br>
     Flix repo 沒有 LICENSE 檔（Arduino Project Hub 標示 CC BY-NC），自用與教學以外的用途（例如販售套件）請先確認授權。來源：<a href="https://github.com/okalachev/flix" target="_blank" rel="noopener">github.com/okalachev/flix</a>
   </p>
 </section>
