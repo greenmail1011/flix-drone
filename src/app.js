@@ -614,12 +614,12 @@ function bladeGeometry(ccw) {
 const propSpin = [];
 function makeProp(type, ccw) {
   const g = new THREE.Group(), dark = type === 'A';
-  const M = mat(dark ? 0x26282b : 0xf4f4f2, { roughness: 0.45, side: THREE.DoubleSide });
+  const M = mat(dark ? 0x26282b : 0x1f6fd1, { roughness: 0.45, side: THREE.DoubleSide });   // A 黑、B 藍（B 槳裝在逆時針馬達，和藍色箭頭一致）
   const bg = bladeGeometry(ccw);
   [0, Math.PI].forEach(a => { const b = new THREE.Mesh(bg, M); b.rotation.z = a; g.add(b); });
   g.add(cyl(2.3, 4.6, M, 0, 0, -1.9, 24));
   const lab = new THREE.Mesh(new THREE.CircleGeometry(2.25, 32), new THREE.MeshBasicMaterial({
-    map: canvasTex(4.5, 4.5, (c, w) => { c.fillStyle = dark ? '#26282b' : '#f4f4f2'; c.fillRect(0, 0, w, w); c.fillStyle = dark ? '#ffb347' : '#1f7ae0'; c.font = `bold 3.4px ${FONT}`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(type, w / 2, w / 2 + 0.2); }, 30) }));
+    map: canvasTex(4.5, 4.5, (c, w) => { c.fillStyle = dark ? '#26282b' : '#1f6fd1'; c.fillRect(0, 0, w, w); c.fillStyle = dark ? '#ffb347' : '#ffffff'; c.font = `bold 3.4px ${FONT}`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(type, w / 2, w / 2 + 0.2); }, 30) }));
   lab.position.z = 2.72; g.add(lab);
   return g;
 }
