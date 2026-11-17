@@ -165,7 +165,7 @@ const frame = stlMesh('frame', PLA);
 add('frame', frame, V(), { step: 1, entry: V(0, 0, 40) });
 
 // ===== 2. 支架 + 雙面膠 + ESP32（先在旁邊組好，第 7 步才移入）=====
-const SIDE = V(0, 92, 18);
+const SIDE = V(92, 0, 18);
 const holderMat = mat(0xeceae2, { roughness: 0.72, side: THREE.DoubleSide });
 const holder = stlMesh('holder', holderMat);
 add('holder', holder, V(0, 0, HOLDER_Z), { ex: V(0, 0, 58), step: 2, keys: [[2, SIDE], [7, V()]], entry: V(0, 0, 25) });
@@ -386,6 +386,10 @@ function m3Screw() {
 }
 IMU_HOLES.forEach(([x, y]) => add('m3', m3Screw(), V(x, y, IMU_Z + IMU_T), { ex: V(0, 0, 54), step: 4, entry: V(0, 0, 40) }));
 
+// 機身座標（前左上）→ 3D 場景座標。機身 STL 的機頭在 +Y、左方在 -X：
+// Gazebo 模型（機頭 +X）裡的電池槽與支架都比 STL 轉了 90°；官方 GY-91 座標圖是 VIN 端朝前、安裝孔朝左。
+MOTORS.forEach(m => { m.mx = -m.sy; m.my = m.sx; });
+
 // ===== 5. 馬達（8520：鋼殼、白色尾蓋、銅軸承）=====
 function makeMotor(cw) {
   const g = new THREE.Group();
@@ -402,12 +406,12 @@ function makeMotor(cw) {
 const motorObjs = {};
 MOTORS.forEach(m => {
   const o = makeMotor(m.cw); motorObjs[m.k] = o;
-  add('motors', o, V(m.sx * ARM, m.sy * ARM, 1), { ex: V(0, 0, 48), step: 5, entry: V(0, 0, 38) });
+  add('motors', o, V(m.mx * ARM, m.my * ARM, 1), { ex: V(0, 0, 48), step: 5, entry: V(0, 0, 38) });
 });
 
 // ===== 6. MOSFET（TO-252）、10 kΩ 電阻 =====
-const diag = m => V(m.sx, m.sy, 0).normalize();
-const sideOf = m => V(-m.sy, m.sx, 0).normalize();
+const diag = m => V(m.mx, m.my, 0).normalize();
+const sideOf = m => V(-m.my, m.mx, 0).normalize();
 const atArm = (m, r, s, z) => diag(m).multiplyScalar(r).add(sideOf(m).multiplyScalar(s)).setZ(z);
 const MOS_R = 33, MOS_Z = 3;
 const LEAD_R = MOS_R - 5.6, LEAD_S = 2.28;   // 兩隻腳的焊點（G 在 +side，S 在 -side）
@@ -440,7 +444,7 @@ function makeResistor(m) {
 }
 const tapeMat = new THREE.MeshPhysicalMaterial({ color: 0xffffff, transmission: 0.6, transparent: true, opacity: 0.32, roughness: 0.15, depthWrite: false });
 MOTORS.forEach(m => {
-  const ang = Math.atan2(m.sy, m.sx);
+  const ang = Math.atan2(m.my, m.mx);
   const mo = makeMosfet(); mo.rotation.z = ang - Math.PI / 2;
   add('mosfet', mo, atArm(m, MOS_R, 0, MOS_Z), { ex: V(0, 0, 26), step: 6, entry: V(0, 0, 22) });
   add('resistor', makeResistor(m), V(), { ex: V(0, 0, 30), step: 6, entry: V(0, 0, 24) });
@@ -475,7 +479,7 @@ const mid = j => j[0].clone().add(j[1]).multiplyScalar(0.5);
 // 機臂上的走道：繞過 IMU（x 在 -3.6～10.7、y 在 -9～11.6）
 function armToCenter(m, r0, s, z, end) {
   const pts = [atArm(m, r0, s, z), atArm(m, 18, s, z)];
-  if (m.sx > 0) pts.push(V(4, m.sy * 15.2, z), V(-5.5, m.sy * 13.8, z));
+  if (m.mx > 0) pts.push(V(4, m.my * 15.2, z), V(-5.5, m.my * 13.8, z));
   else pts.push(atArm(m, 13, s, z));
   pts.push(end); return pts;
 }
@@ -576,7 +580,7 @@ MOTORS.forEach(m => {
   const tipA = m.cw ? a0 : a1, cone = new THREE.Mesh(new THREE.ConeGeometry(2.0, 5, 16), M);
   cone.position.set(R * Math.cos(tipA), R * Math.sin(tipA), 0);
   cone.rotation.z = tipA + (m.cw ? Math.PI : 0); g.add(cone);
-  g.position.set(m.sx * ARM, m.sy * ARM, 22); g.userData.m = m; arrows.add(g);
+  g.position.set(m.mx * ARM, m.my * ARM, 22); g.userData.m = m; arrows.add(g);
 });
 arrows.visible = false;
 
@@ -621,7 +625,7 @@ function makeProp(type, ccw) {
 }
 MOTORS.forEach(m => {
   const p = makeProp(m.cw ? 'A' : 'B', !m.cw);
-  const it = add('props', p, V(m.sx * ARM, m.sy * ARM, 14.2), { ex: V(0, 0, 105), step: 13, entry: V(0, 0, 30) });
+  const it = add('props', p, V(m.mx * ARM, m.my * ARM, 14.2), { ex: V(0, 0, 105), step: 13, entry: V(0, 0, 30) });
   propSpin.push({ obj: p, dir: m.cw ? -1 : 1 });
 });
 
@@ -654,9 +658,9 @@ const motorTags = MOTORS.map(m => {
   el.innerHTML = `${m.name}<br><b>${m.cw ? '順時針 CW' : '逆時針 CCW'}</b><br>${m.cw ? 'A 槳・藍紅線' : 'B 槳・黑白線'}<br>GPIO${m.gpio}`;
   view.appendChild(el); return { el, m };
 });
-const frontTag = document.createElement('div'); frontTag.className = 'front'; frontTag.textContent = '▲ 機頭（+X）'; view.appendChild(frontTag);
+const frontTag = document.createElement('div'); frontTag.className = 'front'; frontTag.textContent = '▲ 機頭'; view.appendChild(frontTag);
 const frontArrow = new THREE.Mesh(new THREE.ConeGeometry(4, 9, 3), new THREE.MeshBasicMaterial({ color: 0x2c5fb3 }));
-frontArrow.rotation.z = -Math.PI / 2; frontArrow.position.set(78, 0, FLOOR + 0.3); scene.add(frontArrow);
+frontArrow.position.set(0, 78, FLOOR + 0.3); scene.add(frontArrow);
 
 // ---------- 腳位小標籤（接線步驟顯示）----------
 const pinTags = [];
@@ -911,8 +915,8 @@ function frameLoop(now) {
     place(labels[id], p, showL && it.obj.visible && (mode === 'free' ? free > 0.12 : STEPS[step - 1].parts.includes(id)));
   });
   const showTags = (mode === 'step' && step >= 5) && ui('labels').checked;
-  motorTags.forEach(({ el, m }) => place(el, V(m.sx * (ARM + 16), m.sy * (ARM + 16), 30), showTags && (step === 5 || step === 12)));
-  place(frontTag, V(92, 0, FLOOR), frontArrow.visible);
+  motorTags.forEach(({ el, m }) => place(el, V(m.mx * (ARM + 16), m.my * (ARM + 16), 30), showTags && (step === 5 || step === 12)));
+  place(frontTag, V(0, 92, FLOOR), frontArrow.visible);
   pinTags.forEach(t => place(t.el, t.pos, mode === 'step' && ui('labels').checked && t.steps.includes(step) && !anim));
   dimLabels.forEach(d => place(d.el, d.p, dimGroup.visible));
   requestAnimationFrame(frameLoop);
