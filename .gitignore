@@ -1,3 +1,6 @@
 __pycache__/
 *.pyc
 rabboni/rabboni_calib.json
+pcb/preview/*
+!pcb/preview/render_top.png
+!pcb/preview/render_bottom.png

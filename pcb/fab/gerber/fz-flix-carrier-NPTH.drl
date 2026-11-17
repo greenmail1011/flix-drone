@@ -1,0 +1,17 @@
+M48
+; DRILL file FutureZebra Flix carrier v1.0 (NPTH)
+; FORMAT={-:-/ absolute / metric / decimal}
+; #@! TF.FileFunction,NonPlated,1,2,NPTH
+FMAT,2
+METRIC
+T1C1.600
+%
+G90
+G05
+T1
+X9.490Y43.500
+X36.510Y43.500
+X9.490Y8.500
+X36.510Y8.500
+T0
+M30
