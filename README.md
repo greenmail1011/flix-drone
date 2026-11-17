@@ -1,6 +1,6 @@
-# FutureZebra 教育無人機（Flix 路線）
+# FutureZebra 程控無人機（Flix 路線）
 
-用開源 [Flix](https://github.com/okalachev/flix) 做的 Python 可控教育無人機：ESP32、8520 空心杯馬達、1S 電池、3D 列印機身。
+用開源 [Flix](https://github.com/okalachev/flix) 做的 Python 程控無人機：ESP32、8520 空心杯馬達、1S 電池、3D 列印機身。
 
 **3D 組裝教學頁：** 開啟本 repo 的 GitHub Pages（`index.html`）。
 
