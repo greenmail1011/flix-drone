@@ -12,12 +12,19 @@ const FONT = '"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif';
 // ---------- renderer / scene ----------
 const view = document.getElementById('view');
 const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
-renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+const SMALL = Math.min(screen.width, screen.height) < 700;
+renderer.setPixelRatio(Math.min(devicePixelRatio, SMALL ? 1.5 : 2));
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFShadowMap;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.0;
 view.appendChild(renderer.domElement);
+renderer.domElement.addEventListener('webglcontextlost', e => {
+  e.preventDefault();
+  const m = document.createElement('div'); m.className = 'lost';
+  m.innerHTML = '3D 畫面被瀏覽器關掉了（通常是記憶體不足）。<button onclick="location.reload()">重新載入</button>';
+  view.appendChild(m);
+});
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xeef1f5);
@@ -35,7 +42,7 @@ scene.add(new THREE.HemisphereLight(0xffffff, 0x9aa3ad, 0.6));
 const sun = new THREE.DirectionalLight(0xffffff, 1.6);
 sun.position.set(90, -120, 260);
 sun.castShadow = true;
-sun.shadow.mapSize.set(2048, 2048);
+sun.shadow.mapSize.set(SMALL ? 1024 : 2048, SMALL ? 1024 : 2048);
 Object.assign(sun.shadow.camera, { left: -150, right: 150, top: 150, bottom: -150, near: 10, far: 600 });
 sun.shadow.bias = -0.0004;
 sun.shadow.normalBias = 0.4;
@@ -819,10 +826,10 @@ const chips = ui('chips');
 STEPS.forEach((s, i) => { const b = document.createElement('button'); b.className = 'chip'; b.innerHTML = `<i>${i + 1}</i>${s.t}`; b.onclick = () => { stopPlayAll(); goStep(i + 1); }; chips.appendChild(b); });
 
 // ---------- table + thumbnails ----------
+let thumbRT = null;
 function thumb(id) {
   const objs = items.filter(i => i.id === id).map(i => i.obj).slice(0, 1);
   if (!objs.length) return '';
-  const r = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true }); r.setSize(168, 126); r.toneMapping = THREE.ACESFilmicToneMapping;
   const s = new THREE.Scene(); s.environment = scene.environment; s.add(new THREE.HemisphereLight(0xffffff, 0x99a, 0.9));
   const l = new THREE.DirectionalLight(0xffffff, 1.4); l.position.set(1, -1.5, 2.5); s.add(l);
   const g = new THREE.Group();
@@ -832,7 +839,18 @@ function thumb(id) {
   const cam = new THREE.PerspectiveCamera(30, 4 / 3, 0.1, 3000); cam.up.set(0, 0, 1);
   const d = Math.max(size.x, size.y, size.z) * 2.2 + 6;
   cam.position.copy(ctr).add(V(1, -1.2, 0.95).normalize().multiplyScalar(d)); cam.lookAt(ctr);
-  r.render(s, cam); const url = r.domElement.toDataURL('image/png'); r.dispose(); r.forceContextLoss(); return url;
+  // 用主畫面的 renderer 畫到離屏目標再讀回像素：不另開 WebGL context（手機最多約 16 個，超過會把主畫面關掉）
+  const TW = 168, TH = 126;
+  thumbRT = thumbRT || new THREE.WebGLRenderTarget(TW, TH, { samples: 4 });
+  thumbRT.texture.colorSpace = THREE.SRGBColorSpace;
+  s.background = new THREE.Color(0xeef1f5);
+  const prevClip = renderer.clippingPlanes; renderer.clippingPlanes = [];
+  renderer.setRenderTarget(thumbRT); renderer.render(s, cam); renderer.setRenderTarget(null); renderer.clippingPlanes = prevClip;
+  const px = new Uint8Array(TW * TH * 4); renderer.readRenderTargetPixels(thumbRT, 0, 0, TW, TH, px);
+  const cv = document.createElement('canvas'); cv.width = TW; cv.height = TH;
+  const ctx = cv.getContext('2d'), img = ctx.createImageData(TW, TH);
+  for (let y = 0; y < TH; y++) img.data.set(px.subarray((TH - 1 - y) * TW * 4, (TH - y) * TW * 4), y * TW * 4);
+  ctx.putImageData(img, 0, 0); return cv.toDataURL('image/png');
 }
 function renderTable() {
   let sum = 0;
