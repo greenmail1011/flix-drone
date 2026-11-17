@@ -238,11 +238,12 @@ function makeIMU() {
     c.save(); c.translate(3.3, h / 2); c.rotate(-Math.PI / 2); c.fillStyle = '#fff'; c.font = `bold 1.4px ${FONT}`; c.textAlign = 'center'; c.fillText('GY-91', 0, 0); c.restore();
   }));
   // 晶片
+  // 零件都避開兩個安裝孔：M3 螺絲頭 Ø5.5 mm，孔心在板子局部座標 (-4.85, ±7.6)
   g.add(box(3, 3, 0.9, mat(0x141414, { roughness: 0.35 }), 1.2, -1.5, 1.0));                // MPU-9250
   g.add(box(2.0, 2.5, 0.95, metal(0xc9cbcf, 0.3), 1.0, 3.2, 1.0));                            // BMP280
-  g.add(box(1.6, 3.0, 1.1, mat(0x1a1a1a), -2.3, 6.5, 1.0));                                   // LDO
-  g.add(box(2.0, 3.2, 1.4, mat(0xe8a01c, { roughness: 0.4 }), -3.2, 2.8, 1.0));               // 鉭質電容
-  for (let i = 0; i < 6; i++) g.add(box(1.6, 0.8, 0.45, mat(i % 2 ? 0x2b2b2b : 0xb08a5b), -2.8 + (i % 2) * 2.4, -7 + Math.floor(i / 2) * 1.4, 1.0));
+  g.add(box(1.6, 3.0, 1.1, mat(0x1a1a1a), 1.0, 7.6, 1.0));                                    // LDO
+  g.add(box(2.0, 3.2, 1.4, mat(0xe8a01c, { roughness: 0.4 }), -4.2, 1.2, 1.0));               // 鉭質電容
+  for (let i = 0; i < 6; i++) g.add(box(1.6, 0.8, 0.45, mat(i % 2 ? 0x2b2b2b : 0xb08a5b), 0.4 + (i % 2) * 2.3, -8.2 + Math.floor(i / 2) * 1.3, 1.0));
   // 金色孔環
   const ringM = metal(0xd9b45a, 0.25);
   IMU_HOLES.forEach(([hx, hy]) => { const r = new THREE.Mesh(new THREE.RingGeometry(1.5, 2.3, 32), ringM); r.position.set(hx - imuCx, hy - imuCy, 1.01); g.add(r); });
