@@ -29,7 +29,7 @@ export const PARTS = [
     note: '從上方壓入馬達管，馬達線從管壁的開槽拉出。順時針（CW）＝藍紅線、A 槳；逆時針（CCW）＝黑白線、B 槳。',
     url: sp(2305548, 879305527) },
   { id: 'mosfet', fn: '馬達的電子開關。主板的 GPIO 只能輸出很小的電流，推不動馬達；MOSFET 用小訊號控制大電流，每秒開關上萬次（PWM）來調整轉速。', name: 'MOSFET UMW 100N03A', en: 'TO-252', qty: '4', n: 4, unit: null, status: 'todo',
-    spec: '每顆馬達一顆。官方註明要 UMW 牌，KIA 等其他牌可能不能用。',
+    spec: '每顆馬達一顆。官方註明要 UMW 牌，KIA 等其他牌可能不能用。三隻腳：G（左）、S（右）、D（中間短腳和背面金屬片）。背面那片金屬就是 D 腳，本來是設計來焊在電路板上導熱的，不是另外加裝的散熱片；這台的電流小，不需要散熱片。',
     note: '台灣店家沒查到，LCSC 約 US$0.19／顆。用透明膠帶貼在機臂上。',
     url: 'https://www.lcsc.com/product-detail/MOSFET_UMW-Youtai-Semiconductor-Co-Ltd-100N03A_C668200.html' },
   { id: 'resistor', fn: '下拉電阻：開機或燒錄時 GPIO 還沒設定好，電阻把 MOSFET 的 G 腳拉到 0V，馬達才不會突然轉起來。另外 2 顆可做電池電壓量測（選配）。', name: '10 kΩ 電阻', en: '1/4W，10 顆一包', qty: '1 包（用 6）', n: 1, unit: 10, status: 'cart',
@@ -102,7 +102,7 @@ MOTORS.forEach(m => {
   const w = motorWires(m), [c, r] = m.pin;
   WIRES.push(
     { g: 'motor', id: `M${m.no}a`, m: m.no, color: '黃', hex: Y, from: esp(c, r), pin: m.pin, to: `${m.name} MOSFET 的 G 腳（Gate，左邊的腳）`, fn: `主板用 PWM 訊號開關 MOSFET，控制${m.name}馬達的轉速` },
-    { g: 'motor', id: `M${m.no}b`, m: m.no, color: `${w.neg}（馬達線）`, hex: w.negHex, from: `${m.name}馬達負極（${w.neg}線）`, to: `${m.name} MOSFET 的 D 腳（Drain，背面大散熱片）`, fn: 'MOSFET 導通時，馬達電流從這裡流過' },
+    { g: 'motor', id: `M${m.no}b`, m: m.no, color: `${w.neg}（馬達線）`, hex: w.negHex, from: `${m.name}馬達負極（${w.neg}線）`, to: `${m.name} MOSFET 的 D 腳（Drain，背面金屬片）`, fn: 'MOSFET 導通時，馬達電流從這裡流過' },
     { g: 'motor', id: `M${m.no}c`, m: m.no, color: '電阻', hex: '#b08a5b', from: '10 kΩ 電阻一腳', to: `${m.name} MOSFET 的 G 腳；另一腳接 S 腳`, fn: '下拉電阻：主板還沒開機時把 G 拉到 0V，馬達不會亂轉' },
   );
 });
@@ -131,9 +131,9 @@ export const STEPS = [
     check: ['馬達很緊、手搖不會動（鬆了用小片膠帶墊）', '四顆的位置與線色和標籤一致', '馬達頂面高度一致'],
     cam: [0, 0, 2, 0.35, -1.2, 1.0, 300] },
   { t: 'MOSFET 與下拉電阻', parts: ['mosfet', 'resistor'],
-    how: '每支機臂放一顆 MOSFET：大散熱片（D 腳）朝馬達、兩隻腳朝機身中心，字面朝上。10 kΩ 電阻跨接在左腳 G 和右腳 S 之間，先焊好。',
-    check: ['電阻兩腳分別焊在 G、S，沒有碰到中間的散熱片', '三用電錶量 G–S 之間約 10 kΩ', '四顆方向都一樣：散熱片朝外'],
-    cam: [30, -30, 4, 0.3, -1, 1.1, 75] },
+    how: '每支機臂放一顆 MOSFET：背面金屬片（D 腳）朝馬達、兩隻腳朝機身中心，字面朝上。這片金屬是零件本身的 D 腳，不用另外裝散熱片。10 kΩ 電阻跨接在左腳 G 和右腳 S 之間，先焊好。',
+    check: ['電阻兩腳分別焊在 G、S，沒有碰到中間的金屬片', '三用電錶量 G–S 之間約 10 kΩ', '四顆方向都一樣：金屬片朝外'],
+    cam: [30, 29, 4, -0.25, -1, 1.15, 70] },
   { t: '支架鎖上機身', parts: ['m14'],
     how: '把第 2 步做好的「支架＋主板」放到 IMU 上方，從機身底面往上鎖 4 顆 M1.4×5 螺絲。',
     check: ['支架四根柱子都貼平機身', '支架兩側的鏤空在左右，等一下電線要從這裡穿上去'],
@@ -147,8 +147,8 @@ export const STEPS = [
     check: ['3V3 → 左內排第 8 孔，GND → 左外排第 1 孔', '黃①SCL→IO18、②SDA→IO23、③SDO→IO19、④NCS→IO5', 'VIN 不接（接了 3.3V 也不會壞，但沒必要）'],
     cam: [-2, 2, 9, -0.25, -1, 1.15, 95] },
   { t: '接線③：4 組馬達', parts: ['wire', 'tape'], wires: 'motor',
-    how: '每支機臂 3 條線：黃線從主板 GPIO 到 MOSFET 的 G；馬達負極（黑或藍）焊到 MOSFET 的散熱片 D；馬達正極（白或紅）接紅色匯流點的線。最後用透明膠帶把 MOSFET 和電線貼在機臂上。（這一步主板和支架畫成半透明，才看得到下面的線。）',
-    check: ['GPIO12 後左、GPIO13 後右、GPIO14 前右、GPIO15 前左', '馬達負極接 D（散熱片），不是接 S', '膠帶貼好，電線不會被槳打到'],
+    how: '每支機臂 3 條線：黃線從主板 GPIO 到 MOSFET 的 G；馬達負極（黑或藍）焊到 MOSFET 背面的金屬片 D；馬達正極（白或紅）接紅色匯流點的線。最後用透明膠帶把 MOSFET 和電線貼在機臂上。（這一步主板和支架畫成半透明，才看得到下面的線。）',
+    check: ['GPIO12 後左、GPIO13 後右、GPIO14 前右、GPIO15 前左', '馬達負極接 D（背面金屬片），不是接 S', '膠帶貼好，電線不會被槳打到'],
     cam: [0, 0, 6, 0.55, -1, 1.5, 150] },
   { t: '裝電池', parts: ['battery'],
     how: '電池從機尾推進機身下方的電池槽，插上 MX2.0 插頭。先不要裝槳。',

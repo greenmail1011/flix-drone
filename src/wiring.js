@@ -118,7 +118,7 @@ export function wiringSVG() {
 
   // ---- 注意
   t(30, 700, '注意', { size: 13, bold: true, fill: '#b01e1e' });
-  ['先焊好、量過不短路，才接電池。', '插著 USB 時不要轉馬達，要用電池供電。', 'MOSFET：G＝左腳、S＝右腳（字面朝上、腳朝自己），', '　D＝背面大散熱片（接馬達負極）。', '腳位來源：Flix 官方 README／assembly.md、', '　MH-ET LIVE MiniKit 腳位圖。'].forEach((s, i) => t(30, 720 + i * 16, s, { size: 11.5, fill: '#4a5563' }));
+  ['先焊好、量過不短路，才接電池。', '插著 USB 時不要轉馬達，要用電池供電。', 'MOSFET：G＝左腳、S＝右腳（字面朝上、腳朝自己），', '　D＝背面金屬片（接馬達負極，不用另加散熱片）。', '腳位來源：Flix 官方 README／assembly.md、', '　MH-ET LIVE MiniKit 腳位圖。'].forEach((s, i) => t(30, 720 + i * 16, s, { size: 11.5, fill: '#4a5563' }));
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" font-family="${FONT}">${out.join('')}</svg>`;
 }
 

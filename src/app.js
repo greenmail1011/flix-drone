@@ -416,13 +416,13 @@ const atArm = (m, r, s, z) => diag(m).multiplyScalar(r).add(sideOf(m).multiplySc
 const MOS_R = 33, MOS_Z = 3;
 const LEAD_R = MOS_R - 5.6, LEAD_S = 2.28;   // 兩隻腳的焊點（G 在 +side，S 在 -side）
 function makeMosfet() {
-  const g = new THREE.Group();   // 局部 +y＝散熱片（D）朝外，-y＝腳朝內；局部 -x＝G、+x＝S
-  g.add(box(6.6, 6.1, 0.5, metal(0xc9ccd0, 0.3), 0, 0.2, 0));               // 底部散熱焊盤
+  const g = new THREE.Group();   // 局部 +y＝背面金屬片（D）朝外，-y＝腳朝內；局部 -x＝G、+x＝S
+  g.add(box(6.6, 6.1, 0.5, metal(0xc9ccd0, 0.3), 0, 0.2, 0));               // 底部金屬焊盤（D）
   g.add(board(6.6, 6.1, 2.3, 0x1a1a1a, (c, w, h) => {
     c.fillStyle = '#1c1c1c'; c.fillRect(0, 0, w, h); c.fillStyle = '#bdbdbd'; c.textAlign = 'center';
     c.font = `bold 1.05px ${FONT}`; c.fillText('UMW', w / 2, 2.4); c.fillText('100N03A', w / 2, 3.8); c.font = `0.7px ${FONT}`; c.fillText('2324', w / 2, 5.0);
   }, 0, -0.3, 0.2, { roughness: 0.45 }));
-  g.add(box(5.4, 1.6, 0.5, metal(0xc9ccd0, 0.3), 0, 3.6, 0.0));             // 外露散熱片（D）
+  g.add(box(5.4, 1.6, 0.5, metal(0xc9ccd0, 0.3), 0, 3.6, 0.0));             // 外露的背面金屬片（D）
   [-LEAD_S, LEAD_S].forEach(x => { g.add(box(0.8, 2.3, 0.5, metal(0xc9ccd0, 0.3), x, -4.45, 0.55)); g.add(box(0.8, 0.9, 0.5, metal(0xc9ccd0, 0.3), x, -5.6, 0.1)); });
   g.add(box(0.8, 0.8, 0.5, metal(0xc9ccd0, 0.3), 0, -3.7, 0.55));            // 中間短腳
   return g;
@@ -680,7 +680,7 @@ MOTORS.forEach(m => pinTag(`GPIO${m.gpio}→${m.name}`, holeTop(...m.pin), [10],
 MOTORS.filter(m => m.k === 'FR').forEach(m => {
   pinTag('G', atArm(m, LEAD_R, LEAD_S, MOS_Z + 1), [6, 10], 'sig');
   pinTag('S', atArm(m, LEAD_R, -LEAD_S, MOS_Z + 1), [6, 10], 'gnd');
-  pinTag('D（散熱片）', atArm(m, MOS_R + 3.6, 0, MOS_Z + 1), [6, 10], 'd');
+  pinTag('D（背面金屬片）', atArm(m, MOS_R + 3.6, 0, MOS_Z + 1), [6, 10], 'd');
 });
 pinTag('紅色匯流點', mid(JR).setZ(5.2), [8], 'pw'); pinTag('黑色匯流點', mid(JK).setZ(5.2), [8], 'gnd');
 
