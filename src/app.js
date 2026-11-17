@@ -882,10 +882,11 @@ function place(el, p, show) {
   el.style.left = (tmp.x * 0.5 + 0.5) * view.clientWidth + 'px';
   el.style.top = (-tmp.y * 0.5 + 0.5) * view.clientHeight + 'px';
 }
-function resize() { const w = view.clientWidth, h = view.clientHeight; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); }
+function resize() { const w = view.clientWidth, h = view.clientHeight; if (!w || !h) return; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); }
 addEventListener('resize', resize);
 let last = performance.now();
 function frameLoop(now) {
+  if (!view.clientWidth) { last = now; requestAnimationFrame(frameLoop); return; }   // 切到別的頁籤時暫停
   const dt = Math.min(0.05, (now - last) / 1000); last = now;
   if (mode === 'step') {
     const u = anim ? Math.min(1, (now - anim.t0) / anim.dur) : 1;

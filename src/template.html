@@ -58,6 +58,28 @@ td img{display:block;border-radius:6px;background:#eef1f5}
 .sum b{font-size:18px}
 .note{font-size:13px;color:#5b6573;line-height:1.7}
 a{color:#2c5fb3}
+.vtabs{display:flex;gap:4px;padding:10px 24px 0;border-bottom:1px solid #d9dee6;flex-wrap:wrap}
+.vtabs a{padding:9px 16px;border:1px solid #d9dee6;border-bottom:0;border-radius:10px 10px 0 0;background:#eef1f5;color:#33404f;text-decoration:none;font-size:15px;font-weight:600;margin-bottom:-1px}
+.vtabs a.on{background:#fff;color:#2c5fb3;border-color:#d9dee6;border-bottom:1px solid #fff}
+.vtabs small{font-weight:400;color:#6b7684;margin-left:6px}
+#verRab{padding:8px 24px 30px;max-width:1100px}
+#verRab h2{font-size:20px;margin:22px 0 8px}
+#verRab h3{font-size:16px;margin:16px 0 6px}
+#verRab p,#verRab li{font-size:15px;line-height:1.7}
+#verRab .lead{font-size:16px;background:#fff;border:1px solid #d9dee6;border-radius:12px;padding:14px 18px}
+#verRab table{border-collapse:collapse;width:100%;background:#fff;border:1px solid #d9dee6;border-radius:10px;overflow:hidden;font-size:14.5px}
+#verRab th,#verRab td{padding:8px 10px;border-bottom:1px solid #eceff3;text-align:left;vertical-align:top}
+#verRab th{background:#f1f4f8}
+#verRab .arch{background:#fff;border:1px solid #d9dee6;border-radius:12px;padding:10px}
+#verRab .arch svg{display:block;width:100%;height:auto}
+#verRab kbd{display:inline-block;border:1px solid #b9c2ce;border-bottom-width:2px;border-radius:5px;padding:0 6px;background:#fff;font-size:13px;font-family:inherit}
+#verRab pre{background:#1e2430;color:#e6edf5;border-radius:10px;padding:14px 16px;overflow:auto;font-size:13px;line-height:1.5;max-height:520px}
+#verRab code{font-family:ui-monospace,Menlo,Consolas,monospace}
+#verRab p code,#verRab li code,#verRab td code{background:#eef1f5;padding:1px 5px;border-radius:4px;font-size:13.5px}
+#verRab .warn{background:#fff4f2;border:1px solid #f1c7bf;border-radius:10px;padding:10px 14px}
+#verRab .codebar{display:flex;gap:10px;align-items:center;margin:8px 0}
+#verRab button{font-size:14px;padding:6px 14px;border-radius:8px;border:1px solid #2c5fb3;background:#2c5fb3;color:#fff;cursor:pointer}
+
 .lost{position:absolute;inset:0;display:grid;place-content:center;gap:10px;text-align:center;background:#eef1f5;font-size:15px;padding:20px}.lost button{font-size:15px;padding:6px 14px}
 .ptag{position:absolute;transform:translate(-50%,-150%);font-size:11px;font-weight:700;padding:1px 6px;border-radius:5px;white-space:nowrap;pointer-events:none;border:1px solid rgba(0,0,0,.25);background:#fff}
 .ptag.r{transform:translate(0,-50%)}.ptag.sig{background:#ffe14d;color:#3d3000}.ptag.pw{background:#d62828;color:#fff}.ptag.gnd{background:#1b1b1b;color:#fff}.ptag.d{background:#c9ccd0;color:#222}
@@ -80,6 +102,11 @@ tr.grp th{background:#e8eef7;text-align:left}
   <h1>FutureZebra 程控無人機（Flix 路線）｜3D 組裝教學</h1>
   <p class="sub">機身、支架、墊片使用 Flix 官方 STL 實際幾何；主板、IMU 照官方照片建模，電線都接到真實的腳位孔。拖曳旋轉、滾輪縮放、右鍵平移。</p>
 </header>
+<nav class="vtabs">
+  <a href="#standard" data-v="std" class="on">標準版<small>手機／QGroundControl 遙控</small></a>
+  <a href="#rabboni" data-v="rab">Rabboni 體感遙控版<small>傾斜 Rabboni 控制飛行</small></a>
+</nav>
+<div id="verStd">
 <div id="chips"></div>
 <main>
   <div>
@@ -139,6 +166,25 @@ tr.grp th{background:#e8eef7;text-align:left}
     Flix repo 沒有 LICENSE 檔（Arduino Project Hub 標示 CC BY-NC），自用與教學以外的用途（例如販售套件）請先確認授權。來源：<a href="https://github.com/okalachev/flix" target="_blank" rel="noopener">github.com/okalachev/flix</a>
   </p>
 </section>
+</div>
+<div id="verRab" hidden>/*RABBONI*/</div>
 <script>/*APP*/</script>
+<script>
+(function(){
+  var tabs=document.querySelectorAll('.vtabs a'), std=document.getElementById('verStd'), rab=document.getElementById('verRab');
+  function show(){
+    var r=(location.hash==='#rabboni');
+    std.hidden=r; rab.hidden=!r;
+    tabs.forEach(function(a){a.classList.toggle('on',(a.dataset.v==='rab')===r);});
+    if(!r) setTimeout(function(){dispatchEvent(new Event('resize'));},0);
+  }
+  addEventListener('hashchange',show); show();
+  var b=document.getElementById('copyPy');
+  if(b) b.onclick=function(){
+    var txt=document.getElementById('pyCode').textContent;
+    try{navigator.clipboard.writeText(txt).then(function(){b.textContent='已複製';},function(){b.textContent='請手動選取複製';});}catch(e){b.textContent='請手動選取複製';}
+  };
+})();
+</script>
 </body>
 </html>

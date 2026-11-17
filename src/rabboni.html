@@ -1,0 +1,109 @@
+<p class="lead"><b>無人機的硬體和標準版完全一樣</b>，照「標準版」的 13 個步驟組好、燒好韌體就可以用。差別只在遙控方式：學生手拿 <b>Rabboni</b>，往前傾無人機就往前飛，往右傾就往右飛；油門、解鎖和降落用電腦鍵盤。電腦上跑一支 Python 程式，負責把 Rabboni 的傾斜翻譯成飛行指令。</p>
+
+<h2>運作方式</h2>
+<div class="arch">
+<svg viewBox="0 0 1040 250" font-family="'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2c5fb3"/></marker></defs>
+  <rect x="20" y="40" width="230" height="150" rx="14" fill="#fff5e6" stroke="#e8a320" stroke-width="2"/>
+  <text x="135" y="78" text-anchor="middle" font-size="20" font-weight="700" fill="#7a4d00">Rabboni</text>
+  <text x="135" y="106" text-anchor="middle" font-size="14" fill="#5a4a2a">六軸 IMU（加速度＋角速度）</text>
+  <text x="135" y="130" text-anchor="middle" font-size="14" fill="#5a4a2a">學生拿在手上傾斜</text>
+  <text x="135" y="164" text-anchor="middle" font-size="13" fill="#8a7550">量「哪邊是上方」</text>
+  <line x1="250" y1="115" x2="395" y2="115" stroke="#2c5fb3" stroke-width="3" marker-end="url(#ar)"/>
+  <text x="322" y="102" text-anchor="middle" font-size="14" font-weight="700" fill="#2c5fb3">藍牙 BLE</text>
+  <text x="322" y="138" text-anchor="middle" font-size="12.5" fill="#4a5563">加速度、角速度</text>
+  <rect x="400" y="30" width="250" height="170" rx="14" fill="#eef4ff" stroke="#2c5fb3" stroke-width="2"/>
+  <text x="525" y="66" text-anchor="middle" font-size="20" font-weight="700" fill="#1d3f7a">筆電</text>
+  <text x="525" y="92" text-anchor="middle" font-size="14" fill="#33404f">rabboni_flix.py</text>
+  <text x="525" y="118" text-anchor="middle" font-size="13" fill="#4a5563">① 算出前後、左右傾角</text>
+  <text x="525" y="140" text-anchor="middle" font-size="13" fill="#4a5563">② 換成搖桿量（含死區、上限）</text>
+  <text x="525" y="162" text-anchor="middle" font-size="13" fill="#4a5563">③ 鍵盤：油門、解鎖、降落</text>
+  <text x="525" y="184" text-anchor="middle" font-size="13" fill="#4a5563">每秒送 20 次</text>
+  <line x1="650" y1="115" x2="795" y2="115" stroke="#2c5fb3" stroke-width="3" marker-end="url(#ar)"/>
+  <text x="722" y="102" text-anchor="middle" font-size="14" font-weight="700" fill="#2c5fb3">Wi-Fi「flix」</text>
+  <text x="722" y="138" text-anchor="middle" font-size="12.5" fill="#4a5563">MAVLink 搖桿指令</text>
+  <rect x="800" y="40" width="220" height="150" rx="14" fill="#eefaf1" stroke="#2f9e44" stroke-width="2"/>
+  <text x="910" y="78" text-anchor="middle" font-size="20" font-weight="700" fill="#1f6b33">Flix 無人機</text>
+  <text x="910" y="106" text-anchor="middle" font-size="14" fill="#33404f">STAB 自穩模式</text>
+  <text x="910" y="130" text-anchor="middle" font-size="13" fill="#4a5563">自己的 IMU 保持平衡</text>
+  <text x="910" y="152" text-anchor="middle" font-size="13" fill="#4a5563">照指令傾斜（最多 30°）</text>
+  <text x="910" y="174" text-anchor="middle" font-size="13" fill="#4a5563">1 秒沒指令 → 自動降落</text>
+  <text x="520" y="232" text-anchor="middle" font-size="13" fill="#6b7684">Rabboni 只當遙控器；無人機的平衡還是靠機上的 GY-91 和飛控程式，每秒計算約 1000 次。</text>
+</svg>
+</div>
+
+<h2>需要的東西</h2>
+<table>
+  <tr><th>項目</th><th>說明</th></tr>
+  <tr><td>組好的 Flix 無人機</td><td>照標準版 13 步組裝、燒好韌體、通過首飛前檢查</td></tr>
+  <tr><td>Rabboni 一顆</td><td>先充飽電（USB mini，約 30 分鐘）</td></tr>
+  <tr><td>有藍牙和 Wi-Fi 的筆電</td><td>Windows 10 以上或 macOS；Python 3.8 以上</td></tr>
+  <tr><td>Python 套件</td><td><code>pip install bleak pyflix</code>：bleak 連 Rabboni，pyflix 連 Flix</td></tr>
+  <tr><td>程式</td><td><a href="https://github.com/greenmail1011/flix-drone/blob/main/rabboni/rabboni_flix.py" target="_blank" rel="noopener">rabboni_flix.py</a>（本頁最下面也有完整程式碼）</td></tr>
+</table>
+
+<h2>步驟</h2>
+<h3>1. 安裝與自我檢查（不用任何硬體）</h3>
+<p>在終端機執行 <code>pip install bleak pyflix</code>，再執行 <code>python rabboni_flix.py --selftest</code>。看到「自我檢查通過」就代表換算公式沒問題。</p>
+
+<h3>2. 只連 Rabboni，練習校正（還不連無人機）</h3>
+<ol>
+  <li>按 Rabboni 右鍵 1 秒，綠燈閃爍代表藍牙廣播中。</li>
+  <li>執行 <code>python rabboni_flix.py --no-drone</code>，視窗上方出現「已連線」。</li>
+  <li><b>校正①</b>：照平常握的方式拿平不動，按 <kbd>Enter</kbd>。</li>
+  <li><b>校正②</b>：往前傾約 30 度（像要讓飛機往前飛）不動，按 <kbd>Enter</kbd>。</li>
+  <li>檢查：往前傾，藍點往上（前）；往右傾，藍點往右。不對就按 <kbd>C</kbd> 重來。</li>
+</ol>
+<p>為什麼要兩步？Rabboni 不管怎麼握都可以，程式從「拿平」和「往前傾」兩個姿勢，自己推算出哪邊是前、哪邊是右。校正結果會存起來，下次開程式不用重做。</p>
+
+<h3>3. 連上無人機，不裝槳測試</h3>
+<ol>
+  <li><b>拆掉螺旋槳</b>，裝上電池。</li>
+  <li>電腦連上 Wi-Fi <code>flix</code>（密碼 <code>flixwifi</code>），執行 <code>python rabboni_flix.py</code>。</li>
+  <li>視窗顯示「已連上 Flix」和電池電壓後，按 <kbd>A</kbd> 解鎖，再按 <kbd>↑</kbd> 幾下加一點油門。</li>
+  <li>往前傾 Rabboni：後面兩顆馬達要轉得比前面快（飛機才會往前低頭）。往右傾：左邊兩顆比右邊快。</li>
+  <li>按 <kbd>L</kbd> 自動降落，確認油門慢慢歸零、自動上鎖。</li>
+  <li>關掉 Rabboni 電源，確認程式顯示「Rabboni 斷線 → 自動降落」。</li>
+</ol>
+
+<h3>4. 裝槳，第一次飛</h3>
+<ol>
+  <li>空曠室內，人距離 2 公尺以上，第一次用繩子繫留或低高度。</li>
+  <li>按 <kbd>A</kbd> 解鎖，用 <kbd>↑</kbd> 慢慢加油門到離地；Rabboni 保持拿平。</li>
+  <li>小角度傾斜 Rabboni 移動，想停就拿平。要降落按 <kbd>L</kbd>；危險時按 <kbd>空白鍵</kbd>。</li>
+</ol>
+
+<h2>操作對照表</h2>
+<table>
+  <tr><th>你做的動作</th><th>無人機</th><th>程式送出的指令</th></tr>
+  <tr><td>Rabboni 往前傾</td><td>往前飛</td><td>pitch 為正</td></tr>
+  <tr><td>Rabboni 往後傾</td><td>往後飛</td><td>pitch 為負</td></tr>
+  <tr><td>Rabboni 往右傾／往左傾</td><td>往右／往左飛</td><td>roll 為正／為負</td></tr>
+  <tr><td>Rabboni 拿平（傾斜小於 5 度）</td><td>停在原位附近（會慢慢飄）</td><td>roll、pitch 為 0</td></tr>
+  <tr><td><kbd>↑</kbd> <kbd>↓</kbd>（或 <kbd>W</kbd> <kbd>S</kbd>）</td><td>升高／降低</td><td>油門每次 ±0.02，最高 0.8</td></tr>
+  <tr><td>按住 <kbd>←</kbd> <kbd>→</kbd></td><td>原地左轉／右轉</td><td>yaw ±0.5</td></tr>
+  <tr><td><kbd>A</kbd></td><td>解鎖（油門必須是 0）</td><td>arm</td></tr>
+  <tr><td><kbd>L</kbd></td><td>4 秒內慢慢降落，再上鎖</td><td>油門遞減到 0 → disarm</td></tr>
+  <tr><td><kbd>空白鍵</kbd></td><td>馬達立刻停（會掉下來）</td><td>disarm</td></tr>
+  <tr><td><kbd>C</kbd></td><td>重新校正</td><td>—</td></tr>
+</table>
+
+<h2>安全機制</h2>
+<table>
+  <tr><th>狀況</th><th>會發生什麼</th><th>由誰負責</th></tr>
+  <tr><td>Rabboni 沒電、跑出藍牙範圍</td><td>0.6 秒沒資料就自動降落</td><td>rabboni_flix.py</td></tr>
+  <tr><td>程式當掉、電腦斷 Wi-Fi</td><td>Flix 1 秒沒收到指令就慢慢降落，降到 0 後自動上鎖</td><td>Flix 韌體（SF_RC_LOSS_TIME）</td></tr>
+  <tr><td>手抖</td><td>傾斜小於 5 度當作沒動</td><td>程式的死區</td></tr>
+  <tr><td>傾斜太大</td><td>預設最多推到 50%（約 15 度）；要大一點用 <code>--max 0.8</code></td><td>程式的上限</td></tr>
+  <tr><td>油門不是 0 就按解鎖</td><td>拒絕解鎖</td><td>rabboni_flix.py</td></tr>
+  <tr><td>機身翻過 120 度</td><td>馬達停止</td><td>Flix 韌體</td></tr>
+</table>
+<p class="warn"><b>限制：</b>Rabboni 的訊號要經過「藍牙 → 電腦 → Wi-Fi」才到飛機，反應會比手機遙控慢一點，適合慢慢移動和懸停，不適合快速飛行。Flix 只維持姿態、不會定位，拿平時飛機仍會慢慢飄，要用 Rabboni 修正。這支程式還沒有實機飛過，第一次請一定照步驟 3 不裝槳測試。</p>
+
+<h2>給學生的原理說明</h2>
+<p>Rabboni 和無人機上的 GY-91 是同一類感測器（IMU）。靜止時，加速度計量到的只有重力，所以能知道「哪邊是上方」。校正①記下拿平時的上方；校正②往前傾時，上方的方向偏移，偏移的方向就是「前」；把「前」和「上」做外積，就得到「右」。之後每一刻，看上方往「前」偏了多少就是前後傾角，往「右」偏了多少就是左右傾角。</p>
+
+<h2>完整程式碼</h2>
+<div class="codebar"><button id="copyPy" type="button">複製程式碼</button><a href="https://github.com/greenmail1011/flix-drone/blob/main/rabboni/rabboni_flix.py" target="_blank" rel="noopener">在 GitHub 上看／下載</a></div>
+<pre><code id="pyCode">/*PYCODE*/</code></pre>
+<p style="font-size:13px;color:#6b7684">Rabboni 藍牙協定取自 PyPI 上的 <a href="https://pypi.org/project/Rabboni/" target="_blank" rel="noopener">Rabboni</a> 與 <a href="https://pypi.org/project/rabboni-multi-python-sdk/" target="_blank" rel="noopener">rabboni-multi-python-sdk</a> 套件原始碼；Flix 控制介面使用 <a href="https://github.com/okalachev/flix/tree/master/tools/pyflix" target="_blank" rel="noopener">pyflix</a>（MIT 授權）的 set_controls()，這是 pyflix 提供給「自訂遙控器」用的介面。</p>
