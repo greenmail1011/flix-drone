@@ -1,4 +1,4 @@
-"""FutureZebra Flix 載板（carrier board）v1.0 — 設計資料。
+"""FutureZebra Flix 載板（carrier board）v1.1 — 設計資料。
 
 座標：機身座標，單位 mm，原點在板子中心（= 機身中心），+Y = 機頭，+X = 右，從上往下看（元件面）。
 輸出 Gerber 時整體平移 OFF，讓所有座標為正。

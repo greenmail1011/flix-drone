@@ -1,3 +1,4 @@
 Comment,Designator,Footprint,LCSC Part #
 AO3400A,"Q0,Q1,Q2,Q3",SOT-23,C20917
 10k,"R0,R1,R2,R3",0603,C25804
+1x10P female header 2.54mm H8.5,"H1,H2,H3,H4","Plugin,P=2.54mm 1x10P",C2905418

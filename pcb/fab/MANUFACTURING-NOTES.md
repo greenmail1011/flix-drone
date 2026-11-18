@@ -1,4 +1,4 @@
-# FutureZebra × Flix 載板 v1.0　製造說明 / Fabrication & Assembly Notes
+# FutureZebra × Flix 載板 v1.1　製造說明 / Fabrication & Assembly Notes
 
 2026-11-18　聯絡人 Contact：Harry（新竹市無人機創新科技協會）
 
@@ -40,23 +40,26 @@ Origin: lower-left corner of the board outline, millimetres. Gerber format 4.6, 
 | 表面處理 Surface finish | 無鉛噴錫 Lead-free HASL（學生手焊，建議無鉛）|
 | 防焊 / 絲印 Mask / silk | 綠 / 白 Green / white（顏色可改 any colour OK）|
 | 拼板 Panelization | 不拼板，單片出貨 None, single boards |
-| 訂單號 Order number | 放在指定位置：上層絲印 `JLCJLCJLCJLC` / Specify position (top silk) |
+| 標記 Mark on PCB | 不加（Remove Mark） / None |
 | 金手指、半孔、邊緣鍍銅 | 無 None |
 
-## 3. 貼片 / SMT assembly（只有正面 top side only）
+## 3. 組裝 / Assembly（只有正面 top side only）
 
 | 位號 Designator | 零件 Part | 封裝 Package | LCSC | 類別 |
 | --- | --- | --- | --- | --- |
 | Q0, Q1, Q2, Q3 | AO3400A N-MOSFET 30 V 5.7 A | SOT-23 | C20917 | JLC 基本零件 Basic |
 | R0, R1, R2, R3 | 10 kΩ ±1% 0.1 W | 0603 | C25804 | JLC 基本零件 Basic |
+| H1, H2, H3, H4 | 1×10P 排母 Female header 2.54 mm, 8.5 mm high | Through hole | C2905418 | 穿孔，JLC 手焊 / THT, hand/wave soldered |
 
 - **MOSFET 方向 / Orientation**：AO3400A 腳位 1 = G、2 = S、3 = D。每顆 Q 的 3 腳（單獨那一腳）都朝向同一角的馬達焊點：Q2、Q3 的 3 腳朝板子前方（FRONT），Q0、Q1 的 3 腳朝後方。絲印在每顆 Q 旁標了 G、S、D。
   Pin 3 (the single pin, Drain) of every Q faces its own motor pads: Q2/Q3 pin 3 toward FRONT, Q0/Q1 pin 3 toward the rear. Silkscreen marks G, S and D next to every Q.
 - 座標檔的旋轉角以 JLC/EasyEDA 的 SOT-23 方向為準（0° 時 1、2 腳在下、3 腳在上）。**請在 JLC 的貼片預覽確認 3 腳落在標「D」的焊墊上**；若方向不對，在預覽裡把 Q 轉 180° 即可。
   CPL rotations assume the JLC/EasyEDA SOT-23 orientation (0° = pins 1, 2 at the bottom, pin 3 on top). **Please confirm in the placement preview that pin 3 lands on the pad marked "D"**; if not, rotate Q by 180°.
 - 電阻沒有極性 / Resistors are non-polar.
-- 其餘焊點（排母、馬達線、電池線、IMU 線）**全部不貼**，由學生手焊。
-  All other pads (headers, motor wires, battery wires, IMU wires) are **not assembled** — hand-soldered by students.
+- **排母 H1–H4**：插在 MINI32 的 4 排孔（每排 10 孔，長邊沿板子前後方向），插正面、焊背面，要垂直不歪（MINI32 要插得進去）。座標檔中心 = 每排第 5、6 孔中間；旋轉角設 90°（長邊沿 Y），請在預覽確認排母蓋在那排孔上。
+  Female headers H1–H4 go in the four 1×10 hole rows (long axis front-to-back), inserted from the top, soldered on the bottom, kept perpendicular so the MINI32 plugs in. CPL rotation 90° (long axis along Y) — please confirm in the preview.
+- 其餘焊點（馬達線、電池線、IMU 線）**不用裝**，由學生手焊。
+  Remaining pads (motor, battery and IMU wires) are **not assembled** — hand-soldered by students.
 
 ## 4. 電路說明 / Circuit
 
@@ -81,7 +84,7 @@ One low-side N-MOSFET per motor; gate to GPIO 12/13/14/15, drain to motor −, s
 ## 6. 學生手焊與測試 / Hand assembly & test
 
 1. 先用三用電表量：BAT+ 對 BAT− 不能短路；每個馬達「−」對 BAT− 不能短路。
-2. 焊 4 條 1×10 排母：先把排母插在 MINI32 的排針上，整組放上載板再焊，排母才會正。MINI32 天線朝 FRONT、USB 朝後。
+2. 排母 JLC 已經焊好。MINI32 焊上排針後插上去：天線朝 FRONT、USB 朝後。
 3. GY-91 照原樣鎖在機身上，6 條 28 AWG 線接到載板的 3V3、GND、SCL、SDA、SDO、NCS（VIN、CSB 不接）。
 4. 馬達線：白或紅 → +，黑或藍 → −。線從背面插、正面焊。
 5. 電池線：紅 → BAT+，黑 → BAT−。

@@ -55,8 +55,7 @@ def top():
     for name, y in GY_PINS:
         g.append(text(name, GY_X + 1.3, y, 0.8, 'l'))
     # 板名 + JLC 訂單號位置
-    g.append(text('FutureZebra x Flix  CARRIER v1.0', 0, -17.6, 0.9))
-    g.append(text('JLCJLCJLCJLC', 3.0, 9.7, 0.8))
+    g.append(text('FutureZebra x Flix  CARRIER v1.1', 0, -17.6, 0.9))
     # 電池
     g.append(text('+', BAT['BAT+'][0] - 2.3, BAT['BAT+'][1], 1.3))
     g.append(text('-', BAT['BAT-'][0] + 2.3, BAT['BAT-'][1], 1.3))
@@ -87,7 +86,7 @@ def top():
     return unary_union(g)
 
 def bottom():
-    g = [text('FZ Flix carrier v1.0 (bottom)', 0, -17.6, 0.8, mirror=True),
+    g = [text('FZ Flix carrier v1.1 (bottom)', 0, -17.6, 0.8, mirror=True),
          text('github.com/greenmail1011/flix-drone', 0, 9.6, 0.6, mirror=True)]
     return unary_union(g)
 

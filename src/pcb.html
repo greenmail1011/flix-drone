@@ -1,0 +1,126 @@
+<p class="lead"><b>電路和標準版完全一樣</b>，只是把手焊的 4 顆 MOSFET、4 顆 10 kΩ 電阻做成一塊小電路板，交給 JLCPCB 連同 MINI32 用的排母一起焊好。學生不用處理很小的 MOSFET，也不用拉 MOSFET 那一堆線，<b>只要焊 16 條線</b>（GY-91 6 條、馬達 8 條、電池 2 條），把 MINI32 插上去就完成。這塊載板取代原本的 ESP32 支架，裝在機身同一個位置。</p>
+
+<h2>載板長這樣</h2>
+<div class="pcbimgs">
+  <figure><img src="data:image/jpeg;base64,/*IMG_TOP*/" alt="載板正面"><figcaption>正面（元件面）：左右兩翼是 4 組 MOSFET＋電阻，中間 4 排是 MINI32 的排母，左邊 6 個孔接 GY-91</figcaption></figure>
+  <figure><img src="data:image/jpeg;base64,/*IMG_BOT*/" alt="載板背面"><figcaption>背面：幾乎整面接地銅箔，學生的線從這面插進去</figcaption></figure>
+</div>
+<p class="hint">46 × 45.5 mm，板厚 1.0 mm，2 層板。MINI32 天線下方兩面都不鋪銅，避免影響 Wi-Fi。圖是由出給工廠的 Gerber 檔算出來的。</p>
+
+<h2>和標準版有什麼不同</h2>
+<table>
+  <tr><th>項目</th><th>標準版（手焊）</th><th>PCB 載板版</th></tr>
+  <tr><td>MOSFET</td><td>4 顆 100N03A（TO-252），學生焊</td><td>4 顆 AO3400A（SOT-23），JLC 貼好</td></tr>
+  <tr><td>10 kΩ 電阻</td><td>4 顆，學生焊在 MOSFET 腳上</td><td>4 顆 0603，JLC 貼好</td></tr>
+  <tr><td>MINI32 固定</td><td>放在 3D 列印支架上，線焊在排針底下</td><td>插在 JLC 焊好的排母上，可以拔下來換</td></tr>
+  <tr><td>支架</td><td>官方 ESP32 支架（esp32-holder.stl）</td><td>載板支柱（carrier-posts.stl），載板鎖在上面</td></tr>
+  <tr><td>學生要焊的</td><td>約 40 個焊點，含 MOSFET 和電阻</td><td>16 條線：GY-91 6、馬達 8、電池 2</td></tr>
+  <tr><td>螺絲</td><td>M1.4×5 ×4</td><td>M1.4×5 ×8（支柱 4、載板 4）</td></tr>
+  <tr><td>重量</td><td>—</td><td>約多 4～5 g（載板 3.7 g、排母 2.4 g、支柱 1.1 g，少了原支架和 TO-252）</td></tr>
+</table>
+
+<h2>怎麼疊起來</h2>
+<div class="arch">
+<svg viewBox="0 0 1040 300" font-family="'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif">
+  <rect x="120" y="230" width="800" height="22" rx="4" fill="#d7dce3" stroke="#8a94a3"/>
+  <text x="520" y="246" text-anchor="middle" font-size="14" fill="#33404f">機身（頂面 z = 3 mm）</text>
+  <rect x="160" y="252" width="720" height="34" rx="4" fill="#f0f2f5" stroke="#b9c2ce" stroke-dasharray="5 4"/>
+  <text x="520" y="274" text-anchor="middle" font-size="13" fill="#6b7684">電池（在機身下方，從機尾推進去）</text>
+  <rect x="300" y="148" width="18" height="82" fill="#f2c94c" stroke="#a37f12"/>
+  <rect x="722" y="148" width="18" height="82" fill="#f2c94c" stroke="#a37f12"/>
+  <rect x="300" y="218" width="440" height="12" fill="#f2c94c" stroke="#a37f12"/>
+  <text x="250" y="196" text-anchor="end" font-size="13.5" fill="#7a5c00">載板支柱 8 mm</text>
+  <text x="250" y="214" text-anchor="end" font-size="12" fill="#7a5c00">carrier-posts.stl</text>
+  <rect x="455" y="196" width="130" height="10" fill="#6f42c1" stroke="#4b2a8a"/>
+  <rect x="470" y="206" width="100" height="12" fill="#cfd4dc" stroke="#8a94a3"/>
+  <text x="445" y="204" text-anchor="end" font-size="13" fill="#4b2a8a">GY-91（照原樣鎖在機身）</text>
+  <line x1="580" y1="196" x2="560" y2="148" stroke="#c62828" stroke-width="2"/>
+  <line x1="572" y1="196" x2="552" y2="148" stroke="#1b1b1b" stroke-width="2"/>
+  <line x1="564" y1="196" x2="544" y2="148" stroke="#f2a900" stroke-width="2"/>
+  <rect x="200" y="136" width="640" height="12" fill="#2e7d32" stroke="#1b4d1f"/>
+  <text x="850" y="146" font-size="14" fill="#1b4d1f" font-weight="700">載板 1.0 mm</text>
+  <rect x="220" y="125" width="34" height="11" fill="#333"/><rect x="786" y="125" width="34" height="11" fill="#333"/>
+  <text x="237" y="118" text-anchor="middle" font-size="12" fill="#333">MOSFET</text>
+  <rect x="330" y="78" width="16" height="58" fill="#222"/><rect x="348" y="78" width="16" height="58" fill="#222"/>
+  <rect x="676" y="78" width="16" height="58" fill="#222"/><rect x="694" y="78" width="16" height="58" fill="#222"/>
+  <text x="520" y="112" text-anchor="middle" font-size="13" fill="#33404f">排母 8.5 mm（JLC 焊好）</text>
+  <rect x="320" y="58" width="400" height="20" rx="3" fill="#1f5fbf" stroke="#123d7a"/>
+  <rect x="440" y="38" width="160" height="20" rx="2" fill="#c0c6cf" stroke="#7d8794"/>
+  <text x="520" y="30" text-anchor="middle" font-size="14" font-weight="700" fill="#123d7a">MINI32（插上去，天線朝機頭）</text>
+  <line x1="920" y1="60" x2="920" y2="230" stroke="#9aa4b1"/>
+  <text x="935" y="70" font-size="12" fill="#6b7684">z ≈ 21 mm</text>
+  <text x="935" y="140" font-size="12" fill="#6b7684">z = 11～12</text>
+  <text x="935" y="226" font-size="12" fill="#6b7684">z = 3</text>
+</svg>
+</div>
+<p class="hint">MINI32 會比標準版高約 8 mm（排母的高度）。想要重心低一點，可以不用排母、把 MINI32 的排針直接焊在載板上，但之後就拆不下來。</p>
+
+<h2>向 JLCPCB 下單</h2>
+<ol>
+  <li>到 <a href="https://cart.jlcpcb.com/quote" target="_blank" rel="noopener">JLCPCB 線上報價</a>，登入後按 <b>Add gerber file</b>，上傳 <a href="https://github.com/greenmail1011/flix-drone/raw/main/pcb/fab/fz-flix-carrier-gerber.zip">fz-flix-carrier-gerber.zip</a>。應該自動讀到 <b>2 層、46 × 45.5 mm</b>。</li>
+  <li>照下表設定 PCB 選項，其他用預設值。</li>
+  <li>打開 <b>PCB Assembly</b>，照下表設定，按 <b>NEXT</b>。</li>
+  <li>上傳 <a href="https://github.com/greenmail1011/flix-drone/raw/main/pcb/fab/fz-flix-carrier-BOM.csv">BOM</a> 和 <a href="https://github.com/greenmail1011/flix-drone/raw/main/pcb/fab/fz-flix-carrier-CPL.csv">座標檔（CPL）</a>，確認配到 3 種料：C20917、C25804、C2905418。</li>
+  <li><b>看貼片預覽</b>：每顆 MOSFET 單獨的那一腳（D）要朝向自己的馬達焊點；4 條排母要蓋在 MINI32 的 4 排孔上（前後方向）。不對就在預覽裡旋轉。</li>
+  <li>右邊運費把國家改成台灣，選<b>順豐 SF Express</b>（約 $5，3～5 天），再結帳。</li>
+</ol>
+<table>
+  <tr><th>選項</th><th>選</th><th>說明</th></tr>
+  <tr><td>PCB Qty</td><td>5</td><td>最少 5 片</td></tr>
+  <tr><td>PCB Thickness</td><td><b>1.0 mm</b></td><td>比 1.6 mm 輕約 2 g</td></tr>
+  <tr><td>Surface Finish</td><td><b>LeadFree HASL</b></td><td>學生要手焊，用無鉛</td></tr>
+  <tr><td>Mark on PCB</td><td>Remove Mark</td><td>預設</td></tr>
+  <tr><td>PCBA Type</td><td>Economic</td><td></td></tr>
+  <tr><td>Assembly Side</td><td>Top Side</td><td>只有正面</td></tr>
+  <tr><td>PCBA Qty</td><td>5（最少 2）</td><td></td></tr>
+  <tr><td>Confirm Parts Placement</td><td><b>Yes</b></td><td>工程師先寄貼片圖給你確認；72 小時沒回覆會照原樣生產</td></tr>
+</table>
+<table style="margin-top:10px">
+  <tr><th>JLC 代工的零件</th><th>料號</th><th>每片</th></tr>
+  <tr><td>AO3400A N-MOSFET 30 V 5.7 A（SOT-23）</td><td>C20917（基本零件）</td><td>4 顆，貼片</td></tr>
+  <tr><td>10 kΩ 1% 0603</td><td>C25804（基本零件）</td><td>4 顆，貼片</td></tr>
+  <tr><td>1×10 排母 2.54 mm、高 8.5 mm</td><td>C2905418</td><td>4 條，穿孔手焊</td></tr>
+</table>
+<p class="hint"><b>費用估計（5 片）：</b>板子約 $5.2、運費約 $5；貼片設定費 $8、鋼網約 $1.5、手焊費每單約 $3.5、排母焊點 200 個 × 約 $0.017、零件約 $3。合計大約 <b>$25～30 美金</b>，以 JLC 頁面算出來的為準。為什麼用 AO3400A：它是 JLC 的基本零件（不另收換料費），3.3 V 就能完全導通；官方的 100N03A 在 JLC 是擴充零件。</p>
+
+<h2>組裝步驟</h2>
+<h3>1. 收到板子先檢查</h3>
+<ol>
+  <li>三用電表量：BAT+ 對 BAT− 不能短路；每個馬達的「−」對 BAT− 不能短路。</li>
+  <li>看 4 顆 MOSFET 的 3 腳（D）都朝向自己的馬達焊點，排母都垂直。</li>
+</ol>
+<h3>2. 印支柱、裝到機身</h3>
+<ol>
+  <li>3D 列印 <a href="https://github.com/greenmail1011/flix-drone/raw/main/pcb/fab/carrier-posts.stl">carrier-posts.stl</a>（PLA、0.2 mm、4 圈牆，約 1.1 g）。它取代原本的 ESP32 支架：4 根柱子位置、高度和原支架柱腳一樣。</li>
+  <li>照標準版步驟把 GY-91 鎖在機身上（印字面朝上、VIN 端朝機頭）。</li>
+  <li>用 4 顆 M1.4×5 從機身底面把支柱鎖上（就是原本鎖支架的 4 個孔）。</li>
+</ol>
+<h3>3. 焊 16 條線（線從背面插、正面焊）</h3>
+<table>
+  <tr><th>線</th><th>從</th><th>到載板</th></tr>
+  <tr><td>6 條 28 AWG</td><td>GY-91 的 3V3、GND、SCL、SDA、SDO/SAO、NCS</td><td>中間左邊 6 個孔（絲印同名）；VIN、CSB 不接</td></tr>
+  <tr><td>馬達 ×4，每顆 2 條</td><td>白或紅（正極）／黑或藍（負極）</td><td>每個角的「+」和「−」；M0 左後、M1 右後、M2 右前、M3 左前</td></tr>
+  <tr><td>電池線 2 條</td><td>MX2.0 線 紅／黑</td><td>後方凸片 BAT+（RED）／BAT−（BLK）</td></tr>
+</table>
+<p class="hint">建議先把 GY-91 的 6 條線焊在載板上，再把載板放到支柱上焊 GY-91 那一端；馬達線順著機臂拉到最近的角。</p>
+<h3>4. 鎖上載板、插 MINI32</h3>
+<ol>
+  <li>載板放在支柱上，用 4 顆 M1.4×5 鎖好（MINI32 插上去之後就鎖不到了）。</li>
+  <li><b>先不插 MINI32</b>，接上電池，用電表量 RI 排第 8 孔（VCC）約 3.7～4.2 V；手摸 MOSFET 不能發熱。</li>
+  <li>拔掉電池，MINI32 焊上排針（朝下）後插上去：<b>天線朝 FRONT、USB 朝後</b>。插反會燒壞。</li>
+</ol>
+<h3>5. 燒錄與測試</h3>
+<p>和標準版第 12、13 步完全一樣：燒錄 Flix 韌體、QGroundControl 連線、<code>ca</code> 校正，<b>拆槳</b>後用 <code>mfl</code>、<code>mfr</code>、<code>mrl</code>、<code>mrr</code> 測四顆馬達。</p>
+<p class="warn"><b>注意：</b>這塊板子還沒有實際打樣過，第一批到貨請先照上面的檢查和不裝槳測試做一次。AO3400A 和官方的 100N03A 是不同料號，規格書保證 2.5 V 就能導通，理論上沒問題，但還沒實機飛過。</p>
+
+<h2>下載</h2>
+<table>
+  <tr><th>檔案</th><th>用途</th></tr>
+  <tr><td><a href="https://github.com/greenmail1011/flix-drone/raw/main/pcb/fab/fz-flix-carrier-gerber.zip">fz-flix-carrier-gerber.zip</a></td><td>上傳 JLCPCB（Gerber＋鑽孔檔）</td></tr>
+  <tr><td><a href="https://github.com/greenmail1011/flix-drone/raw/main/pcb/fab/fz-flix-carrier-BOM.csv">fz-flix-carrier-BOM.csv</a>、<a href="https://github.com/greenmail1011/flix-drone/raw/main/pcb/fab/fz-flix-carrier-CPL.csv">fz-flix-carrier-CPL.csv</a></td><td>貼片用的元件表、座標檔</td></tr>
+  <tr><td><a href="https://github.com/greenmail1011/flix-drone/raw/main/pcb/fab/fz-flix-carrier-assembly.pdf">組裝圖 PDF</a></td><td>零件位置、MOSFET 方向</td></tr>
+  <tr><td><a href="https://github.com/greenmail1011/flix-drone/raw/main/pcb/fab/fz-flix-carrier-schematic.pdf">原理圖 PDF</a></td><td>電路</td></tr>
+  <tr><td><a href="https://github.com/greenmail1011/flix-drone/raw/main/pcb/fab/MANUFACTURING-NOTES.pdf">製造說明 PDF（中英文）</a></td><td>給廠商看的規格</td></tr>
+  <tr><td><a href="https://github.com/greenmail1011/flix-drone/raw/main/pcb/fab/carrier-posts.stl">carrier-posts.stl</a></td><td>3D 列印支柱</td></tr>
+  <tr><td><a href="https://github.com/greenmail1011/flix-drone/tree/main/pcb" target="_blank" rel="noopener">pcb/ 資料夾</a></td><td>產生這些檔案的 Python 原始碼</td></tr>
+</table>

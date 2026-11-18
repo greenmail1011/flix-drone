@@ -1,7 +1,7 @@
-# FutureZebra × Flix 載板 v1.0（PCB）
+# FutureZebra × Flix 載板 v1.1（PCB）
 
-把 Flix 手焊版的 4 顆 MOSFET、4 顆 10 kΩ 電阻做成一塊小板子，交給 JLCPCB 貼片。
-MINI32 用排母插在上面，GY-91 照原樣鎖在機身、用 6 條短線接上來。電路和官方手焊版完全相同。
+把 Flix 手焊版的 4 顆 MOSFET、4 顆 10 kΩ 電阻做成一塊小板子，連同 MINI32 用的 4 條排母都交給 JLCPCB 焊好。
+MINI32 直接插在上面，GY-91 照原樣鎖在機身、用 6 條短線接上來。電路和官方手焊版完全相同。
 
 ![上視圖](preview/render_top.png)
 
@@ -36,7 +36,7 @@ MINI32 用排母插在上面，GY-91 照原樣鎖在機身、用 6 條短線接�
    | Surface Finish | **LeadFree HASL** | 學生要手焊，用無鉛 |
    | Outer Copper Weight | 1 oz | |
    | Via Covering | Tented | |
-   | Remove Order Number | **Specify a location** | 訂單號會印在板上 `JLCJLCJLCJLC` 的位置（MINI32 底下，看不到） |
+   | Mark on PCB | Remove Mark | 預設就是不加 |
    | 其他（金手指、半孔、阻抗…） | 不選 | |
 
 3. 打開 **PCB Assembly**：
@@ -50,11 +50,13 @@ MINI32 用排母插在上面，GY-91 照原樣鎖在機身、用 6 條短線接�
    | Confirm Parts Placement | **Yes** | 工程師會先寄貼片圖給你確認方向 |
 
 4. **Next** → 上傳 `fz-flix-carrier-BOM.csv`、`fz-flix-carrier-CPL.csv` → **Process BOM & CPL**。
-5. 零件確認頁：應該配到 2 種料，都是 **Basic**（不收換料費）：
-   - Q0,Q1,Q2,Q3 → **C20917** AO3400A
-   - R0,R1,R2,R3 → **C25804** 10 kΩ 0603
+5. 零件確認頁：應該配到 3 種料：
+   - Q0,Q1,Q2,Q3 → **C20917** AO3400A（Basic）
+   - R0,R1,R2,R3 → **C25804** 10 kΩ 0603（Basic）
+   - H1,H2,H3,H4 → **C2905418** 1×10 排母 8.5 mm（穿孔，JLC 手焊；多收手焊費每單約 $3.5 + 每個焊點約 $0.017）
 6. **貼片預覽（最重要）**：放大看 4 顆 MOSFET。每顆單獨的那一腳（3 腳 = D）要落在絲印「D」旁邊的焊墊上，也就是朝向同一角的馬達焊點；
    前面兩顆（Q2、Q3）朝前，後面兩顆（Q0、Q1）朝後。方向不對就在預覽裡把那顆轉 180°。
+   4 條排母要蓋在 MINI32 的 4 排孔上（長邊前後方向）；如果是橫的，在預覽裡轉 90°。
 7. 加入購物車、結帳。
 
 > 這塊板子是用 Python 產生的（沒有 KiCad），已經做過自寫 DRC、連通檢查、兩套 Gerber 看圖軟體比對。
@@ -63,7 +65,7 @@ MINI32 用排母插在上面，GY-91 照原樣鎖在機身、用 6 條短線接�
 ## 板子上有什麼
 
 - **4 顆 MOSFET（Q0～Q3，AO3400A）+ 4 顆 10 kΩ（R0～R3）**：放在左右兩翼，MINI32 不會蓋住，學生看得到。絲印標了 G、D、S、GPIO 編號、馬達編號、轉向和正負極。
-- **J1**：MINI32 的 4 排 × 10 孔（2.54 mm）。焊 4 條 1×10 排母，MINI32 天線朝 FRONT、USB 朝後插上去。
+- **H1～H4**：MINI32 的 4 排 × 10 孔（2.54 mm），JLC 焊好 1×10 排母。MINI32 天線朝 FRONT、USB 朝後插上去。
 - **J2**：GY-91 的 6 個焊點（3V3、GND、SCL、SDA、SDO、NCS）。
 - **馬達焊點**：每角 2 個（+、−），從背面插線、正面焊。
 - **電池焊點**：後方凸片上的 BAT+、BAT−（Ø1.3 mm 孔）。
