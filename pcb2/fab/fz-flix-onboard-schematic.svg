@@ -1,0 +1,556 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="1190.88pt" height="841.68pt" viewBox="0 0 1190.88 841.68" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-19T01:05:20.455447</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.11.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 841.68 
+L 1190.88 841.68 
+L 1190.88 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 23.8176 437.6736 
+L 385.0512 437.6736 
+L 385.0512 75.7512 
+L 23.8176 75.7512 
+L 23.8176 437.6736 
+z
+" clip-path="url(#p73c78aa7f6)" style="fill: none; stroke-dasharray: 2.96,1.28; stroke-dashoffset: 0; stroke: #777777; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 10.5px; font-family: 'Noto Sans CJK TC', 'DejaVu Sans', 'Noto Sans CJK JP'; text-anchor: start" x="31.042272" y="99.468096" transform="rotate(-0 31.042272 99.468096)">USB-C 與 USB 轉序列</text>
+   </g>
+   <g id="text_2">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="34.654608" y="117.770672" transform="rotate(-0 34.654608 117.770672)">J1</text>
+   </g>
+   <g id="text_3">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="70.777968" y="117.432976" transform="rotate(-0 70.777968 117.432976)">TYPE-C-31-M-12</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="189.985056" y="117.277117" transform="rotate(-0 189.985056 117.277117)">SHIELD→GND   D+→DP   CC2→CC2   D-→DM</text>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="70.777968" y="132.477858" transform="rotate(-0 70.777968 132.477858)">CC1→CC1   VBUS→VBUS   GND→GND</text>
+   </g>
+   <g id="text_6">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="34.654608" y="153.962912" transform="rotate(-0 34.654608 153.962912)">R5</text>
+   </g>
+   <g id="text_7">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="70.777968" y="153.625498" transform="rotate(-0 70.777968 153.625498)">5.1kΩ ±1% 0603</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="189.985056" y="153.469357" transform="rotate(-0 189.985056 153.469357)">1→CC1   2→GND</text>
+   </g>
+   <g id="text_9">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="34.654608" y="174.954411" transform="rotate(-0 34.654608 174.954411)">R6</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="70.777968" y="174.616997" transform="rotate(-0 70.777968 174.616997)">5.1kΩ ±1% 0603</text>
+   </g>
+   <g id="text_11">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="189.985056" y="174.460856" transform="rotate(-0 189.985056 174.460856)">1→CC2   2→GND</text>
+   </g>
+   <g id="text_12">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="34.654608" y="195.94591" transform="rotate(-0 34.654608 195.94591)">U3</text>
+   </g>
+   <g id="text_13">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="70.777968" y="195.608215" transform="rotate(-0 70.777968 195.608215)">CH340C</text>
+   </g>
+   <g id="text_14">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="189.985056" y="195.452356" transform="rotate(-0 189.985056 195.452356)">GND→GND   TXD→RXD0   RXD→TXD0   V3→3V3</text>
+   </g>
+   <g id="text_15">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="70.777968" y="210.653096" transform="rotate(-0 70.777968 210.653096)">UD+→DP   UD-→DM   DTR#→DTR   RTS#→RTS</text>
+   </g>
+   <g id="text_16">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="70.777968" y="225.853837" transform="rotate(-0 70.777968 225.853837)">VCC→3V3</text>
+   </g>
+   <g id="text_17">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="34.654608" y="247.338891" transform="rotate(-0 34.654608 247.338891)">C10</text>
+   </g>
+   <g id="text_18">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="70.777968" y="247.001196" transform="rotate(-0 70.777968 247.001196)">100nF 50V X7R 0603</text>
+   </g>
+   <g id="text_19">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="189.985056" y="246.845336" transform="rotate(-0 189.985056 246.845336)">1→3V3   2→GND</text>
+   </g>
+  </g>
+  <g id="axes_2">
+   <g id="patch_3">
+    <path d="M 23.8176 833.2632 
+L 385.0512 833.2632 
+L 385.0512 471.3408 
+L 23.8176 471.3408 
+L 23.8176 833.2632 
+z
+" clip-path="url(#p7eef269477)" style="fill: none; stroke-dasharray: 2.96,1.28; stroke-dashoffset: 0; stroke: #777777; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_20">
+    <text style="font-weight: 700; font-size: 10.5px; font-family: 'Noto Sans CJK TC', 'DejaVu Sans', 'Noto Sans CJK JP'; text-anchor: start" x="31.042272" y="495.057696" transform="rotate(-0 31.042272 495.057696)">自動燒錄（DTR/RTS → EN/IO0）</text>
+   </g>
+   <g id="text_21">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="34.654608" y="513.360272" transform="rotate(-0 34.654608 513.360272)">Q6</text>
+   </g>
+   <g id="text_22">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="70.777968" y="513.022577" transform="rotate(-0 70.777968 513.022577)">MMBT3904</text>
+   </g>
+   <g id="text_23">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="189.985056" y="512.866717" transform="rotate(-0 189.985056 512.866717)">B→Q6B   E→RTS   C→EN</text>
+   </g>
+   <g id="text_24">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="34.654608" y="534.351771" transform="rotate(-0 34.654608 534.351771)">Q7</text>
+   </g>
+   <g id="text_25">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="70.777968" y="534.014076" transform="rotate(-0 70.777968 534.014076)">MMBT3904</text>
+   </g>
+   <g id="text_26">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="189.985056" y="533.858216" transform="rotate(-0 189.985056 533.858216)">B→Q7B   E→DTR   C→IO0</text>
+   </g>
+   <g id="text_27">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="34.654608" y="555.34327" transform="rotate(-0 34.654608 555.34327)">R7</text>
+   </g>
+   <g id="text_28">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="70.777968" y="555.005856" transform="rotate(-0 70.777968 555.005856)">10kΩ ±1% 0603</text>
+   </g>
+   <g id="text_29">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="189.985056" y="554.849716" transform="rotate(-0 189.985056 554.849716)">1→DTR   2→Q6B</text>
+   </g>
+   <g id="text_30">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="34.654608" y="576.334769" transform="rotate(-0 34.654608 576.334769)">R8</text>
+   </g>
+   <g id="text_31">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="70.777968" y="575.997355" transform="rotate(-0 70.777968 575.997355)">10kΩ ±1% 0603</text>
+   </g>
+   <g id="text_32">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="189.985056" y="575.841215" transform="rotate(-0 189.985056 575.841215)">1→RTS   2→Q7B</text>
+   </g>
+  </g>
+  <g id="axes_3">
+   <g id="patch_4">
+    <path d="M 420.7776 437.6736 
+L 782.0112 437.6736 
+L 782.0112 75.7512 
+L 420.7776 75.7512 
+L 420.7776 437.6736 
+z
+" clip-path="url(#p5f83b46937)" style="fill: none; stroke-dasharray: 2.96,1.28; stroke-dashoffset: 0; stroke: #777777; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_33">
+    <text style="font-weight: 700; font-size: 10.5px; font-family: 'Noto Sans CJK TC', 'DejaVu Sans', 'Noto Sans CJK JP'; text-anchor: start" x="428.002272" y="99.468096" transform="rotate(-0 428.002272 99.468096)">電源：電池 / USB 切換、3.3V 穩壓</text>
+   </g>
+   <g id="text_34">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="431.614608" y="117.770672" transform="rotate(-0 431.614608 117.770672)">J2</text>
+   </g>
+   <g id="text_35">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="467.737968" y="117.432976" transform="rotate(-0 467.737968 117.432976)">WAFER-PH2.0-2PWB</text>
+   </g>
+   <g id="text_36">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="586.945056" y="117.277117" transform="rotate(-0 586.945056 117.277117)">BAT+→VBAT   BAT-→GND</text>
+   </g>
+   <g id="text_37">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="431.614608" y="138.762171" transform="rotate(-0 431.614608 138.762171)">C1</text>
+   </g>
+   <g id="text_38">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="467.737968" y="138.424476" transform="rotate(-0 467.737968 138.424476)">22uF 25V X5R 0805</text>
+   </g>
+   <g id="text_39">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="586.945056" y="138.268616" transform="rotate(-0 586.945056 138.268616)">1→VBAT   2→GND</text>
+   </g>
+   <g id="text_40">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="431.614608" y="159.75367" transform="rotate(-0 431.614608 159.75367)">C2</text>
+   </g>
+   <g id="text_41">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="467.737968" y="159.415975" transform="rotate(-0 467.737968 159.415975)">22uF 25V X5R 0805</text>
+   </g>
+   <g id="text_42">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="586.945056" y="159.260116" transform="rotate(-0 586.945056 159.260116)">1→VBAT   2→GND</text>
+   </g>
+   <g id="text_43">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="431.614608" y="180.745169" transform="rotate(-0 431.614608 180.745169)">Q5</text>
+   </g>
+   <g id="text_44">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="467.737968" y="180.407474" transform="rotate(-0 467.737968 180.407474)">AO3401A</text>
+   </g>
+   <g id="text_45">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="586.945056" y="180.251615" transform="rotate(-0 586.945056 180.251615)">G→VBUS   S→VSYS   D→VBAT</text>
+   </g>
+   <g id="text_46">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="431.614608" y="201.736669" transform="rotate(-0 431.614608 201.736669)">R10</text>
+   </g>
+   <g id="text_47">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="467.737968" y="201.399255" transform="rotate(-0 467.737968 201.399255)">100kΩ ±1% 0603</text>
+   </g>
+   <g id="text_48">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="586.945056" y="201.243114" transform="rotate(-0 586.945056 201.243114)">1→VBUS   2→GND</text>
+   </g>
+   <g id="text_49">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="431.614608" y="222.728168" transform="rotate(-0 431.614608 222.728168)">D1</text>
+   </g>
+   <g id="text_50">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="467.737968" y="222.390472" transform="rotate(-0 467.737968 222.390472)">B5819W SL</text>
+   </g>
+   <g id="text_51">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="586.945056" y="222.234613" transform="rotate(-0 586.945056 222.234613)">K→VSYS   A→VBUS</text>
+   </g>
+   <g id="text_52">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="431.614608" y="243.719667" transform="rotate(-0 431.614608 243.719667)">U4</text>
+   </g>
+   <g id="text_53">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="467.737968" y="243.381972" transform="rotate(-0 467.737968 243.381972)">AP2112K-3.3TRG1</text>
+   </g>
+   <g id="text_54">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="586.945056" y="243.226112" transform="rotate(-0 586.945056 243.226112)">VIN→VSYS   GND→GND   EN→VSYS   VOUT→3V3</text>
+   </g>
+   <g id="text_55">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="431.614608" y="264.711166" transform="rotate(-0 431.614608 264.711166)">C3</text>
+   </g>
+   <g id="text_56">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="467.737968" y="264.373471" transform="rotate(-0 467.737968 264.373471)">10uF 10V X5R 0603</text>
+   </g>
+   <g id="text_57">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="586.945056" y="264.217612" transform="rotate(-0 586.945056 264.217612)">1→VSYS   2→GND</text>
+   </g>
+   <g id="text_58">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="431.614608" y="285.702665" transform="rotate(-0 431.614608 285.702665)">C4</text>
+   </g>
+   <g id="text_59">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="467.737968" y="285.36497" transform="rotate(-0 467.737968 285.36497)">22uF 25V X5R 0805</text>
+   </g>
+   <g id="text_60">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="586.945056" y="285.209111" transform="rotate(-0 586.945056 285.209111)">1→3V3   2→GND</text>
+   </g>
+   <g id="text_61">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="431.614608" y="306.694165" transform="rotate(-0 431.614608 306.694165)">C5</text>
+   </g>
+   <g id="text_62">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="467.737968" y="306.356469" transform="rotate(-0 467.737968 306.356469)">100nF 50V X7R 0603</text>
+   </g>
+   <g id="text_63">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="586.945056" y="306.20061" transform="rotate(-0 586.945056 306.20061)">1→3V3   2→GND</text>
+   </g>
+  </g>
+  <g id="axes_4">
+   <g id="patch_5">
+    <path d="M 420.7776 833.2632 
+L 782.0112 833.2632 
+L 782.0112 471.3408 
+L 420.7776 471.3408 
+L 420.7776 833.2632 
+z
+" clip-path="url(#p5827494e26)" style="fill: none; stroke-dasharray: 2.96,1.28; stroke-dashoffset: 0; stroke: #777777; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_64">
+    <text style="font-weight: 700; font-size: 10.5px; font-family: 'Noto Sans CJK TC', 'DejaVu Sans', 'Noto Sans CJK JP'; text-anchor: start" x="428.002272" y="495.057696" transform="rotate(-0 428.002272 495.057696)">ESP32 模組</text>
+   </g>
+   <g id="text_65">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="431.614608" y="513.360272" transform="rotate(-0 431.614608 513.360272)">U1</text>
+   </g>
+   <g id="text_66">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="467.737968" y="513.022577" transform="rotate(-0 467.737968 513.022577)">ESP32-WROOM-32E-N4</text>
+   </g>
+   <g id="text_67">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="586.945056" y="512.866717" transform="rotate(-0 586.945056 512.866717)">EP→GND   GND→GND   3V3→3V3   EN→EN</text>
+   </g>
+   <g id="text_68">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="467.737968" y="528.067458" transform="rotate(-0 467.737968 528.067458)">IO33→VSENSE   IO14→GATE_FR   IO12→GATE_RL</text>
+   </g>
+   <g id="text_69">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="467.737968" y="543.268199" transform="rotate(-0 467.737968 543.268199)">IO13→GATE_RR   IO15→GATE_FL   IO2→LED</text>
+   </g>
+   <g id="text_70">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="467.737968" y="558.46894" transform="rotate(-0 467.737968 558.46894)">IO0→IO0   IO5→CS   IO18→SCK   IO19→MISO</text>
+   </g>
+   <g id="text_71">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="467.737968" y="573.66968" transform="rotate(-0 467.737968 573.66968)">RXD0→RXD0   TXD0→TXD0   IO23→MOSI</text>
+   </g>
+   <g id="text_72">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="431.614608" y="595.154734" transform="rotate(-0 431.614608 595.154734)">R9</text>
+   </g>
+   <g id="text_73">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="467.737968" y="594.81732" transform="rotate(-0 467.737968 594.81732)">10kΩ ±1% 0603</text>
+   </g>
+   <g id="text_74">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="586.945056" y="594.66118" transform="rotate(-0 586.945056 594.66118)">1→3V3   2→EN</text>
+   </g>
+   <g id="text_75">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="431.614608" y="616.146233" transform="rotate(-0 431.614608 616.146233)">C6</text>
+   </g>
+   <g id="text_76">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="467.737968" y="615.808538" transform="rotate(-0 467.737968 615.808538)">1uF 25V X5R 0603</text>
+   </g>
+   <g id="text_77">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="586.945056" y="615.652679" transform="rotate(-0 586.945056 615.652679)">1→EN   2→GND</text>
+   </g>
+   <g id="text_78">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="431.614608" y="637.137733" transform="rotate(-0 431.614608 637.137733)">R11</text>
+   </g>
+   <g id="text_79">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="467.737968" y="636.800319" transform="rotate(-0 467.737968 636.800319)">100kΩ ±1% 0603</text>
+   </g>
+   <g id="text_80">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="586.945056" y="636.644178" transform="rotate(-0 586.945056 636.644178)">1→VBAT   2→VSENSE</text>
+   </g>
+   <g id="text_81">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="431.614608" y="658.129232" transform="rotate(-0 431.614608 658.129232)">R12</text>
+   </g>
+   <g id="text_82">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="467.737968" y="657.791818" transform="rotate(-0 467.737968 657.791818)">100kΩ ±1% 0603</text>
+   </g>
+   <g id="text_83">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="586.945056" y="657.635677" transform="rotate(-0 586.945056 657.635677)">1→VSENSE   2→GND</text>
+   </g>
+   <g id="text_84">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="431.614608" y="679.120731" transform="rotate(-0 431.614608 679.120731)">C11</text>
+   </g>
+   <g id="text_85">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="467.737968" y="678.783036" transform="rotate(-0 467.737968 678.783036)">100nF 50V X7R 0603</text>
+   </g>
+   <g id="text_86">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="586.945056" y="678.627176" transform="rotate(-0 586.945056 678.627176)">1→VSENSE   2→GND</text>
+   </g>
+   <g id="text_87">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="431.614608" y="700.11223" transform="rotate(-0 431.614608 700.11223)">D2</text>
+   </g>
+   <g id="text_88">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="467.737968" y="699.774816" transform="rotate(-0 467.737968 699.774816)">Red LED 0603</text>
+   </g>
+   <g id="text_89">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="586.945056" y="699.618676" transform="rotate(-0 586.945056 699.618676)">K→GND   A→LEDA</text>
+   </g>
+   <g id="text_90">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="431.614608" y="721.103729" transform="rotate(-0 431.614608 721.103729)">R13</text>
+   </g>
+   <g id="text_91">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="467.737968" y="720.766315" transform="rotate(-0 467.737968 720.766315)">1kΩ ±1% 0603</text>
+   </g>
+   <g id="text_92">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="586.945056" y="720.610175" transform="rotate(-0 586.945056 720.610175)">1→LED   2→LEDA</text>
+   </g>
+  </g>
+  <g id="axes_5">
+   <g id="patch_6">
+    <path d="M 817.7376 437.6736 
+L 1178.9712 437.6736 
+L 1178.9712 75.7512 
+L 817.7376 75.7512 
+L 817.7376 437.6736 
+z
+" clip-path="url(#pc3648d0299)" style="fill: none; stroke-dasharray: 2.96,1.28; stroke-dashoffset: 0; stroke: #777777; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_93">
+    <text style="font-weight: 700; font-size: 10.5px; font-family: 'Noto Sans CJK TC', 'DejaVu Sans', 'Noto Sans CJK JP'; text-anchor: start" x="824.962272" y="99.468096" transform="rotate(-0 824.962272 99.468096)">IMU（SPI）</text>
+   </g>
+   <g id="text_94">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="828.574608" y="117.770672" transform="rotate(-0 828.574608 117.770672)">U2</text>
+   </g>
+   <g id="text_95">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="864.697968" y="117.432976" transform="rotate(-0 864.697968 117.432976)">ICM-40609-D</text>
+   </g>
+   <g id="text_96">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="983.905056" y="117.277117" transform="rotate(-0 983.905056 117.277117)">VDDIO→3V3   SDO→MISO   RESV→GND   VDD→3V3</text>
+   </g>
+   <g id="text_97">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="864.697968" y="132.477858" transform="rotate(-0 864.697968 132.477858)">GND→GND   FSYNC→GND   nCS→CS   SCLK→SCK</text>
+   </g>
+   <g id="text_98">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="864.697968" y="147.678599" transform="rotate(-0 864.697968 147.678599)">SDI→MOSI</text>
+   </g>
+   <g id="text_99">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="828.574608" y="169.163653" transform="rotate(-0 828.574608 169.163653)">C7</text>
+   </g>
+   <g id="text_100">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="864.697968" y="168.825957" transform="rotate(-0 864.697968 168.825957)">100nF 50V X7R 0603</text>
+   </g>
+   <g id="text_101">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="983.905056" y="168.670098" transform="rotate(-0 983.905056 168.670098)">1→3V3   2→GND</text>
+   </g>
+   <g id="text_102">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="828.574608" y="190.155152" transform="rotate(-0 828.574608 190.155152)">C8</text>
+   </g>
+   <g id="text_103">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="864.697968" y="189.817456" transform="rotate(-0 864.697968 189.817456)">2.2uF 16V X5R 0603</text>
+   </g>
+   <g id="text_104">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="983.905056" y="189.661597" transform="rotate(-0 983.905056 189.661597)">1→3V3   2→GND</text>
+   </g>
+   <g id="text_105">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="828.574608" y="211.146651" transform="rotate(-0 828.574608 211.146651)">C9</text>
+   </g>
+   <g id="text_106">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="864.697968" y="210.808956" transform="rotate(-0 864.697968 210.808956)">10nF 50V X7R 0603</text>
+   </g>
+   <g id="text_107">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="983.905056" y="210.653096" transform="rotate(-0 983.905056 210.653096)">1→3V3   2→GND</text>
+   </g>
+  </g>
+  <g id="axes_6">
+   <g id="patch_7">
+    <path d="M 817.7376 833.2632 
+L 1178.9712 833.2632 
+L 1178.9712 471.3408 
+L 817.7376 471.3408 
+L 817.7376 833.2632 
+z
+" clip-path="url(#p748e13cf6d)" style="fill: none; stroke-dasharray: 2.96,1.28; stroke-dashoffset: 0; stroke: #777777; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_108">
+    <text style="font-weight: 700; font-size: 10.5px; font-family: 'Noto Sans CJK TC', 'DejaVu Sans', 'Noto Sans CJK JP'; text-anchor: start" x="824.962272" y="495.057696" transform="rotate(-0 824.962272 495.057696)">馬達開關 ×4（低側 N-MOSFET）</text>
+   </g>
+   <g id="text_109">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="828.574608" y="513.360272" transform="rotate(-0 828.574608 513.360272)">J3</text>
+   </g>
+   <g id="text_110">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="864.697968" y="513.022577" transform="rotate(-0 864.697968 513.022577)">A1251WR-S-2P</text>
+   </g>
+   <g id="text_111">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="983.905056" y="512.866717" transform="rotate(-0 983.905056 512.866717)">+→VBAT   -→MOT_RL</text>
+   </g>
+   <g id="text_112">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="828.574608" y="534.351771" transform="rotate(-0 828.574608 534.351771)">Q1</text>
+   </g>
+   <g id="text_113">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="864.697968" y="534.014076" transform="rotate(-0 864.697968 534.014076)">AO3400A</text>
+   </g>
+   <g id="text_114">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="983.905056" y="533.858216" transform="rotate(-0 983.905056 533.858216)">G→GATE_RL   S→GND   D→MOT_RL</text>
+   </g>
+   <g id="text_115">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="828.574608" y="555.34327" transform="rotate(-0 828.574608 555.34327)">R1</text>
+   </g>
+   <g id="text_116">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="864.697968" y="555.005856" transform="rotate(-0 864.697968 555.005856)">10kΩ ±1% 0603</text>
+   </g>
+   <g id="text_117">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="983.905056" y="554.849716" transform="rotate(-0 983.905056 554.849716)">1→GATE_RL   2→GND</text>
+   </g>
+   <g id="text_118">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="828.574608" y="576.334769" transform="rotate(-0 828.574608 576.334769)">J4</text>
+   </g>
+   <g id="text_119">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="864.697968" y="575.997074" transform="rotate(-0 864.697968 575.997074)">A1251WR-S-2P</text>
+   </g>
+   <g id="text_120">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="983.905056" y="575.841215" transform="rotate(-0 983.905056 575.841215)">+→VBAT   -→MOT_RR</text>
+   </g>
+   <g id="text_121">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="828.574608" y="597.326269" transform="rotate(-0 828.574608 597.326269)">Q2</text>
+   </g>
+   <g id="text_122">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="864.697968" y="596.988573" transform="rotate(-0 864.697968 596.988573)">AO3400A</text>
+   </g>
+   <g id="text_123">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="983.905056" y="596.832714" transform="rotate(-0 983.905056 596.832714)">G→GATE_RR   S→GND   D→MOT_RR</text>
+   </g>
+   <g id="text_124">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="828.574608" y="618.317768" transform="rotate(-0 828.574608 618.317768)">R2</text>
+   </g>
+   <g id="text_125">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="864.697968" y="617.980354" transform="rotate(-0 864.697968 617.980354)">10kΩ ±1% 0603</text>
+   </g>
+   <g id="text_126">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="983.905056" y="617.824213" transform="rotate(-0 983.905056 617.824213)">1→GATE_RR   2→GND</text>
+   </g>
+   <g id="text_127">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="828.574608" y="639.309267" transform="rotate(-0 828.574608 639.309267)">J5</text>
+   </g>
+   <g id="text_128">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="864.697968" y="638.971572" transform="rotate(-0 864.697968 638.971572)">A1251WR-S-2P</text>
+   </g>
+   <g id="text_129">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="983.905056" y="638.815712" transform="rotate(-0 983.905056 638.815712)">+→VBAT   -→MOT_FR</text>
+   </g>
+   <g id="text_130">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="828.574608" y="660.300766" transform="rotate(-0 828.574608 660.300766)">Q3</text>
+   </g>
+   <g id="text_131">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="864.697968" y="659.963071" transform="rotate(-0 864.697968 659.963071)">AO3400A</text>
+   </g>
+   <g id="text_132">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="983.905056" y="659.807212" transform="rotate(-0 983.905056 659.807212)">G→GATE_FR   S→GND   D→MOT_FR</text>
+   </g>
+   <g id="text_133">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="828.574608" y="681.292265" transform="rotate(-0 828.574608 681.292265)">R3</text>
+   </g>
+   <g id="text_134">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="864.697968" y="680.954851" transform="rotate(-0 864.697968 680.954851)">10kΩ ±1% 0603</text>
+   </g>
+   <g id="text_135">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="983.905056" y="680.798711" transform="rotate(-0 983.905056 680.798711)">1→GATE_FR   2→GND</text>
+   </g>
+   <g id="text_136">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="828.574608" y="702.283765" transform="rotate(-0 828.574608 702.283765)">J6</text>
+   </g>
+   <g id="text_137">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="864.697968" y="701.946069" transform="rotate(-0 864.697968 701.946069)">A1251WR-S-2P</text>
+   </g>
+   <g id="text_138">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="983.905056" y="701.79021" transform="rotate(-0 983.905056 701.79021)">+→VBAT   -→MOT_FL</text>
+   </g>
+   <g id="text_139">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="828.574608" y="723.275264" transform="rotate(-0 828.574608 723.275264)">Q4</text>
+   </g>
+   <g id="text_140">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="864.697968" y="722.937568" transform="rotate(-0 864.697968 722.937568)">AO3400A</text>
+   </g>
+   <g id="text_141">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="983.905056" y="722.781709" transform="rotate(-0 983.905056 722.781709)">G→GATE_FL   S→GND   D→MOT_FL</text>
+   </g>
+   <g id="text_142">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start" x="828.574608" y="744.266763" transform="rotate(-0 828.574608 744.266763)">R4</text>
+   </g>
+   <g id="text_143">
+    <text style="font-size: 7.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #777777" x="864.697968" y="743.929349" transform="rotate(-0 864.697968 743.929349)">10kΩ ±1% 0603</text>
+   </g>
+   <g id="text_144">
+    <text style="font-size: 6.6px; font-family: 'DejaVu Sans Mono'; text-anchor: start; fill: #1d1d1f" x="983.905056" y="743.773208" transform="rotate(-0 983.905056 743.773208)">1→GATE_FL   2→GND</text>
+   </g>
+  </g>
+  <g id="text_145">
+   <text style="font-size: 15px; font-family: 'Noto Sans CJK TC', 'DejaVu Sans', 'Noto Sans CJK JP'; text-anchor: start" x="23.8176" y="25.8252" transform="rotate(-0 23.8176 25.8252)">FutureZebra × Flix 一體板 v2.0 原理圖（同名網路標籤相連）</text>
+  </g>
+  <g id="text_146">
+   <text style="font-size: 8.5px; font-family: 'Noto Sans CJK TC', 'DejaVu Sans', 'Noto Sans CJK JP'; text-anchor: start; fill: #1d1d1f" x="23.8176" y="831.57984" transform="rotate(-0 23.8176 831.57984)">馬達接腳照 Flix 韌體預設：RL=IO12、RR=IO13、FR=IO14、FL=IO15；IMU：SCK=IO18、MISO=IO19、MOSI=IO23、CS=IO5；LED=IO2；電池分壓→IO33（PWR_VOLT_PIN=33、PWR_VOLT_SCALE=2）；IMU_MODEL=4（ICM-40609-D）。</text>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p73c78aa7f6">
+   <rect x="23.8176" y="75.7512" width="361.2336" height="361.9224"/>
+  </clipPath>
+  <clipPath id="p7eef269477">
+   <rect x="23.8176" y="471.3408" width="361.2336" height="361.9224"/>
+  </clipPath>
+  <clipPath id="p5f83b46937">
+   <rect x="420.7776" y="75.7512" width="361.2336" height="361.9224"/>
+  </clipPath>
+  <clipPath id="p5827494e26">
+   <rect x="420.7776" y="471.3408" width="361.2336" height="361.9224"/>
+  </clipPath>
+  <clipPath id="pc3648d0299">
+   <rect x="817.7376" y="75.7512" width="361.2336" height="361.9224"/>
+  </clipPath>
+  <clipPath id="p748e13cf6d">
+   <rect x="817.7376" y="471.3408" width="361.2336" height="361.9224"/>
+  </clipPath>
+ </defs>
+</svg>
