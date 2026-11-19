@@ -16,6 +16,22 @@ h1{font-size:22px;margin:0 0 4px}
 .chip i{font-style:normal;display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#e4e9f0;font-size:12px;font-weight:700}
 .chip.done{border-color:#9cc3a8;color:#24543a}.chip.done i{background:#cfe9d7}
 .chip.on{background:#2c5fb3;border-color:#2c5fb3;color:#fff}.chip.on i{background:#fff;color:#2c5fb3}
+#oChips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+.ochip{border:1px solid #c9d1dc;background:#fff;color:#33404f;border-radius:20px;padding:5px 12px 5px 5px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:6px}
+.ochip i{font-style:normal;display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#e4e9f0;font-size:12px;font-weight:700}
+.ochip.done{border-color:#9cc3a8;color:#24543a}.ochip.done i{background:#cfe9d7}
+.ochip.on{background:#2c5fb3;border-color:#2c5fb3;color:#fff}.ochip.on i{background:#fff;color:#2c5fb3}
+#verOnb .o3d{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:16px}
+@media(max-width:1000px){#verOnb .o3d{grid-template-columns:1fr}}
+#oView{position:relative;height:560px;border-radius:12px;overflow:hidden;border:1px solid #d9dee6;background:#eef1f5;touch-action:none}
+@media(max-width:700px){#oView{height:420px}}
+#oView canvas{display:block;width:100%;height:100%}
+#oTitle{font-size:17px;margin:0 0 6px;color:#2c5fb3}
+#oHow{font-size:14px;line-height:1.65;margin:0}
+#oCheck{margin:8px 0 0;padding-left:0;list-style:none;font-size:13.5px;line-height:1.6}
+#oCheck li{padding-left:22px;position:relative;font-size:13.5px}
+#oCheck li:before{content:"☐";position:absolute;left:2px;color:#2c8a4a}
+#verOnb .ctrl .hint{font-size:12.5px}
 main{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:16px;padding:12px 24px}
 @media(max-width:1000px){main{grid-template-columns:1fr}}
 #view{position:relative;height:600px;border-radius:12px;overflow:hidden;border:1px solid #d9dee6;background:#eef1f5;touch-action:none}
@@ -79,7 +95,7 @@ a{color:#2c5fb3}
 #verOnb pre code{background:none;padding:0;font-size:13px}
 #verRab .warn,#verPcb .warn,#verOnb .warn{background:#fff4f2;border:1px solid #f1c7bf;border-radius:10px;padding:10px 14px}
 #verRab .codebar,#verPcb .codebar,#verOnb .codebar{display:flex;gap:10px;align-items:center;margin:8px 0}
-#verRab button,#verPcb button,#verOnb button{font-size:14px;padding:6px 14px;border-radius:8px;border:1px solid #2c5fb3;background:#2c5fb3;color:#fff;cursor:pointer}
+#verRab button,#verPcb button{font-size:14px;padding:6px 14px;border-radius:8px;border:1px solid #2c5fb3;background:#2c5fb3;color:#fff;cursor:pointer}
 
 .lost{position:absolute;inset:0;display:grid;place-content:center;gap:10px;text-align:center;background:#eef1f5;font-size:15px;padding:20px}.lost button{font-size:15px;padding:6px 14px}
 .ptag{position:absolute;transform:translate(-50%,-150%);font-size:11px;font-weight:700;padding:1px 6px;border-radius:5px;white-space:nowrap;pointer-events:none;border:1px solid rgba(0,0,0,.25);background:#fff}

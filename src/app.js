@@ -3,6 +3,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { MESH, QS } from './meshes.js';
 import { wiringSVG, wiringTableHTML } from './wiring.js';
+import './onboard3d.js';
 import { PARTS, STEPS, WIRES, WIRE_GROUPS, MOTORS, MINI_COLS, MINI_PINS, COL_NAME, IMU_PINS, pinY, pinName, pinWhere, motorWires } from './data.js';
 
 const V = (x = 0, y = 0, z = 0) => new THREE.Vector3(x, y, z);

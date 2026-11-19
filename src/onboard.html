@@ -1,5 +1,32 @@
 <p class="lead"><b>學生完全不用焊接。</b>ESP32、IMU（姿態感測器）、USB 燒錄電路、3.3 V 穩壓和 4 路馬達開關全部做在同一塊板上，由 JLCPCB 貼片焊好。學生只要<b>插電池、插 4 顆馬達、裝槳</b>，燒錄韌體就能飛。外形和安裝位置跟 PCB 載板版一樣，鎖在原本 ESP32 支架的 4 個柱腳位置；機身、馬達、槳都和標準版相同。</p>
 
+<h2>3D 組裝</h2>
+<div id="oChips"></div>
+<div class="o3d">
+  <div>
+    <div id="oView"></div>
+    <div class="ctrl">
+      <label><input id="oLabels" type="checkbox" checked> 名稱標籤</label>
+      <label><input id="oSpin" type="checkbox" checked> 轉動（步驟 7）</label>
+      <label><input id="oXray" type="checkbox"> 機身半透明</label>
+      <span class="hint">拖曳旋轉、滾輪縮放、右鍵平移。板子表面是出給工廠的 Gerber 算圖，零件位置照設計檔。</span>
+    </div>
+  </div>
+  <aside>
+    <div class="panel">
+      <h3 id="oTitle"></h3>
+      <p id="oHow"></p>
+      <ul id="oCheck"></ul>
+      <div class="nav">
+        <button class="btn alt" id="oPrev">◀ 上一步</button>
+        <button class="btn" id="oNext">下一步 ▶</button>
+        <button class="btn alt" id="oPlay">▶ 從頭播放</button>
+      </div>
+    </div>
+  </aside>
+</div>
+
+
 <h2>一體板長這樣</h2>
 <div class="pcbimgs">
   <figure><img src="data:image/jpeg;base64,/*IMG_TOP*/" alt="一體板正面"><figcaption>正面（工廠出貨的樣子，外圍一圈是工藝邊，收到後折掉）：中間大塊是 ESP32 模組（天線朝 FRONT），右邊小方塊是 IMU，左下是 USB-C 和 CH340C 燒錄晶片，四角是馬達插座，後方凸片是電池插座</figcaption></figure>

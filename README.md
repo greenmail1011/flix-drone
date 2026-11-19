@@ -25,7 +25,9 @@ python3 build.py          # 打包成 src/index.html
 cp index.html ../index.html
 ```
 
-改零件、價格、步驟文字或接線表：編輯 `src/data.js`。接線圖由 `src/wiring.js` 產生。
+改零件、價格、步驟文字或接線表：編輯 `src/data.js`。
+
+一體板版的 3D：`src/onboard3d.js`（步驟文字也在這裡）；板子外形、零件位置與貼圖在 `src/onboard_data.js`，由 `pcb2/export3d.py` 產生（板子改版後先跑 `pcb2/verify.py` 再跑它）。接線圖由 `src/wiring.js` 產生。
 
 重新產生 SVG：`cd src && node --input-type=module -e "import {wiringSVG} from './wiring.js'; import fs from 'fs'; fs.writeFileSync('../docs/wiring.svg', wiringSVG())"`
 
