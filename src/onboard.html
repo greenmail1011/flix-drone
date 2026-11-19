@@ -1,0 +1,151 @@
+<p class="lead"><b>學生完全不用焊接。</b>ESP32、IMU（姿態感測器）、USB 燒錄電路、3.3 V 穩壓和 4 路馬達開關全部做在同一塊板上，由 JLCPCB 貼片焊好。學生只要<b>插電池、插 4 顆馬達、裝槳</b>，燒錄韌體就能飛。外形和安裝位置跟 PCB 載板版一樣，鎖在原本 ESP32 支架的 4 個柱腳位置；機身、馬達、槳都和標準版相同。</p>
+
+<h2>一體板長這樣</h2>
+<div class="pcbimgs">
+  <figure><img src="data:image/jpeg;base64,/*IMG_TOP*/" alt="一體板正面"><figcaption>正面（工廠出貨的樣子，外圍一圈是工藝邊，收到後折掉）：中間大塊是 ESP32 模組（天線朝 FRONT），右邊小方塊是 IMU，左下是 USB-C 和 CH340C 燒錄晶片，四角是馬達插座，後方凸片是電池插座</figcaption></figure>
+  <figure><img src="data:image/jpeg;base64,/*IMG_ASM*/" alt="一體板組裝圖"><figcaption>組裝圖：每個零件的位號和位置。紅點是方向記號（MOSFET 第 3 腳、二極體陰極、IC 第 1 腳），JLC 貼片預覽要對照這張圖</figcaption></figure>
+</div>
+<p class="hint">板子本體 46 × 45.5 mm（含工藝邊 70 × 70 mm），板厚 1.0 mm，2 層板。圖是由出給工廠的 Gerber 檔算出來的。設計規則檢查 0 錯誤、32 個網路全部連通。</p>
+
+<h2>三個版本比一比</h2>
+<div style="overflow-x:auto">
+<table style="min-width:520px">
+  <tr><th>項目</th><th>標準版（手焊）</th><th>PCB 載板版</th><th>一體板版</th></tr>
+  <tr><td>主控</td><td>MINI32 模組</td><td>MINI32 模組（插排母）</td><td>ESP32-WROOM-32E，貼在板上</td></tr>
+  <tr><td>IMU</td><td>GY-91 模組（MPU9250）</td><td>GY-91 模組</td><td>ICM-40609-D，貼在板上（Flix 官方 PCB 用的同一顆）</td></tr>
+  <tr><td>馬達開關</td><td>100N03A，學生焊</td><td>AO3400A，JLC 貼好</td><td>AO3400A，JLC 貼好</td></tr>
+  <tr><td>USB 燒錄</td><td>MINI32 上的 USB</td><td>MINI32 上的 USB</td><td>板上 USB-C＋CH340C，自動燒錄，不用按鍵</td></tr>
+  <tr><td>馬達接法</td><td>焊在 MOSFET 上</td><td>焊在載板上</td><td><b>插 1.25 mm 2P 插座</b></td></tr>
+  <tr><td>電池接法</td><td>MX2.0 線焊到主板</td><td>MX2.0 線焊到載板</td><td><b>插 PH2.0 2P 插座</b></td></tr>
+  <tr><td>學生要焊的</td><td>約 40 個焊點</td><td>16 條線</td><td><b>0</b></td></tr>
+  <tr><td>韌體</td><td>官方 bin，不用改參數</td><td>官方 bin，不用改參數</td><td>官方 bin，設 2 個參數</td></tr>
+  <tr><td>每片板子成本</td><td>—</td><td>約 US$5～6（5 片）</td><td>5 片約 NT$1,050／片；20 片約 NT$550；50 片約 NT$460</td></tr>
+</table>
+</div>
+<p class="hint">一體板含了 ESP32、IMU 和 USB 燒錄，所以不用另外買 MINI32、GY-91。大約 15 片以上，一體板會比「MINI32＋GY-91＋載板」便宜。</p>
+
+<h2>電路怎麼運作</h2>
+<table>
+  <tr><th>功能</th><th>做法</th></tr>
+  <tr><td>馬達</td><td>每顆一個 AO3400A 低側開關：G 接 GPIO、D 接馬達負極、S 接地，G–S 之間 10 kΩ 下拉。接腳照 Flix 預設：左後 RL＝IO12、右後 RR＝IO13、右前 FR＝IO14、左前 FL＝IO15</td></tr>
+  <tr><td>IMU</td><td>SPI：SCK＝IO18、MISO＝IO19、MOSI＝IO23、CS＝IO5（Flix 預設）</td></tr>
+  <tr><td>電源</td><td>電池 → AO3401A → 系統電源；USB 5 V → B5819W → 系統電源；再經 AP2112K 穩壓成 3.3 V。<b>只插 USB 時馬達沒有電</b>，燒錄、調參數比較安全</td></tr>
+  <tr><td>自動燒錄</td><td>CH340C 的 DTR／RTS 經 2 顆 MMBT3904 控制 EN、IO0，網頁燒錄器會自動讓 ESP32 進入燒錄模式</td></tr>
+  <tr><td>電池電壓</td><td>100 kΩ／100 kΩ 分壓 → IO33</td></tr>
+  <tr><td>指示燈</td><td>紅色 LED → IO2</td></tr>
+</table>
+<p class="hint">板上<b>沒有充電電路</b>，電池要拔下來用充電器（例如 TP4056 充電板）充。</p>
+
+<h2>向 JLCPCB 下單</h2>
+<ol>
+  <li>到 <a href="https://cart.jlcpcb.com/quote" target="_blank" rel="noopener">JLCPCB 線上報價</a>，登入後按 <b>Add gerber file</b>，上傳 <a href="https://github.com/greenmail1011/flix-drone/raw/main/pcb2/fab/fz-flix-onboard-gerber.zip">fz-flix-onboard-gerber.zip</a>。應該自動讀到 <b>2 層、70 × 70 mm</b>（含工藝邊）。</li>
+  <li>照下表設定 PCB 選項，其他用預設值。</li>
+  <li>打開 <b>PCB Assembly</b>，選 <b>Standard</b>（ESP32 模組只能用標準貼片），按 <b>NEXT</b>。</li>
+  <li>上傳 <a href="https://github.com/greenmail1011/flix-drone/raw/main/pcb2/fab/fz-flix-onboard-BOM.csv">BOM</a> 和 <a href="https://github.com/greenmail1011/flix-drone/raw/main/pcb2/fab/fz-flix-onboard-CPL.csv">座標檔（CPL）</a>，確認 22 種料全部配到料號、都有庫存。</li>
+  <li><b>看貼片預覽</b>，照下面的「方向檢查表」逐顆對。座標檔用 KiCad 的旋轉慣例，JLC 預覽可能有零件轉錯方向，不對就在預覽裡旋轉。</li>
+  <li>上傳後也看一下 JLC 的線上 Gerber 檢視和 DFM 檢查結果。</li>
+  <li>右邊運費把國家改成台灣，選<b>順豐 SF Express</b>，再結帳。</li>
+</ol>
+<table>
+  <tr><th>選項</th><th>選</th><th>說明</th></tr>
+  <tr><td>PCB Qty</td><td>5 以上</td><td>每片都是一整塊 70 × 70 mm（含工藝邊）</td></tr>
+  <tr><td>Delivery Format</td><td><b>Panel by Customer</b></td><td>工藝邊、郵票孔、光學點、定位孔都已畫在檔案裡；Panel Format 填 1 × 1</td></tr>
+  <tr><td>PCB Thickness</td><td><b>1.0 mm</b></td><td>比 1.6 mm 輕；1.6 mm 也可以</td></tr>
+  <tr><td>Surface Finish</td><td>LeadFree HASL</td><td>改 ENIG（沉金）對 IMU 的細腳距比較好，但比較貴</td></tr>
+  <tr><td>Mark on PCB</td><td><b>Order Number (Specify Position)</b></td><td>訂單號印在工藝邊的 JLCJLCJLCJLC 位置，折掉就沒了</td></tr>
+  <tr><td>PCBA Type</td><td><b>Standard</b></td><td>ESP32-WROOM-32E 標示 Standard only</td></tr>
+  <tr><td>Assembly Side</td><td>Top Side</td><td>零件只在正面</td></tr>
+  <tr><td>Confirm Parts Placement</td><td><b>Yes</b></td><td>工程師先寄貼片圖給你確認；72 小時沒回覆會照原樣生產</td></tr>
+</table>
+
+<h3>方向檢查表（對照上面的組裝圖）</h3>
+<table>
+  <tr><th>零件</th><th>正確方向</th></tr>
+  <tr><td>U1 ESP32-WROOM-32E</td><td>天線朝板子前方（FRONT 箭頭）</td></tr>
+  <tr><td>U2 ICM-40609-D（IMU）</td><td>第 1 腳（圓點）在<b>右下</b></td></tr>
+  <tr><td>U3 CH340C</td><td>第 1 腳在<b>右上</b></td></tr>
+  <tr><td>U4 AP2112K</td><td>第 1 腳（VIN）在左下，第 5 腳（VOUT）在左上</td></tr>
+  <tr><td>Q1～Q7</td><td>第 3 腳（單獨那一腳）照組裝圖紅點</td></tr>
+  <tr><td>D1 B5819W</td><td>陰極（有色帶那端）在<b>下方</b></td></tr>
+  <tr><td>D2 LED</td><td>陰極在<b>左邊</b></td></tr>
+  <tr><td>J1 USB-C</td><td>開口朝<b>左</b>板邊</td></tr>
+  <tr><td>J2 PH2.0 電池插座</td><td>開口朝<b>後</b>（後方凸片）</td></tr>
+  <tr><td>J3～J6 馬達插座</td><td>開口朝左右板邊</td></tr>
+</table>
+<p class="hint">1.25 mm 馬達插座（C225111）和 PH2.0 電池插座（C3029440）用的是 KiCad 裡 Molex 53261／JST S2B-PH-SM4-TB 的封裝（相容品），預覽時要確認焊墊有對上。</p>
+
+<h3>JLC 貼片的主要零件</h3>
+<table>
+  <tr><th>位號</th><th>零件</th><th>料號</th></tr>
+  <tr><td>U1</td><td>ESP32-WROOM-32E-N4（4 MB）</td><td>C701341</td></tr>
+  <tr><td>U2</td><td>ICM-40609-D 六軸 IMU</td><td>C5360621</td></tr>
+  <tr><td>U3</td><td>CH340C USB 轉序列埠</td><td>C84681</td></tr>
+  <tr><td>U4</td><td>AP2112K-3.3 穩壓 600 mA</td><td>C51118</td></tr>
+  <tr><td>Q1～Q4</td><td>AO3400A N-MOSFET（馬達）</td><td>C20917</td></tr>
+  <tr><td>Q5</td><td>AO3401A P-MOSFET（電池／USB 切換）</td><td>C15127</td></tr>
+  <tr><td>Q6、Q7</td><td>MMBT3904（自動燒錄）</td><td>C20526</td></tr>
+  <tr><td>J1</td><td>USB-C TYPE-C-31-M-12</td><td>C165948</td></tr>
+  <tr><td>J2</td><td>PH2.0 2P 臥式插座（電池）</td><td>C3029440</td></tr>
+  <tr><td>J3～J6</td><td>1.25 mm 2P 臥式插座（馬達）</td><td>C225111</td></tr>
+  <tr><td>其他</td><td>B5819W、紅色 LED、電阻、電容共 26 顆</td><td>見 BOM</td></tr>
+</table>
+<p class="hint"><b>費用估計（2026/11/18 的價目）：</b>每批固定費用約 US$82（標準貼片設定費、鋼網、治具、21～22 種料的上料費），每片零件約 US$11～12。5 片每片約 NT$1,050，20 片約 NT$550，50 片約 NT$460，以 JLC 頁面算出來的為準。</p>
+
+<h2>要另外準備的</h2>
+<table>
+  <tr><th>東西</th><th>說明</th></tr>
+  <tr><td>1S 鋰電池，<b>PH2.0 插頭</b></td><td>不是 MX2.0。PH2.0 電池的正負極各家不一定一樣，<b>插之前一定要對板上的 + / −</b></td></tr>
+  <tr><td>8520 馬達 ×4，<b>1.25 mm 2P 插頭</b></td><td>買的時候選有 1.25 mm（PicoBlade 相容）插頭的款式，跟賣家確認</td></tr>
+  <tr><td>支柱 carrier-posts.stl</td><td>和 PCB 載板版共用，3D 列印</td></tr>
+  <tr><td>M1.4×5 螺絲 ×8</td><td>支柱 4 顆、板子 4 顆</td></tr>
+  <tr><td>USB-C 線</td><td>燒錄、設定參數用</td></tr>
+  <tr><td>電池充電器</td><td>板上沒有充電電路</td></tr>
+</table>
+
+<h2>組裝步驟</h2>
+<h3>1. 折工藝邊、檢查板子</h3>
+<ol>
+  <li>沿著郵票孔把外圍工藝邊折掉，用砂紙磨平毛邊。</li>
+  <li>看 ESP32、IMU、4 個插座有沒有歪或少零件。</li>
+  <li>三用電表量：電池插座的 + 對 − 不能短路。</li>
+</ol>
+<h3>2. 先燒錄、設定（還不要裝到機身、不要插電池）</h3>
+<ol>
+  <li>USB-C 接電腦，應該會出現 CH340 序列埠（Windows 沒有的話要裝 CH340 驅動程式）。</li>
+  <li>用 ESP32 Web Flasher 燒官方 <code>flix.esp32.merged.bin</code>，Flash address 填 0。<b>不用按任何按鍵</b>。</li>
+  <li>在 Flix 主控台輸入下面兩行，然後重開機：
+    <pre><code>p IMU_MODEL 4
+p PWR_VOLT_PIN 33</code></pre></li>
+  <li>輸入 <code>imu</code>，確認 IMU 狀態正常；再用 <code>ca</code> 校正。</li>
+</ol>
+<h3>3. 裝到機身</h3>
+<ol>
+  <li>3D 列印 <a href="https://github.com/greenmail1011/flix-drone/raw/main/pcb/fab/carrier-posts.stl">carrier-posts.stl</a>（PLA、0.2 mm、4 圈牆），用 4 顆 M1.4×5 從機身底面鎖在原本 ESP32 支架的 4 個孔。</li>
+  <li>一體板 <b>FRONT 箭頭朝機頭</b>，放在支柱上，用 4 顆 M1.4×5 鎖好。</li>
+  <li>不用裝 GY-91，原本的 IMU 位置空著就好。</li>
+</ol>
+<h3>4. 插馬達、插電池</h3>
+<ol>
+  <li>4 顆馬達順著機臂插到最近的插座：<b>M0 左後、M1 右後、M2 右前、M3 左前</b>（絲印有寫）。</li>
+  <li><b>對好正負極</b>，再把電池插到後方凸片的插座。</li>
+</ol>
+<h3>5. 測試</h3>
+<ol>
+  <li><b>拆槳</b>，接上電池，用 <code>mfl</code>、<code>mfr</code>、<code>mrl</code>、<code>mrr</code> 測四顆馬達的位置和轉向。轉向反了就把那顆馬達插頭的兩條線對調（空心杯馬達的轉向由正負極決定）。</li>
+  <li>用 QGroundControl 連線，轉動機身確認姿態方向正確（IMU 方向參數 <code>IMU_ROT_*</code> 照 Flix 預設，理論上不用改）。</li>
+  <li>都正確再裝槳：A 槳（黑）裝 M1、M3，B 槳（藍）裝 M0、M2，和標準版一樣。</li>
+</ol>
+
+<p class="warn"><b>注意：</b>這塊板子還沒有實際打樣過。① <b>沒有電池反接保護</b>，電池插反時 4 顆馬達會直接轉，一定要先對正負極。② 1.25 mm 馬達插座額定 1 A，8520 全速可能超過；PH2.0 電池插座額定 2 A，四顆全速會超過，電壓會掉一些。③ IMU 方向是依 TDK 一般軸向推算的，第一次飛之前一定要用 QGroundControl 確認。④ 板子是用 Python 自動佈線產生的，不是 KiCad 畫的，下單前請看 JLC 的線上預覽和 DFM。</p>
+
+<h2>下載</h2>
+<table>
+  <tr><th>檔案</th><th>用途</th></tr>
+  <tr><td><a href="https://github.com/greenmail1011/flix-drone/raw/main/pcb2/fab/fz-flix-onboard-gerber.zip">fz-flix-onboard-gerber.zip</a></td><td>上傳 JLCPCB（Gerber＋鑽孔檔，含工藝邊）</td></tr>
+  <tr><td><a href="https://github.com/greenmail1011/flix-drone/raw/main/pcb2/fab/fz-flix-onboard-BOM.csv">fz-flix-onboard-BOM.csv</a>、<a href="https://github.com/greenmail1011/flix-drone/raw/main/pcb2/fab/fz-flix-onboard-CPL.csv">fz-flix-onboard-CPL.csv</a></td><td>貼片用的元件表、座標檔</td></tr>
+  <tr><td><a href="https://github.com/greenmail1011/flix-drone/raw/main/pcb2/fab/fz-flix-onboard-assembly.pdf">組裝圖 PDF</a></td><td>零件位置與方向</td></tr>
+  <tr><td><a href="https://github.com/greenmail1011/flix-drone/raw/main/pcb2/fab/fz-flix-onboard-schematic.pdf">原理圖 PDF</a></td><td>電路（接線表式）</td></tr>
+  <tr><td><a href="https://github.com/greenmail1011/flix-drone/raw/main/pcb2/fab/MANUFACTURING-NOTES.pdf">製造說明 PDF（中英文）</a></td><td>給廠商看的規格、方向檢查表、收板後測試</td></tr>
+  <tr><td><a href="https://github.com/greenmail1011/flix-drone/raw/main/pcb/fab/carrier-posts.stl">carrier-posts.stl</a></td><td>3D 列印支柱（和載板版共用）</td></tr>
+  <tr><td><a href="https://github.com/greenmail1011/flix-drone/tree/main/pcb2" target="_blank" rel="noopener">pcb2/ 資料夾</a></td><td>產生這些檔案的 Python 原始碼</td></tr>
+</table>
