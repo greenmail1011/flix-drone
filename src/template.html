@@ -111,7 +111,6 @@ tr.grp th{background:#e8eef7;text-align:left}
 </header>
 <nav class="vtabs">
   <a href="#standard" data-v="std" class="on">標準版<small>手機／QGroundControl 遙控</small></a>
-  <a href="#rabboni" data-v="rab">Rabboni 體感遙控版<small>傾斜 Rabboni 控制飛行</small></a>
   <a href="#pcb" data-v="pcb">PCB 載板版<small>MOSFET、排母由 JLCPCB 焊好</small></a>
   <a href="#onboard" data-v="onb">一體板版<small>全部 JLCPCB 貼好，學生免焊接</small></a>
 </nav>
@@ -176,16 +175,15 @@ tr.grp th{background:#e8eef7;text-align:left}
   </p>
 </section>
 </div>
-<div id="verRab" hidden>/*RABBONI*/</div>
 <div id="verPcb" hidden>/*PCB*/</div>
 <div id="verOnb" hidden>/*ONBOARD*/</div>
 <script>/*APP*/</script>
 <script>
 (function(){
-  var tabs=document.querySelectorAll('.vtabs a'), std=document.getElementById('verStd'), rab=document.getElementById('verRab'), pcb=document.getElementById('verPcb'), onb=document.getElementById('verOnb');
+  var tabs=document.querySelectorAll('.vtabs a'), std=document.getElementById('verStd'), pcb=document.getElementById('verPcb'), onb=document.getElementById('verOnb');
   function show(){
-    var v={'#rabboni':'rab','#pcb':'pcb','#onboard':'onb'}[location.hash]||'std';
-    std.hidden=v!=='std'; rab.hidden=v!=='rab'; pcb.hidden=v!=='pcb'; onb.hidden=v!=='onb';
+    var v={'#pcb':'pcb','#onboard':'onb'}[location.hash]||'std';
+    std.hidden=v!=='std'; pcb.hidden=v!=='pcb'; onb.hidden=v!=='onb';
     tabs.forEach(function(a){a.classList.toggle('on',a.dataset.v===v);});
     if(v==='std') setTimeout(function(){dispatchEvent(new Event('resize'));},0);
   }
