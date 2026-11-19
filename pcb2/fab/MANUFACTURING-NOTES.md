@@ -10,7 +10,7 @@ ESP32 module, IMU, USB programming, regulator and 4 motor switches on one board.
 | 檔案 File | 用途 Purpose |
 | --- | --- |
 | `fz-flix-onboard-gerber.zip` | Gerber + 鑽孔（PTH、NPTH，含 USB 外殼長圓孔）/ Gerbers + drills (incl. USB shell slots) |
-| `fz-flix-onboard-BOM.csv` | BOM（JLC 格式，22 種料件、43 個元件）|
+| `fz-flix-onboard-BOM.csv` | BOM（JLC 格式，20 種料件、43 個元件）|
 | `fz-flix-onboard-CPL.csv` | 座標檔 Pick & place（Top only）|
 | `fz-flix-onboard-assembly.pdf` | 組裝圖 Assembly drawing |
 | `fz-flix-onboard-schematic.pdf` | 原理圖（接線表式）Schematic (net-label table) |
