@@ -30,7 +30,7 @@ NXF, NYF = int(round((X1 - X0) / FINE)), int(round((Y1 - Y0) / FINE))
 NX, NY = NXF // 2, NYF // 2
 
 WIDTH = {'VBAT': 1.0, 'MOT_FL': 0.8, 'MOT_FR': 0.8, 'MOT_RL': 0.8, 'MOT_RR': 0.8,
-         'VSYS': 0.5, '3V3': 0.3, 'VBUS': 0.5, 'GND': 0.3}
+         'VSYS': 0.5, '3V3': 0.3, 'VBUS': 0.5, 'GND': 0.3, '5V': 0.4, 'SW5': 0.4}
 DEFAULT_W = 0.15
 BOTTOM_COST = 1.6
 USE_MODULE_KEEPOUT = False
@@ -265,7 +265,8 @@ class Router:
         return out
 
     # ----- 佈一個網路 -----
-    def route_net(self, net, w=None, order=None, log=True):
+    def route_net(self, net, w=None, order=None, log=True, seq=False):
+        """seq=True：照 order 的順序接（不重新依距離排序）。"""
         w = w or WIDTH.get(net, DEFAULT_W)
         pads = [p for p in B.PADS if p.net == net and p.kind != 'npth']
         if order: pads.sort(key=order)
@@ -300,9 +301,10 @@ class Router:
         rest = pads[1:]
         # 由近到遠接
         while rest:
-            tx = np.argwhere(tree['F'] | tree['B'])
-            cy, cx = tx.mean(0)
-            rest.sort(key=lambda p: (self.xy_cell(p.x, p.y)[0] - cy) ** 2 + (self.xy_cell(p.x, p.y)[1] - cx) ** 2)
+            if not seq:
+                tx = np.argwhere(tree['F'] | tree['B'])
+                cy, cx = tx.mean(0)
+                rest.sort(key=lambda p: (self.xy_cell(p.x, p.y)[0] - cy) ** 2 + (self.xy_cell(p.x, p.y)[1] - cx) ** 2)
             p = rest.pop(0)
             st = mark_pad(p)
             self._grow_tree(net, tree)

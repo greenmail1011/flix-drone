@@ -41,25 +41,33 @@ def raster_geom(geom):
         for r in p.interiors: d.polygon(tr(r.coords), fill=0)
     return np.array(im) > 127
 
+CMP_DP = 50     # v2.0.2：比對改用 50 px/mm（20 px/mm 時 0402 焊墊 0.54 mm 會有 1～2 px 的取整誤差，誤判成不一致）
+
+def set_dp(dp):
+    global DP, W, H
+    DP, W, H = dp, int(BW * dp), int(BH * dp)
+
 def compare(name, a, b):
     diff = a ^ b
-    core = binary_erosion(diff, iterations=1)
+    core = binary_erosion(diff, iterations=2)
     lab, n = label(core)
     sizes = np.bincount(lab.ravel())[1:]
-    big = int((sizes > 2).sum())
-    print(f'{name}: 設計 {b.sum()} px，Gerber {a.sum()} px；超過 0.1 mm 的差異 {big} 處')
+    big = int((sizes > 4).sum())
+    print(f'{name}: 設計 {b.sum()} px，Gerber {a.sum()} px；超過 0.08 mm 的差異 {big} 處（{DP} px/mm）')
     return big
 
 def main():
     R = pickle.load(open('/tmp/final.pkl', 'rb'))
     bad = 0
     from shapely.geometry import Point
+    set_dp(CMP_DP)
     for layer, fn in (('F', 'F_Cu.gtl'), ('B', 'B_Cu.gbl')):
         a = raster_gerber(fn)
         geoms = [f.geom for f in R.feats if f.layer == layer]
         if layer == 'F': geoms += [Point(x, y).buffer(E.FID_CU / 2, 32) for x, y in E.FIDUCIALS]
         b = raster_geom(unary_union(geoms))
         bad += compare(fn, a, b)
+    set_dp(20)
     mat = E.material()
     for side, cu, mk, sk in (('top', 'F_Cu.gtl', 'F_Mask.gts', 'F_Silkscreen.gto'), ('bottom', 'B_Cu.gbl', 'B_Mask.gbs', 'B_Silkscreen.gbo')):
         board = raster_geom(mat)

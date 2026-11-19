@@ -119,12 +119,21 @@ def top(R):
     j7 = comp('J7')
     c = P.put([(22.35, j7['y']), (22.35, j7['y'] - 0.6), (22.35, j7['y'] + 0.6)], 'I2C', 0.8, angle=-90, force=True)
     if c: g.append(c)
+    # 感測器插座 J8（v2.0.2）：編號、1 號腳記號（GND，靠安裝孔）、TX／RX 標在保護電阻旁
+    j8 = comp('J8'); p1 = pad_of('J8', '1')
+    c = P.put([(j8['x'] - 1.2, j8['y'] + 4.6), (j8['x'], j8['y'] + 4.6), (j8['x'] - 3.4, j8['y']), (j8['x'] + 3.2, j8['y'] + 4.3)], 'J8', 0.8, force=True)
+    if c: g.append(c)
+    g.append(Point(p1.x + 0.1, p1.y - 0.78).buffer(0.22))
+    for ref, t in (('R19', 'TX'), ('R20', 'RX')):
+        r = comp(ref)
+        c = P.put([(r['x'] + 1.75, r['y']), (r['x'] + 1.9, r['y'])], t, 0.6)
+        if c: g.append(c)
     # USB
     c = P.put([(-21.9, -11.0)], 'USB', 0.8, angle=90, force=True)
     if c: g.append(c)
     # IC 與其他
     for ref, s, h in (('U2', 'IMU', 0.8), ('U3', 'CH340C', 0.8), ('U4', 'U4', 0.7), ('Q5', 'Q5', 0.7), ('Q6', 'Q6', 0.7), ('Q7', 'Q7', 0.7),
-                      ('D1', 'D1', 0.7), ('D2', 'LED', 0.7)):
+                      ('D1', 'D1', 0.7), ('D2', 'LED', 0.7), ('U5', '5V', 0.7)):
         cm = comp(ref); cy = B.COURTS[ref]
         minx, miny, maxx, maxy = cy.bounds
         cands = [((minx + maxx) / 2, maxy + 0.6), ((minx + maxx) / 2, miny - 0.6), (minx - 1.2, (miny + maxy) / 2), (maxx + 1.2, (miny + maxy) / 2)]
@@ -144,7 +153,8 @@ def bottom(R):
          text('Flix params:', 0, -3.0, 0.8, mirror=m),
          text('IMU_MODEL 4   PWR_VOLT_PIN 33   PWR_VOLT_SCALE 2', 0, -4.4, 0.7, mirror=m),
          text('Motors: RL=12  RR=13  FR=14  FL=15 (default)', 0, -5.7, 0.7, mirror=m),
-         text('I2C (Qwiic): SDA=21  SCL=22', 0, -7.0, 0.7, mirror=m)]
+         text('I2C (Qwiic): SDA=21  SCL=22', 0, -7.0, 0.7, mirror=m),
+         text('J8 sensor: 1 GND  2 5V  3 TX=17  4 RX=16  5V on: IO4', 0, -8.3, 0.7, mirror=m)]
     # 背面：電池備用焊墊 + / −（背面看左右相反，字照實際位置印）
     for nm, t in (('1', '+'), ('2', '-')):
         p = pad_of('BT1', nm)

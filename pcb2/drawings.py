@@ -20,7 +20,10 @@ RED, BLUE, INK, GRY = '#c62828', '#1f5fbf', '#1d1d1f', '#777'
 
 PIN_NAMES = {
     'U1': {'1': 'GND', '2': '3V3', '3': 'EN', '9': 'IO33', '13': 'IO14', '14': 'IO12', '15': 'GND', '16': 'IO13', '23': 'IO15',
-           '24': 'IO2', '25': 'IO0', '29': 'IO5', '30': 'IO18', '31': 'IO19', '33': 'IO21', '36': 'IO22', '34': 'RXD0', '35': 'TXD0', '37': 'IO23', '38': 'GND', '39': 'EP'},
+           '24': 'IO2', '25': 'IO0', '29': 'IO5', '30': 'IO18', '31': 'IO19', '33': 'IO21', '36': 'IO22', '34': 'RXD0', '35': 'TXD0', '37': 'IO23', '38': 'GND', '39': 'EP',
+           '26': 'IO4', '27': 'IO16', '28': 'IO17'},
+    'U5': {'1': 'SW', '2': 'GND', '3': 'EN', '4': 'FB', '5': 'VOUT', '6': 'VIN'},
+    'J8': {'1': 'GND', '2': '5V', '3': 'TX', '4': 'RX'},
     'U2': {'8': 'VDDIO', '9': 'SDO', '11': 'RESV', '13': 'VDD', '18': 'GND', '19': 'FSYNC', '20': 'RESV', '22': 'nCS', '23': 'SCLK', '24': 'SDI'},
     'U3': {'1': 'GND', '2': 'TXD', '3': 'RXD', '4': 'V3', '5': 'UD+', '6': 'UD-', '13': 'DTR#', '14': 'RTS#', '16': 'VCC'},
     'U4': {'1': 'VIN', '2': 'GND', '3': 'EN', '5': 'VOUT'},
@@ -56,19 +59,22 @@ BLOCKS = [  # 標題, 元件, 位置 (x, y) 單位：格
     ('USB-C 與 USB 轉序列', ['J1', 'R5', 'R6', 'U3', 'C10'], (0, 0)),
     ('自動燒錄（DTR/RTS → EN/IO0）', ['Q6', 'Q7', 'R7', 'R8'], (0, 1)),
     ('電源：電池 / USB 切換、3.3V 穩壓', ['J2', 'C1', 'C2', 'Q5', 'R10', 'D1', 'U4', 'C3', 'C4', 'C5'], (1, 0)),
-    ('ESP32 模組、擴充 I2C', ['U1', 'R9', 'C6', 'R11', 'R12', 'C11', 'D2', 'R13', 'J7', 'R14', 'R15'], (1, 1)),
+    ('ESP32 模組、狀態燈', ['U1', 'R9', 'C6', 'R11', 'R12', 'C11', 'D2', 'R13'], (1, 1)),
+    ('擴充 I2C（Qwiic，v2.0.1）', ['J7', 'R14', 'R15'], (3, 1)),
     ('IMU（SPI）', ['U2', 'C7', 'C8', 'C9'], (2, 0)),
     ('馬達開關 ×4（低側 N-MOSFET）', ['J3', 'Q1', 'R1', 'J4', 'Q2', 'R2', 'J5', 'Q3', 'R3', 'J6', 'Q4', 'R4'], (2, 1)),
+    ('5V 升壓（IO4 開關）、感測器插座 J8（v2.0.2）', ['U5', 'L1', 'C12', 'C13', 'R16', 'R17', 'R18', 'J8', 'R19', 'R20'], (3, 0)),
 ]
+NCOL = 4
 
 
 def schematic(pdf):
     fig = plt.figure(figsize=(16.54, 11.69))   # A3 橫
     fig.suptitle(f'FutureZebra × Flix 一體板 {B.VERSION} 原理圖（同名網路標籤相連）', fontsize=15, x=0.02, ha='left', y=0.985)
-    W, H = 1 / 3, 0.47
+    W, H = 0.96 / NCOL, 0.47
     for title, refs, (cx, cy) in BLOCKS:
-        x0, y0 = 0.02 + cx * W, 0.5 - cy * H + 0.005
-        ax = fig.add_axes([x0, y0 - 0.0, W - 0.03, H - 0.04])
+        x0, y0 = 0.02 + cx * W, 0.5 - cy * H + 0.025
+        ax = fig.add_axes([x0, y0 - 0.0, W - 0.012, H - 0.055])
         ax.set_xlim(0, 10); ax.set_ylim(0, 10); ax.axis('off')
         ax.add_patch(Rectangle((0, 0), 10, 10, fill=False, ec=GRY, lw=0.8, ls='--'))
         ax.text(0.2, 9.6, title, fontsize=10.5, weight='bold', va='top')
@@ -79,20 +85,21 @@ def schematic(pdf):
             val = B.PARTS[c['part']][0]
             pins = pins_of(ref)
             ax.text(0.3, y, ref, fontsize=8.5, weight='bold', va='center', family='DejaVu Sans')
-            ax.text(1.3, y, val, fontsize=7.2, va='center', color=GRY, family='DejaVu Sans')
+            ax.text(1.3, y, val[:22], fontsize=6.6, va='center', color=GRY, family='DejaVu Sans')
             line = '   '.join(f'{pname(ref, n)}→{net}' for n, net in pins)
             # 換行
             words, cur, lines = line.split('   '), '', []
             for w_ in words:
-                if len(cur) + len(w_) > 40: lines.append(cur); cur = w_
+                if len(cur) + len(w_) > 30: lines.append(cur); cur = w_
                 else: cur = (cur + '   ' + w_) if cur else w_
             lines.append(cur)
             for k, ln in enumerate(lines):
-                ax.text(4.6 if k == 0 else 1.3, y - k * 0.42, ln, fontsize=6.6, va='center', family='DejaVu Sans Mono',
+                ax.text(4.9 if k == 0 else 1.3, y - k * 0.42, ln, fontsize=6.0, va='center', family='DejaVu Sans Mono',
                         color=INK)
             y -= 0.48 + 0.42 * (len(lines) - 1) + 0.1
     fig.text(0.02, 0.004, '馬達接腳照 Flix 韌體預設：RL=IO12、RR=IO13、FR=IO14、FL=IO15；IMU：SCK=IO18、MISO=IO19、MOSI=IO23、CS=IO5；'
              'LED=IO2；電池分壓→IO33（PWR_VOLT_PIN=33、PWR_VOLT_SCALE=2）；IMU_MODEL=4（ICM-40609-D）；擴充 J7 Qwiic：SDA=IO21、SCL=IO22。\n'
+             'J8（v2.0.2）：1 GND、2 5V、3 TX（IO17 經 R19 1k）、4 RX（IO16 經 R20 1k），和 MicoAir MTF-02 一對一直通；5V 由 U5 TLV61070A 從 VSYS 升壓，IO4 = 1 才開（R18 下拉，開機預設關），Vout = 0.5×(1+20k/2.2k) = 5.05 V。\n'
              'BT1：電池備用通孔焊墊（+ = VBAT、− = GND，和 J2 並聯，不貼片、不進 BOM）。', fontsize=8.5, color=INK)
     pdf.savefig(fig); fig.savefig(os.path.join(OUT, f'{NAME}-schematic.png'), dpi=110); fig.savefig(os.path.join(OUT, f'{NAME}-schematic.svg'))
     plt.close(fig)
@@ -118,13 +125,14 @@ def assembly(pdf, R):
         ax.text(cx, cy, c['ref'], ha='center', va='center', fontsize=fs, color=BLUE, weight='bold', family='DejaVu Sans')
     # 方向標記：MOSFET 的 D、二極體 K、LED K、IMU 第 1 腳
     for c in B.COMPS:
-        mark = {'AO3400A': '3', 'AO3401A': '3', 'MMBT3904': '3', 'B5819W': '1', 'LED': '1', 'IMU': '1', 'CH340C': '1', 'LDO': '1'}.get(c['part'])
+        mark = {'AO3400A': '3', 'AO3401A': '3', 'MMBT3904': '3', 'B5819W': '1', 'LED': '1', 'IMU': '1', 'CH340C': '1', 'LDO': '1',
+                'TLV61070A': '1', 'SH4V': '1'}.get(c['part'])
         if not mark: continue
         p = [q for q in B.PADS if q.ref == c['ref'] and q.name == mark][0]
         ax.add_patch(Circle((p.x, p.y), 0.22, fc=RED, ec='none'))
     ax.add_patch(MPoly([(0, 20.5), (-1.2, 18.6), (1.2, 18.6)], closed=True, fc=INK))
     ax.text(0, 17.6, 'FRONT（機頭）', ha='center', fontsize=9)
-    ax.text(-25.5, -27.8, '紅點：MOSFET/電晶體第 3 腳（D/C）、二極體與 LED 的陰極（K）、IC 第 1 腳。藍框：元件外框。座標原點在板子中心（機身中心）。',
+    ax.text(-25.5, -27.8, '紅點：MOSFET/電晶體第 3 腳（D/C）、二極體與 LED 的陰極（K）、IC 與 J8 第 1 腳。藍框：元件外框。座標原點在板子中心（機身中心）。',
             fontsize=8, color=INK)
     fig.suptitle(f'FutureZebra × Flix 一體板 {B.VERSION} 組裝圖（正面，只有正面有零件）', fontsize=13, x=0.03, ha='left')
     pdf.savefig(fig); fig.savefig(os.path.join(OUT, f'{NAME}-assembly.png'), dpi=130)

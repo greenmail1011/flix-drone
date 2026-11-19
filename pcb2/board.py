@@ -13,7 +13,7 @@ from shapely.ops import unary_union
 from fp import Footprint, place, transform_pts
 
 NAME = 'fz-flix-onboard'
-VERSION = 'v2.0.1'
+VERSION = 'v2.0.2'
 BOARD_T = 1.0
 
 # ---------------- 板子外框（與載板 v1.x 相同外形，後方凸片加長放 USB-C） ----------------
@@ -43,10 +43,14 @@ FP = {
     'PH2': 'Connector_JST.pretty/JST_PH_S2B-PH-SM4-TB_1x02-1MP_P2.00mm_Horizontal',
     'PICO2': 'Connector_Molex.pretty/Molex_PicoBlade_53261-0271_1x02-1MP_P1.25mm_Horizontal',
     'SH4': 'Connector_JST.pretty/JST_SH_SM04B-SRSS-TB_1x04-1MP_P1.00mm_Horizontal',
+    'SH4V': 'Connector_JST.pretty/JST_SH_BM04B-SRSS-TB_1x04-1MP_P1.00mm_Vertical',
+    'SOT236': 'Package_TO_SOT_SMD.pretty/SOT-23-6',
+    'R0402': 'Resistor_SMD.pretty/R_0402_1005Metric',
 }
 import os as _os
 _HERE = _os.path.dirname(_os.path.abspath(__file__))
 BATPAD_FP = _os.path.join(_HERE, 'fp_custom', 'BatteryPads_THT_P12mm')
+FP['L2016'] = _os.path.join(_HERE, 'fp_custom', 'L_Sunlord_WPN2016')   # v2.0.2 升壓電感（自訂封裝）
 _cache = {}
 def fpobj(k):
     if k not in _cache: _cache[k] = Footprint(FP[k])
@@ -75,6 +79,14 @@ PARTS = {
     '2.2u': ('2.2uF 16V X5R 0603', 'C23630', '0603'),
     '100n': ('100nF 50V X7R 0603', 'C14663', '0603'),
     '10n': ('10nF 50V X7R 0603', 'C57112', '0603'),
+    # v2.0.2：J8 感測器插座與 5V 升壓
+    'TLV61070A': ('TLV61070ADBVR', 'C6881375', 'SOT-23-6'),
+    'L1u': ('WPN201610H1R0MT 1uH', 'C97002', 'SMD,2x1.6mm'),
+    'SH4V': ('BM04B-SRSS-TB(LF)(SN)', 'C160390', 'SMD,P=1mm,Vertical'),
+    '20k': ('20kΩ ±1% 0402', 'C25765', '0402'),
+    '2.2k': ('2.2kΩ ±1% 0402', 'C25879', '0402'),
+    '100k-0402': ('100kΩ ±1% 0402', 'C25741', '0402'),
+    '1k': ('1kΩ ±1% 0402', 'C11702', '0402'),
 }
 
 # (ref, 料件, 封裝, x, y, 旋轉, {焊墊: 網路}, 說明)
@@ -84,7 +96,7 @@ def add(ref, part, fpk, x, y, rot, nets, note=''):
 
 # ESP32 模組：天線朝機頭（+Y），底面中心 (0, 3.75)
 U1_ORIGIN = (0.0, 3.75)
-esp = {'1': 'GND', '15': 'GND', '38': 'GND', '39': 'GND', '2': '3V3', '3': 'EN', '33': 'SDA', '36': 'SCL',
+esp = {'26': 'BOOST_EN', '27': 'RX2', '28': 'TX2', '1': 'GND', '15': 'GND', '38': 'GND', '39': 'GND', '2': '3V3', '3': 'EN', '33': 'SDA', '36': 'SCL',
        '9': 'VSENSE', '13': 'GATE_FR', '14': 'GATE_RL', '16': 'GATE_RR', '23': 'GATE_FL', '24': 'LED',
        '25': 'IO0', '29': 'CS', '30': 'SCK', '31': 'MISO', '34': 'RXD0', '35': 'TXD0', '37': 'MOSI'}
 add('U1', 'ESP32', 'ESP32', *U1_ORIGIN, 0, esp, '主控')
@@ -132,8 +144,9 @@ add('U3', 'CH340C', 'SOIC16', -4.2, -11.2, 270,
 add('C10', '100n', 'C0603', 1.75, -14.4, 90, {'1': '3V3', '2': 'GND'}, 'CH340 VCC')
 add('Q6', 'MMBT3904', 'SOT23', 4.2, -9.4, 0, {'1': 'Q6B', '2': 'RTS', '3': 'EN'}, '自動重置（EN）')
 add('Q7', 'MMBT3904', 'SOT23', 4.2, -13.0, 0, {'1': 'Q7B', '2': 'DTR', '3': 'IO0'}, '自動進燒錄（IO0）')
-add('R7', '10k', 'R0603', 7.4, -9.4, 90, {'1': 'DTR', '2': 'Q6B'}, 'Q6 基極')
-add('R8', '10k', 'R0603', 7.4, -13.0, 90, {'1': 'RTS', '2': 'Q7B'}, 'Q7 基極')
+# v2.0.2：R7、R8 往左移 0.75 mm、R8 往上 0.4 mm，讓出 J8 的位置
+add('R7', '10k', 'R0603', 6.65, -9.4, 90, {'1': 'DTR', '2': 'Q6B'}, 'Q6 基極')
+add('R8', '10k', 'R0603', 6.65, -12.6, 90, {'1': 'RTS', '2': 'Q7B'}, 'Q7 基極')
 
 # 電源切換：電池/USB → VSYS（左後方，USB 與電池之間）
 add('Q5', 'AO3401A', 'SOT23', -10.3, -17.7, 0, {'1': 'VBUS', '2': 'VSYS', '3': 'VBAT'}, '電池/USB 切換')
@@ -161,6 +174,25 @@ add('R13', '5.1k', 'R0603', 17.0, -16.0, 0, {'1': 'LED', '2': 'LEDA'}, 'LED 限�
 add('J7', 'SH4', 'SH4', 19.3, -9.9, 90, {'1': 'GND', '2': '3V3', '3': 'SDA', '4': 'SCL', 'MP': 'MP_J7'}, '擴充 I2C（Qwiic）')
 add('R14', '5.1k', 'R0603', 20.3, -14.9, 0, {'1': '3V3', '2': 'SDA'}, 'SDA 上拉')
 add('R15', '5.1k', 'R0603', 20.3, -16.4, 0, {'1': '3V3', '2': 'SCL'}, 'SCL 上拉')
+
+# 感測器插座 J8（v2.0.2）：JST SH 1.0 mm 4P 立式（BM04B），右後方、四個板邊都滿了所以用立式。
+# 腳位 1 GND、2 5V、3 TX（IO17 經 R19 1k）、4 RX（IO16 經 R20 1k）——和 MicoAir MTF-01/02 的 GND、5V、Rx、Tx 一對一直通。
+# 轉 90°：訊號腳朝右（+X），1 號腳在最下面（靠安裝孔），固定腳在左邊。
+J8_XY = (10.0, -15.22)
+add('J8', 'SH4V', 'SH4V', *J8_XY, 90, {'1': 'GND', '2': '5V', '3': 'TX2_J', '4': 'RX2_J', 'MP': 'MP_J8'}, '感測器 UART＋5V')
+add('R19', '1k', 'R0402', 13.55, J8_XY[1] + 0.5, 0, {'1': 'TX2_J', '2': 'TX2'}, 'TX 串聯保護')
+add('R20', '1k', 'R0402', 13.55, J8_XY[1] + 1.5, 0, {'1': 'RX2_J', '2': 'RX2'}, 'RX 串聯保護')
+
+# 5V 升壓（v2.0.2）：TI TLV61070A，VIN 接 VSYS（只插 USB 也能測），EN = IO4（R18 下拉，開機預設關）。
+# Vout = 0.5 V ×（1 + 20k / 2.2k）= 5.05 V。轉 270°：上排 EN、GND、SW；下排 FB、VOUT、VIN。
+add('U5', 'TLV61070A', 'SOT236', 11.9, -7.3, 270,
+    {'1': 'SW5', '2': 'GND', '3': 'BOOST_EN', '4': 'FB5', '5': '5V', '6': 'VSYS'}, '5V 升壓')
+add('L1', 'L1u', 'L2016', 14.85, -7.3, 90, {'1': 'VSYS', '2': 'SW5'}, '升壓電感 1 µH')
+add('C12', '10u', 'C0603', 14.85, -10.1, 270, {'1': 'VSYS', '2': 'GND'}, '升壓輸入')
+add('C13', '22u', 'C0805', 11.9, -10.33, 0, {'1': '5V', '2': 'GND'}, '升壓輸出')
+add('R18', '100k-0402', 'R0402', 9.25, -7.3, 180, {'1': 'BOOST_EN', '2': 'GND'}, 'EN 下拉')
+add('R17', '2.2k', 'R0402', 9.25, -8.45, 180, {'1': 'FB5', '2': 'GND'}, 'FB 下')
+add('R16', '20k', 'R0402', 9.25, -9.6, 180, {'1': 'FB5', '2': '5V'}, 'FB 上')
 
 
 def build():

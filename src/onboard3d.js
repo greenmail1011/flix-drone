@@ -40,13 +40,18 @@ export const OSTEPS = [
     how: '電池從機尾推進機身下方的電池槽，電池線往上繞到後方凸片，插進 PH2.0 插座。插之前先確認電池插頭的紅線對板上的 +（PH2.0 電池正負極各家不一定一樣）。',
     check: ['紅線對 +、黑線對 −', '插上後沒有零件發燙', '電池線不會碰到槳'],
     cam: [0, -18, 2, 0.45, -1.0, 0.4, 150] },
+  { t: '（選配）插感測器線 J8', parts: ['sensor'],
+    how: '要做定高時才需要。J8 是直立的 4P 插座（JST SH 1.0 mm），在板子右後方、安裝孔旁邊。插之前先用三用電表確認 MTF-02 附的線是「直通線」（兩端 1 號腳相通）。插頭從上往下插到底，再點一點熱熔膠固定，線沿著機身後方往下拉到電池下面的感測器。J8 的 5V 平常是關的，程式把 IO4 拉高才會有電。',
+    check: ['附線是直通線（1↔1、4↔4）', '插頭插到底、有熱熔膠固定', '線不會碰到槳，也不會被電池壓住'],
+    cam: [10, -16, 10, 0.3, -0.85, 0.7, 75] },
   { t: '校正、測試、裝槳', parts: ['props'],
     how: '先拆槳，接上電池，用 QGroundControl 連線，ca 校正；用 mfl、mfr、mrl、mrr 測四顆馬達的位置和轉向。轉向反了就把那顆插頭的兩條線對調。都正確再裝槳：A 槳（黑）裝 M1、M3，B 槳（藍）裝 M0、M2。',
     check: ['四顆馬達位置、轉向都對', 'QGroundControl 轉動機身，姿態方向正確', '槳裝對型號、鎖緊'],
     cam: [0, 0, 0, 0.6, -0.8, 0.75, 270] },
 ];
 const LABEL = { frame: '機身', motors: '馬達 ×4', posts: '支柱（carrier-posts）', screwB: 'M1.4×5 ×4（從底面）', board: '一體板', usb: 'USB-C 線（接電腦）',
-  screwT: 'M1.4×5 ×4（從上面）', plugs: '馬達插頭 ×4', battery: '電池（PH2.0 插頭）', props: '槳 ×4' };
+  screwT: 'M1.4×5 ×4（從上面）', plugs: '馬達插頭 ×4', battery: '電池（PH2.0 插頭）', sensor: '感測器線（J8，選配）', props: '槳 ×4' };
+const STEP_SENSOR = OSTEPS.findIndex(s => s.parts.includes('sensor')) + 1, STEP_PROPS = OSTEPS.length;
 
 let inited = false;
 export function initOnboard3D() {
@@ -175,15 +180,25 @@ export function initOnboard3D() {
     } else if (c.part === 'USBC') {
       g.add(box(w, d, 3.2, metal(0xc9cdd2, 0.22), cx, cy, 0));
       const hole = box(0.2, 8.2, 2.4, mat(0x111111), bx0 - 0.05, cy, 0.4); g.add(hole);
+    } else if (c.part === 'TLV61070A') {   // SOT-23-6
+      const bw = alongX ? 2.9 : 1.6, bd = alongX ? 1.6 : 2.9;
+      g.add(box(bw, bd, 1.1, BLK, cx, cy, 0.05));
+      for (const sd of [-1, 1]) for (const t of [-0.95, 0, 0.95]) g.add(alongX ? box(0.4, 0.8, 0.2, TIN, cx + t, cy + sd * 1.1, 0) : box(0.8, 0.4, 0.2, TIN, cx + sd * 1.1, cy + t, 0));
+    } else if (c.part === 'L1u') {         // 2016 功率電感
+      g.add(box(alongX ? 1.4 : 1.6, alongX ? 1.6 : 1.4, 1.0, mat(0x3a3d42, { roughness: 0.7 }), cx, cy, 0));
+      for (const sd of [-1, 1]) g.add(alongX ? box(0.3, 1.6, 1.0, TIN, cx + sd * 0.85, cy, 0) : box(1.6, 0.3, 1.0, TIN, cx, cy + sd * 0.85, 0));
+    } else if (c.part === 'SH4V') {        // JST SH 4P 立式（J8）：插頭從上面插
+      g.add(box(w, d, 4.25, CREAM, cx, cy, 0));
+      g.add(box(alongX ? 4.4 : 1.4, alongX ? 1.4 : 4.4, 0.2, mat(0x3a3a3a), cx, cy, 4.2));
     } else if (c.part === 'PH2' || c.part === 'PICO2' || c.part === 'SH4') {
       const h = c.part === 'PH2' ? 4.6 : c.part === 'SH4' ? 2.95 : 3.4;
       g.add(box(w, d, h, CREAM, cx, cy, 0));
       const open = c.part === 'PH2' ? box(5.6, 0.2, h - 1.2, mat(0x3a3a3a), cx, by0 - 0.05, 0.6) : box(0.2, c.part === 'SH4' ? 4.0 : 4.4, h - 1.0, mat(0x3a3a3a), c.x < 0 ? bx0 - 0.05 : bx1 + 0.05, cy, 0.5);
       g.add(open);
-    } else {   // 0603 / 0805 被動元件
+    } else {   // 0402 / 0603 / 0805 被動元件
       const isC = /[nuμ]$/.test(c.part) || /u$/.test(c.part), isR = !isC;
-      const big = long > 1.8, h = isR ? 0.45 : (big ? 1.25 : 0.8);
-      const bl = big ? 2.0 : 1.6, bw2 = big ? 1.25 : 0.8;
+      const big = long > 1.8, tiny = long < 1.3, h = isR ? (tiny ? 0.35 : 0.45) : (big ? 1.25 : 0.8);
+      const bl = big ? 2.0 : tiny ? 1.0 : 1.6, bw2 = big ? 1.25 : tiny ? 0.5 : 0.8;
       g.add(alongX ? box(bl - 0.6, bw2, h, isR ? BLK : TAN, cx, cy, 0) : box(bw2, bl - 0.6, h, isR ? BLK : TAN, cx, cy, 0));
       for (const s of [-1, 1]) g.add(alongX ? box(0.3, bw2, h, TIN, cx + s * (bl / 2 - 0.15), cy, 0) : box(bw2, 0.3, h, TIN, cx, cy + s * (bl / 2 - 0.15), 0));
     }
@@ -234,7 +249,16 @@ export function initOnboard3D() {
   [[-1, 0xd62828], [1, 0x161616]].forEach(([s, col]) => bat.add(tube([[s * 1.0, -22.6, 4.2], [s * 1.0, -30, 6], [s * 1.0, -34, 14], [s * 1.0, py - 6, pz + 3.5], [s * 1.0, py - 3, pz + 1.9]], 0.5, col)));
   add('battery', bat, V(0, 0, -10), { step: 6, entry: V(0, -70, 0) });
 
-  // ---------- 7. 槳 ----------
+  // ---------- 7.（選配）J8 感測器插頭與線（示意：線往後、往下到電池下面的感測器）----------
+  const sen = new THREE.Group();
+  const j8 = OB.comps.find(c => c.ref === 'J8'), sx = (j8.bx[0] + j8.bx[1]) / 2, sy = (j8.by[0] + j8.by[1]) / 2, sz = TOP + 4.25;
+  sen.add(box(1.9, 5.9, 2.9, mat(0xf7f5ee, { roughness: 0.55 }), sx, sy, sz));
+  sen.add(box(2.4, 6.4, 0.8, mat(0xfff8d8, { roughness: 0.3, transparent: true, opacity: 0.75 }), sx, sy, sz + 2.6));   // 熱熔膠
+  [[-1.5, 0x161616], [-0.5, 0xd62828], [0.5, 0xe8c21c], [1.5, 0x2e9e4f]].forEach(([o, col]) =>
+    sen.add(tube([[sx, sy + o, sz + 2.9], [sx + 1, sy + o, sz + 7], [sx + 6, sy + o - 6, sz + 6], [sx + 9, -30, 4], [sx + 7, -32, -6], [4 + o * 0.6, -24, -12.5]], 0.32, col)));
+  add('sensor', sen, V(), { step: STEP_SENSOR, entry: V(0, 0, 22) });
+
+  // ---------- 8. 槳 ----------
   function blade(ccw) {
     const NR = 30, NC = 10, r0 = 2.2, r1 = 27.5, pos = [], idx = [];
     for (let i = 0; i <= NR; i++) {
@@ -255,7 +279,7 @@ export function initOnboard3D() {
     const A = m.cw, M = mat(A ? 0x26282b : 0x1f6fd1, { roughness: 0.45, side: THREE.DoubleSide }), g = new THREE.Group(), bg = blade(!m.cw);
     [0, Math.PI].forEach(a => { const b = new THREE.Mesh(bg, M); b.rotation.z = a; g.add(b); });
     g.add(cyl(2.3, 4.6, M, 0, 0, -1.9, 24));
-    add('props', g, V(m.mx * ARM, m.my * ARM, 14.2), { step: 7, entry: V(0, 0, 30) });
+    add('props', g, V(m.mx * ARM, m.my * ARM, 14.2), { step: STEP_PROPS, entry: V(0, 0, 30) });
     spin.push({ g, dir: m.cw ? -1 : 1 });
   });
 
@@ -263,7 +287,7 @@ export function initOnboard3D() {
   const tags = {};
   const mk = (cls, html) => { const el = document.createElement('div'); el.className = cls; el.innerHTML = html; el.style.display = 'none'; view.appendChild(el); return el; };
   Object.entries(LABEL).forEach(([id, t]) => { if (id !== 'plugs') tags[id] = mk('lbl', t); });   // 插頭用下面的 M0～M3 標籤
-  const LOFF = { frame: V(30, -38, 4), motors: V(0, 0, 14), posts: V(0, -18, 10), screwB: V(0, 0, -3), board: V(0, 6, 8), usb: V(-48, -16, 4), screwT: V(0, 0, 3), plugs: V(0, 0, 0), battery: V(0, -8, 12), props: V(0, 0, 6) };
+  const LOFF = { frame: V(30, -38, 4), motors: V(0, 0, 14), posts: V(0, -18, 10), screwB: V(0, 0, -3), board: V(0, 6, 8), usb: V(-48, -16, 4), screwT: V(0, 0, 3), plugs: V(0, 0, 0), battery: V(0, -8, 12), sensor: V(10, -14, 14), props: V(0, 0, 6) };
   const mtag = MOT.map(m => ({ m, el: mk('mtag ' + (m.cw ? 'cw' : 'ccw'), `<b>M${m.no} ${m.name}</b><br>${m.cw ? '順時針' : '逆時針'}・${m.cw ? 'A 槳' : 'B 槳'}`) }));
   const ptag = plugTags.map(t => ({ ...t, el: mk('mtag ' + (t.m.cw ? 'cw' : 'ccw'), `<b>M${t.m.no}</b> 插這裡`) }));
   const batTag = mk('mtag cw', '<b>紅線 → +</b><br>先對極性再插');
@@ -316,14 +340,14 @@ export function initOnboard3D() {
     const dt = Math.min(0.05, (now - last) / 1000); last = now;
     const u = anim ? Math.min(1, (now - anim.t0) / anim.dur) : 1; applyStep(step, u); if (u >= 1) anim = null;
     if (camGoal) { const k = 1 - Math.pow(0.002, dt); controls.target.lerp(camGoal.target, k); camera.position.lerp(camGoal.pos, k); if (camera.position.distanceTo(camGoal.pos) < 0.3) camGoal = null; }
-    if (step === 7 && !anim && ui('oSpin').checked) spin.forEach(p => { p.g.rotation.z += p.dir * dt * 7; });
+    if (step === STEP_PROPS && !anim && ui('oSpin').checked) spin.forEach(p => { p.g.rotation.z += p.dir * dt * 7; });
     controls.update(); renderer.render(scene, camera);
     const showL = ui('oLabels').checked && !anim, parts = OSTEPS[step - 1].parts;
     Object.entries(tags).forEach(([id, el]) => {
       const it = items.find(i => i.id === id);
       place(el, it ? it.obj.getWorldPosition(V()).add(LOFF[id] || V()).add(id === 'plugs' ? V(-34, -4, 16) : V()) : V(), showL && it && it.obj.visible && parts.includes(id));
     });
-    mtag.forEach(({ m, el }) => place(el, V(m.mx * (ARM + 16), m.my * (ARM + 16), 26), showL && (step === 1 || step === 7)));
+    mtag.forEach(({ m, el }) => place(el, V(m.mx * (ARM + 16), m.my * (ARM + 16), 26), showL && (step === 1 || step === STEP_PROPS)));
     ptag.forEach(({ p, el }) => place(el, p, showL && step === 5));
     place(batTag, V(0, -40, 26), showL && step === 6);
     place(frontTag, V(0, 64, FRAME_TOP), ui('oLabels').checked);

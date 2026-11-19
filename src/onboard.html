@@ -7,7 +7,7 @@
     <div id="oView"></div>
     <div class="ctrl">
       <label><input id="oLabels" type="checkbox" checked> 名稱標籤</label>
-      <label><input id="oSpin" type="checkbox" checked> 轉動（步驟 7）</label>
+      <label><input id="oSpin" type="checkbox" checked> 轉動（步驟 8）</label>
       <label><input id="oXray" type="checkbox"> 機身半透明</label>
       <span class="hint">拖曳旋轉、滾輪縮放、右鍵平移。板子表面是出給工廠的 Gerber 算圖，零件位置照設計檔。</span>
     </div>
@@ -32,7 +32,7 @@
   <figure><img src="data:image/jpeg;base64,/*IMG_TOP*/" alt="一體板正面"><figcaption>正面（工廠出貨的樣子，外圍一圈是工藝邊，收到後折掉）：中間大塊是 ESP32 模組（天線朝 FRONT），右邊小方塊是 IMU，左下是 USB-C 和 CH340C 燒錄晶片，四角是馬達插座，後方凸片是電池插座</figcaption></figure>
   <figure><img src="data:image/jpeg;base64,/*IMG_ASM*/" alt="一體板組裝圖"><figcaption>組裝圖：每個零件的位號和位置。紅點是方向記號（MOSFET 第 3 腳、二極體陰極、IC 第 1 腳），JLC 貼片預覽要對照這張圖</figcaption></figure>
 </div>
-<p class="hint">板子本體 46 × 45.5 mm（含工藝邊 70 × 70 mm），板厚 1.0 mm，2 層板。圖是由出給工廠的 Gerber 檔算出來的。設計規則檢查 0 錯誤、32 個網路全部連通。</p>
+<p class="hint">板子本體 46 × 45.5 mm（含工藝邊 70 × 70 mm），板厚 1.0 mm，2 層板。圖是由出給工廠的 Gerber 檔算出來的。版本 v2.0.2（加了感測器插座 J8 和 5V 升壓）。設計規則檢查 0 錯誤、42 個網路全部連通。</p>
 
 <h2>三個版本比一比</h2>
 <div style="overflow-x:auto">
@@ -44,7 +44,7 @@
   <tr><td>USB 燒錄</td><td>MINI32 上的 USB</td><td>MINI32 上的 USB</td><td>板上 USB-C＋CH340C，自動燒錄，不用按鍵</td></tr>
   <tr><td>馬達接法</td><td>焊在 MOSFET 上</td><td>焊在載板上</td><td><b>插 1.25 mm 2P 插座</b></td></tr>
   <tr><td>電池接法</td><td>MX2.0 線焊到主板</td><td>MX2.0 線焊到載板</td><td><b>插 PH2.0 2P 插座</b>（另有備用通孔焊墊）</td></tr>
-  <tr><td>擴充接口</td><td>—</td><td>—</td><td><b>4P I2C（Qwiic）</b>，給測距、光流等感測器</td></tr>
+  <tr><td>擴充接口</td><td>—</td><td>—</td><td><b>4P I2C（Qwiic）</b>＋<b>4P 感測器插座 J8</b>（UART＋可開關的 5V，給 MTF-02 光流測距）</td></tr>
   <tr><td>學生要焊的</td><td>約 40 個焊點</td><td>16 條線</td><td><b>0</b></td></tr>
   <tr><td>韌體</td><td>官方 bin，不用改參數</td><td>官方 bin，不用改參數</td><td>官方 bin，設 3 個參數</td></tr>
   <tr><td>每片板子成本</td><td>—</td><td>約 US$5～6（5 片）</td><td>5 片約 NT$1,050／片；20 片約 NT$550；50 片約 NT$460</td></tr>
@@ -62,6 +62,8 @@
   <tr><td>電池電壓</td><td>100 kΩ／100 kΩ 分壓 → IO33</td></tr>
   <tr><td>指示燈</td><td>紅色 LED → IO2</td></tr>
   <tr><td>擴充 I2C（J7）</td><td>JST SH 1.0 mm 4P，Qwiic／STEMMA QT 腳位：1 GND、2 3.3 V、3 SDA＝IO21、4 SCL＝IO22，板上 5.1 kΩ 上拉。可以直接插 Qwiic 感測器（例如 VL53L1X 測距），也可以在程式裡把 IO21／IO22 改成 UART 接光流模組。未來要做定高、定點、群飛時用</td></tr>
+  <tr><td>感測器插座（J8，v2.0.2）</td><td>JST SH 1.0 mm 4P <b>立式</b>，在右後方安裝孔旁邊。腳位 <b>1 GND、2 5V、3 TX、4 RX</b>，和 MicoAir MTF-02（MTF-01 也一樣）一對一直通。TX＝IO17、RX＝IO16（ESP32 的 UART2），各串一顆 <b>1 kΩ 保護電阻</b>（R19、R20）：接錯線或靜電時保護 ESP32 的腳</td></tr>
+  <tr><td>5V 升壓（v2.0.2）</td><td>TI TLV61070A（U5）把系統電源升到 <b>5.05 V</b> 給 J8。<b>IO4 控制開關</b>（R18 下拉）：開機、燒錄時是關的，程式把 IO4 拉高才有電；關掉時輸出完全斷開。只插 USB 也能用，方便在桌上測感測器。輸出有短路保護</td></tr>
   <tr><td>電池備用焊墊（BT1）</td><td>後方凸片兩側的兩個通孔（左 +、右 −），和 PH2.0 插座並聯，<b>平常不用</b>。如果 PH2.0 壓降太大，可以焊一條 BT2.0 或 XT30 電池線上去（這時就不要再插 PH2.0 電池）</td></tr>
 </table>
 <p class="hint">板上<b>沒有充電電路</b>，電池要拔下來用充電器（例如 TP4056 充電板）充。</p>
@@ -71,7 +73,7 @@
   <li>到 <a href="https://cart.jlcpcb.com/quote" target="_blank" rel="noopener">JLCPCB 線上報價</a>，登入後按 <b>Add gerber file</b>，上傳 <a href="https://github.com/greenmail1011/flix-drone/raw/main/pcb2/fab/fz-flix-onboard-gerber.zip">fz-flix-onboard-gerber.zip</a>。應該自動讀到 <b>2 層、70 × 70 mm</b>（含工藝邊）。</li>
   <li>照下表設定 PCB 選項，其他用預設值。</li>
   <li>打開 <b>PCB Assembly</b>，選 <b>Standard</b>（ESP32 模組只能用標準貼片），按 <b>NEXT</b>。</li>
-  <li>上傳 <a href="https://github.com/greenmail1011/flix-drone/raw/main/pcb2/fab/fz-flix-onboard-BOM.csv">BOM</a> 和 <a href="https://github.com/greenmail1011/flix-drone/raw/main/pcb2/fab/fz-flix-onboard-CPL.csv">座標檔（CPL）</a>，確認 21 種料全部配到料號、都有庫存。</li>
+  <li>上傳 <a href="https://github.com/greenmail1011/flix-drone/raw/main/pcb2/fab/fz-flix-onboard-BOM.csv">BOM</a> 和 <a href="https://github.com/greenmail1011/flix-drone/raw/main/pcb2/fab/fz-flix-onboard-CPL.csv">座標檔（CPL）</a>，確認 28 種料全部配到料號、都有庫存。</li>
   <li><b>看貼片預覽</b>，照下面的「方向檢查表」逐顆對。座標檔用 KiCad 的旋轉慣例，JLC 預覽可能有零件轉錯方向，不對就在預覽裡旋轉。</li>
   <li>上傳後也看一下 JLC 的線上 Gerber 檢視和 DFM 檢查結果。</li>
   <li>右邊運費把國家改成台灣，選<b>順豐 SF Express</b>，再結帳。</li>
@@ -102,6 +104,9 @@
   <tr><td>J2 PH2.0 電池插座</td><td>開口朝<b>後</b>（後方凸片）</td></tr>
   <tr><td>J3～J6 馬達插座</td><td>開口朝左右板邊</td></tr>
   <tr><td>J7 擴充插座</td><td>開口朝<b>右</b>板邊</td></tr>
+  <tr><td>U5 TLV61070A（5V 升壓）</td><td>第 1 腳（SW）在<b>右上</b>，靠電感 L1</td></tr>
+  <tr><td>L1 1 µH 電感</td><td>沒有方向；在 U5 右邊，兩個焊墊上下排</td></tr>
+  <tr><td>J8 感測器插座（立式）</td><td>插口朝<b>上</b>；4 支訊號腳朝右、兩個固定腳在左；第 1 腳在<b>最下面</b>（靠安裝孔）</td></tr>
 </table>
 <p class="hint">1.25 mm 馬達插座（C225111）和 PH2.0 電池插座（C3029440）用的是 KiCad 裡 Molex 53261／JST S2B-PH-SM4-TB 的封裝（相容品），預覽時要確認焊墊有對上。</p>
 
@@ -119,9 +124,12 @@
   <tr><td>J2</td><td>PH2.0 2P 臥式插座（電池）</td><td>C3029440</td></tr>
   <tr><td>J3～J6</td><td>1.25 mm 2P 臥式插座（馬達）</td><td>C225111</td></tr>
   <tr><td>J7</td><td>JST SH 1.0 mm 4P 臥式插座（擴充 I2C）</td><td>C160404</td></tr>
-  <tr><td>其他</td><td>B5819W、紅色 LED、電阻、電容共 28 顆</td><td>見 BOM</td></tr>
+  <tr><td>J8</td><td>JST SH 1.0 mm 4P 立式插座（感測器，v2.0.2）</td><td>C160390</td></tr>
+  <tr><td>U5</td><td>TLV61070A 5V 升壓（v2.0.2）</td><td>C6881375</td></tr>
+  <tr><td>L1</td><td>Sunlord WPN201610H 1 µH 電感（v2.0.2）</td><td>C97002</td></tr>
+  <tr><td>其他</td><td>B5819W、紅色 LED、電阻、電容共 35 顆</td><td>見 BOM</td></tr>
 </table>
-<p class="hint"><b>費用估計（2026/11/18 的價目）：</b>每批固定費用約 US$82（標準貼片設定費、鋼網、治具、21 種料的上料費），每片零件約 US$11～12。5 片每片約 NT$1,050，20 片約 NT$550，50 片約 NT$460，以 JLC 頁面算出來的為準。</p>
+<p class="hint"><b>費用估計（2026/11/18 的價目）：</b>每批固定費用約 US$82（標準貼片設定費、鋼網、治具、21 種料的上料費），每片零件約 US$11～12。5 片每片約 NT$1,050，20 片約 NT$550，50 片約 NT$460，以 JLC 頁面算出來的為準。v2.0.2 多了 3 種擴充料（U5、L1、J8），每批上料費約再加 US$9，每片零件也會多一點，請以 JLC 報價為準。</p>
 
 <h2>要另外準備的</h2>
 <table>
@@ -133,6 +141,23 @@
   <tr><td>USB-C 線</td><td>燒錄、設定參數用</td></tr>
   <tr><td>電池充電器</td><td>板上沒有充電電路</td></tr>
 </table>
+
+<h2>接光流感測器 MTF-02（選配，J8）</h2>
+<p>要做<b>定高</b>（之後的 Tello 式功能）時才需要。MicoAir MTF-02 是光流＋測距模組（約 1.5 g、40 mA、室內 0.5～2 m），裝在電池下方、鏡頭朝下。</p>
+<table>
+  <tr><th>J8 腳位</th><th>接到</th><th>MTF-02</th></tr>
+  <tr><td>1 GND</td><td>地</td><td>GND</td></tr>
+  <tr><td>2 5V</td><td>U5 升壓輸出（IO4 控制）</td><td>5V</td></tr>
+  <tr><td>3 TX</td><td>IO17（經 1 kΩ）</td><td>Rx</td></tr>
+  <tr><td>4 RX</td><td>IO16（經 1 kΩ）</td><td>Tx</td></tr>
+</table>
+<ol>
+  <li><b>先檢查附線</b>：用三用電表量線的兩端，1 號腳要和 1 號腳相通（直通線）。如果是 1 號接到 4 號（反接線），<b>不能直接插</b>，要換直通線，不然 5V 會接到感測器的 Tx。</li>
+  <li>插頭從上往下插進 J8 到底，<b>點一點熱熔膠</b>把插頭和插座黏住（飛行震動會讓 1.0 mm 插頭慢慢鬆掉）。</li>
+  <li>線沿著機身後方往下拉到電池下面，不要碰到槳、不要被電池壓住。</li>
+  <li>J8 的 5V <b>平常是關的</b>。Flix 韌體目前還沒有用到 J8，要自己寫程式：<code>pinMode(4, OUTPUT); digitalWrite(4, HIGH);</code> 打開 5V，再用 <code>Serial2.begin(115200, SERIAL_8N1, 16, 17)</code> 讀資料（鮑率看模組設定）。</li>
+</ol>
+<p class="hint">機身上「感測器保護框＋走線槽」（讓鏡頭內縮、不會刮到地面）還在設計中，之後會加到 STL。</p>
 
 <h2>組裝步驟</h2>
 <h3>1. 折工藝邊、檢查板子</h3>
@@ -169,7 +194,7 @@ p PWR_VOLT_LOW 3.5</code></pre></li>
   <li>都正確再裝槳：A 槳（黑）裝 M1、M3，B 槳（藍）裝 M0、M2，和標準版一樣。</li>
 </ol>
 
-<p class="warn"><b>注意：</b>這塊板子還沒有實際打樣過。① <b>沒有電池反接保護</b>，電池插反時 4 顆馬達會直接轉，一定要先對正負極。② 1.25 mm 馬達插座額定 1 A，8520 全速可能超過；PH2.0 電池插座額定 2 A，四顆全速會超過，電壓會掉一些。③ IMU 方向是依 TDK 一般軸向推算的，第一次飛之前一定要用 QGroundControl 確認。④ 板子是用 Python 自動佈線產生的，不是 KiCad 畫的，下單前請看 JLC 的線上預覽和 DFM。</p>
+<p class="warn"><b>注意：</b>這塊板子還沒有實際打樣過。① <b>沒有電池反接保護</b>，電池插反時 4 顆馬達會直接轉，一定要先對正負極。② 1.25 mm 馬達插座額定 1 A，8520 全速可能超過；PH2.0 電池插座額定 2 A，四顆全速會超過，電壓會掉一些。③ IMU 方向是依 TDK 一般軸向推算的，第一次飛之前一定要用 QGroundControl 確認。④ 板子是用 Python 自動佈線產生的，不是 KiCad 畫的，下單前請看 JLC 的線上預覽和 DFM。⑤ v2.0.2 的 J8 和 5V 升壓也還沒實測，打樣後要照製造說明的「打樣測試清單」量 5V 電壓、短路保護和溫度。</p>
 
 <h2>下載</h2>
 <table>
@@ -178,7 +203,7 @@ p PWR_VOLT_LOW 3.5</code></pre></li>
   <tr><td><a href="https://github.com/greenmail1011/flix-drone/raw/main/pcb2/fab/fz-flix-onboard-BOM.csv">fz-flix-onboard-BOM.csv</a>、<a href="https://github.com/greenmail1011/flix-drone/raw/main/pcb2/fab/fz-flix-onboard-CPL.csv">fz-flix-onboard-CPL.csv</a></td><td>貼片用的元件表、座標檔</td></tr>
   <tr><td><a href="https://github.com/greenmail1011/flix-drone/raw/main/pcb2/fab/fz-flix-onboard-assembly.pdf">組裝圖 PDF</a></td><td>零件位置與方向</td></tr>
   <tr><td><a href="https://github.com/greenmail1011/flix-drone/raw/main/pcb2/fab/fz-flix-onboard-schematic.pdf">原理圖 PDF</a></td><td>電路（接線表式）</td></tr>
-  <tr><td><a href="https://github.com/greenmail1011/flix-drone/raw/main/pcb2/fab/MANUFACTURING-NOTES.pdf">製造說明 PDF（中英文）</a></td><td>給廠商看的規格、方向檢查表、收板後測試</td></tr>
+  <tr><td><a href="https://github.com/greenmail1011/flix-drone/raw/main/pcb2/fab/MANUFACTURING-NOTES.pdf">製造說明 PDF（中英文）</a></td><td>給廠商看的規格、方向檢查表、收板後測試、打樣測試清單</td></tr>
   <tr><td><a href="https://github.com/greenmail1011/flix-drone/raw/main/pcb/fab/carrier-posts.stl">carrier-posts.stl</a></td><td>3D 列印支柱（和載板版共用）</td></tr>
   <tr><td><a href="https://github.com/greenmail1011/flix-drone/tree/main/pcb2" target="_blank" rel="noopener">pcb2/ 資料夾</a></td><td>產生這些檔案的 Python 原始碼</td></tr>
 </table>

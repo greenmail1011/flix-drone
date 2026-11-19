@@ -4,9 +4,10 @@ import board as B
 from route import Router, WIDTH
 import plot
 
-ORDER = ['VBAT', 'MOT_FL', 'MOT_FR', 'MOT_RL', 'MOT_RR', 'VBUS', 'VSYS', 'DM', 'DP', 'CC1', 'CC2',
+ORDER = ['VBAT', 'MOT_FL', 'MOT_FR', 'MOT_RL', 'MOT_RR', 'VBUS', 'VSYS', 'SW5', '5V', 'FB5', 'DM', 'DP', 'CC1', 'CC2',
          'GATE_FL', 'GATE_FR', 'GATE_RL', 'GATE_RR', 'SCK', 'MOSI', 'MISO', 'CS', 'TXD0', 'RXD0',
-         'DTR', 'RTS', 'EN', 'IO0', 'Q6B', 'Q7B', 'VSENSE', 'LED', 'LEDA', '3V3', 'SDA', 'SCL']
+         'DTR', 'RTS', 'EN', 'IO0', 'Q6B', 'Q7B', 'VSENSE', 'LED', 'LEDA', '3V3', 'SDA', 'SCL',
+         'BOOST_EN', 'TX2', 'RX2', 'TX2_J', 'RX2_J']
 
 SPINE_X = 3.0
 def preroute(R):
@@ -23,6 +24,16 @@ def preroute(R):
     # 電池備用焊墊 BT1 +（v2.0.1）：正面直接拉到 J2 正極焊墊
     bp = [p for p in B.PADS if p.ref == 'BT1' and p.name == '1'][0]
     R.add_track('F', 'VBAT', [(bp.x, bp.y), (bp.x, -17.3), (j2.x, -17.3)], 1.0)
+    # VSYS → 5V 升壓（v2.0.2）：Q5 汲極旁打孔，背面沿後緣拉到右後方，再上來接 C12／L1。
+    # 正面中間太擠（CH340、自動燒錄電路），走背面才不會擋住 IO0、3V3 等訊號線。
+    q5 = [p for p in B.PADS if p.ref == 'Q5' and p.name == '2'][0]
+    c12 = [p for p in B.PADS if p.ref == 'C12' and p.name == '1'][0]
+    VS_Y, VS_X = -18.88, 15.9
+    R.add_track('F', 'VSYS', [(q5.x, q5.y), (-12.4, q5.y), (-12.4, -18.8)], 0.5)
+    R.add_via(-12.4, -18.8, 'VSYS')
+    R.add_track('B', 'VSYS', [(-12.4, -18.8), (-12.4, VS_Y), (VS_X, VS_Y), (VS_X, -9.0)], 0.5)
+    R.add_via(VS_X, -9.0, 'VSYS')
+    R.add_track('F', 'VSYS', [(VS_X, -9.0), (15.5, c12.y), (c12.x, c12.y)], 0.4)
     # 模組底部大焊墊（GND）的散熱/接地過孔
     # IMU 第 11 腳（GND，在上排中間）：直接往上拉一小段打孔
     p11 = [p for p in B.PADS if p.ref == 'U2' and p.name == '11'][0]
@@ -37,21 +48,36 @@ def preroute(R):
     c7 = [p for p in B.PADS if p.ref == 'C7' and p.name == '1'][0]
     R.add_track('F', '3V3', [(p13.x, p13.y), (p13.x - 0.55, p13.y), (p13.x - 0.55, c7.y - 0.5), (p13.x - 0.1, c7.y), (c7.x, c7.y)], 0.2)
     # 細腳距元件的 GND 先扇出（之後的訊號線會繞開）
-    R.gnd_fanout(refs={('U2', '18'), ('U2', '19'), ('U2', '20'), 'U3', 'U4'})
+    R.gnd_fanout(refs={('U2', '18'), ('U2', '19'), ('U2', '20'), 'U3', 'U4', 'U5'})
+
+# VSYS（v2.0.2）：先接左邊（Q5、D1、穩壓器）再接右後方的升壓，和 v2.0.1 的左邊走法一樣，不會把 3V3 擋住
+VSYS_SEQ = [('Q5', '2'), ('D1', '1'), ('U4', '1'), ('U4', '3'), ('C3', '1'), ('C12', '1'), ('L1', '1'), ('U5', '6')]
+def route(R, n):
+    if n == 'VSYS':
+        return R.route_net(n, log=False, order=lambda p: VSYS_SEQ.index((p.ref, p.name)), seq=True)
+    return R.route_net(n, log=False)
 
 def run(save='/tmp/r.pkl', tries=14):
     t = time.time()
     missing = [n for n in B.NETS if n not in ORDER and n != 'GND']
     if missing: print('沒排序的網路', missing)
-    FIXED = ['VBAT', 'MOT_FL', 'MOT_FR', 'MOT_RL', 'MOT_RR', 'VBUS', 'VSYS']
+    FIXED = ['VBAT', 'MOT_FL', 'MOT_FR', 'MOT_RL', 'MOT_RR', 'VBUS', 'VSYS', 'SW5', '5V', 'FB5']
     order = [n for n in ORDER if n not in FIXED]
     best = None
     for k in range(tries):
         R = Router()
         preroute(R)
         bad = []
-        for n in FIXED + order:
-            if not R.route_net(n, log=False): bad.append(n)
+        for n in FIXED:
+            if not route(R, n): bad.append(n)
+        # v2.0.2：大電流過孔補強改在電源線佈好、訊號線還沒佈之前做，
+        # 免得訊號線先佔掉位置（v2.0.1 是最後才補，佈線順序一變就可能補不到）
+        import reinforce, io, contextlib
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf): R.reinforced = reinforce.run(R)
+        if k == 0: print(buf.getvalue(), end='')
+        for n in order:
+            if not route(R, n): bad.append(n)
         print(f'第 {k + 1} 輪：失敗 {bad}  {time.time() - t:.0f}s')
         if best is None or len(bad) < len(best[1]): best = (R, bad, list(order))
         if not bad: break
@@ -68,9 +94,7 @@ def run(save='/tmp/r.pkl', tries=14):
 
 def finish(R):
     """大電流過孔補強；GND：模組大焊墊打孔、每個 GND 焊墊扇出、兩面鋪銅、縫合過孔。"""
-    import reinforce
-    reinforce.run(R)
-    R.gnd_fanout(refs={p.ref for p in B.PADS if p.ref not in ('U1', 'U2', 'U3', 'U4')})
+    R.gnd_fanout(refs={p.ref for p in B.PADS if p.ref not in ('U1', 'U2', 'U3', 'U4', 'U5')})
     top = R.pour('F'); bot = R.pour('B')
     n = R.stitch(top, bot)
     # 鋪銅要在縫合過孔之後重算（過孔本身是 GND，不影響）
