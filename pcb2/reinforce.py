@@ -107,7 +107,7 @@ PLAN = [
 # 手動指定：(網路, 過孔位置, [(層, 線段點, 線寬)], 說明)
 MANUAL = [
     ('VBAT', (16.4, -2.5), [('F', [(16.4, -2.5), (16.4, -1.5)], 0.8), ('B', [(16.4, -2.5), (15.43, -1.23)], 0.8)], '右後馬達 J4 供電 #2'),
-    ('VBAT', (17.2, -2.5), [('F', [(17.2, -2.5), (17.0, -1.5)], 0.8), ('B', [(17.2, -2.5), (16.4, -2.5)], 0.8)], '右後馬達 J4 供電 #3'),
+    ('VBAT', (16.4, -3.3), [('F', [(16.4, -3.3), (16.4, -2.5)], 0.8), ('B', [(16.4, -3.3), (16.4, -2.5)], 0.8)], '右後馬達 J4 供電 #3'),
     ('MOT_RL', (-17.3, -2.75), [('F', [(-17.3, -2.75), (-17.0, -1.5)], 0.8), ('B', [(-17.3, -2.75), (-16.57, -2.23)], 0.8)], '左後馬達 MOT_RL 插座端 #2'),
 ]
 
@@ -116,6 +116,11 @@ def add_manual(R, net, xy, tracks, label):
     x, y = xy
     eb = unary_union([LineString(p).buffer(w / 2, 12) for L, p, w in tracks if L == 'B'] or [Point(x, y)])
     ef = unary_union([LineString(p).buffer(w / 2, 12) for L, p, w in tracks if L == 'F'] or [Point(x, y)])
+    # 每段補線的另一端必須真的接到同網路銅箔（佈線改過後，舊座標可能已經沒有銅）
+    for L, p, w in tracks:
+        end = Point(p[-1]) if Point(p[0]).distance(Point(x, y)) < 1e-6 else Point(p[0])
+        if not _copper(R, L, net).buffer(0.01).contains(end):
+            print(f'  {label}：{L} 面端點 {end.coords[0]} 沒有 {net} 銅箔，跳過'); return 0
     if not _ok_via(R, x, y, net, extra_b=eb, extra_f=ef):
         print(f'  {label}：位置不行，跳過'); return 0
     for L, p, w in tracks: R.add_track(L, net, p, w)

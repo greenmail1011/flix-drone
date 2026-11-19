@@ -110,6 +110,15 @@ def top(R):
         if c: g.append(c)
     c = P.put([(0, -26 + 0.9), (0, -25.0)], 'BATTERY 1S', 0.8)
     if c: g.append(c)
+    # 電池備用焊墊（BT1，不貼片）：通孔旁 + / −
+    for nm, t in (('1', '+'), ('2', '-')):
+        p = pad_of('BT1', nm)
+        c = P.put([(p.x, p.y - 1.75), (p.x, p.y + 1.6), (p.x + (-0.0), p.y - 1.9)], t, 1.2)
+        if c: g.append(c)
+    # 擴充插座 J7（Qwiic 腳位）：板邊直立文字
+    j7 = comp('J7')
+    c = P.put([(22.35, j7['y']), (22.35, j7['y'] - 0.6), (22.35, j7['y'] + 0.6)], 'I2C', 0.8, angle=-90, force=True)
+    if c: g.append(c)
     # USB
     c = P.put([(-21.9, -11.0)], 'USB', 0.8, angle=90, force=True)
     if c: g.append(c)
@@ -134,7 +143,12 @@ def bottom(R):
          text('github.com/greenmail1011/flix-drone', 0, 13.6, 0.7, mirror=m),
          text('Flix params:', 0, -3.0, 0.8, mirror=m),
          text('IMU_MODEL 4   PWR_VOLT_PIN 33   PWR_VOLT_SCALE 2', 0, -4.4, 0.7, mirror=m),
-         text('Motors: RL=12  RR=13  FR=14  FL=15 (default)', 0, -5.7, 0.7, mirror=m)]
+         text('Motors: RL=12  RR=13  FR=14  FL=15 (default)', 0, -5.7, 0.7, mirror=m),
+         text('I2C (Qwiic): SDA=21  SCL=22', 0, -7.0, 0.7, mirror=m)]
+    # 背面：電池備用焊墊 + / −（背面看左右相反，字照實際位置印）
+    for nm, t in (('1', '+'), ('2', '-')):
+        p = pad_of('BT1', nm)
+        g.append(text(t, p.x, p.y + 1.6, 1.2, mirror=m))
     return unary_union(g)
 
 

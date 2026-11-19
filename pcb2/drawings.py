@@ -20,7 +20,7 @@ RED, BLUE, INK, GRY = '#c62828', '#1f5fbf', '#1d1d1f', '#777'
 
 PIN_NAMES = {
     'U1': {'1': 'GND', '2': '3V3', '3': 'EN', '9': 'IO33', '13': 'IO14', '14': 'IO12', '15': 'GND', '16': 'IO13', '23': 'IO15',
-           '24': 'IO2', '25': 'IO0', '29': 'IO5', '30': 'IO18', '31': 'IO19', '34': 'RXD0', '35': 'TXD0', '37': 'IO23', '38': 'GND', '39': 'EP'},
+           '24': 'IO2', '25': 'IO0', '29': 'IO5', '30': 'IO18', '31': 'IO19', '33': 'IO21', '36': 'IO22', '34': 'RXD0', '35': 'TXD0', '37': 'IO23', '38': 'GND', '39': 'EP'},
     'U2': {'8': 'VDDIO', '9': 'SDO', '11': 'RESV', '13': 'VDD', '18': 'GND', '19': 'FSYNC', '20': 'RESV', '22': 'nCS', '23': 'SCLK', '24': 'SDI'},
     'U3': {'1': 'GND', '2': 'TXD', '3': 'RXD', '4': 'V3', '5': 'UD+', '6': 'UD-', '13': 'DTR#', '14': 'RTS#', '16': 'VCC'},
     'U4': {'1': 'VIN', '2': 'GND', '3': 'EN', '5': 'VOUT'},
@@ -56,7 +56,7 @@ BLOCKS = [  # 標題, 元件, 位置 (x, y) 單位：格
     ('USB-C 與 USB 轉序列', ['J1', 'R5', 'R6', 'U3', 'C10'], (0, 0)),
     ('自動燒錄（DTR/RTS → EN/IO0）', ['Q6', 'Q7', 'R7', 'R8'], (0, 1)),
     ('電源：電池 / USB 切換、3.3V 穩壓', ['J2', 'C1', 'C2', 'Q5', 'R10', 'D1', 'U4', 'C3', 'C4', 'C5'], (1, 0)),
-    ('ESP32 模組', ['U1', 'R9', 'C6', 'R11', 'R12', 'C11', 'D2', 'R13'], (1, 1)),
+    ('ESP32 模組、擴充 I2C', ['U1', 'R9', 'C6', 'R11', 'R12', 'C11', 'D2', 'R13', 'J7', 'R14', 'R15'], (1, 1)),
     ('IMU（SPI）', ['U2', 'C7', 'C8', 'C9'], (2, 0)),
     ('馬達開關 ×4（低側 N-MOSFET）', ['J3', 'Q1', 'R1', 'J4', 'Q2', 'R2', 'J5', 'Q3', 'R3', 'J6', 'Q4', 'R4'], (2, 1)),
 ]
@@ -67,7 +67,7 @@ def schematic(pdf):
     fig.suptitle(f'FutureZebra × Flix 一體板 {B.VERSION} 原理圖（同名網路標籤相連）', fontsize=15, x=0.02, ha='left', y=0.985)
     W, H = 1 / 3, 0.47
     for title, refs, (cx, cy) in BLOCKS:
-        x0, y0 = 0.02 + cx * W, 0.5 - cy * H - 0.02
+        x0, y0 = 0.02 + cx * W, 0.5 - cy * H + 0.005
         ax = fig.add_axes([x0, y0 - 0.0, W - 0.03, H - 0.04])
         ax.set_xlim(0, 10); ax.set_ylim(0, 10); ax.axis('off')
         ax.add_patch(Rectangle((0, 0), 10, 10, fill=False, ec=GRY, lw=0.8, ls='--'))
@@ -91,8 +91,9 @@ def schematic(pdf):
                 ax.text(4.6 if k == 0 else 1.3, y - k * 0.42, ln, fontsize=6.6, va='center', family='DejaVu Sans Mono',
                         color=INK)
             y -= 0.48 + 0.42 * (len(lines) - 1) + 0.1
-    fig.text(0.02, 0.012, '馬達接腳照 Flix 韌體預設：RL=IO12、RR=IO13、FR=IO14、FL=IO15；IMU：SCK=IO18、MISO=IO19、MOSI=IO23、CS=IO5；'
-             'LED=IO2；電池分壓→IO33（PWR_VOLT_PIN=33、PWR_VOLT_SCALE=2）；IMU_MODEL=4（ICM-40609-D）。', fontsize=8.5, color=INK)
+    fig.text(0.02, 0.004, '馬達接腳照 Flix 韌體預設：RL=IO12、RR=IO13、FR=IO14、FL=IO15；IMU：SCK=IO18、MISO=IO19、MOSI=IO23、CS=IO5；'
+             'LED=IO2；電池分壓→IO33（PWR_VOLT_PIN=33、PWR_VOLT_SCALE=2）；IMU_MODEL=4（ICM-40609-D）；擴充 J7 Qwiic：SDA=IO21、SCL=IO22。\n'
+             'BT1：電池備用通孔焊墊（+ = VBAT、− = GND，和 J2 並聯，不貼片、不進 BOM）。', fontsize=8.5, color=INK)
     pdf.savefig(fig); fig.savefig(os.path.join(OUT, f'{NAME}-schematic.png'), dpi=110); fig.savefig(os.path.join(OUT, f'{NAME}-schematic.svg'))
     plt.close(fig)
 

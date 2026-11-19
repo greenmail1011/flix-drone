@@ -25,7 +25,7 @@ export const OSTEPS = [
     check: ['支柱的長邊朝前後', '4 顆螺絲都鎖進柱子', '不要鎖太緊，PLA 會滑牙'],
     cam: [0, 0, 4, 0.55, -0.9, 0.75, 150] },
   { t: '先燒錄、設定', parts: ['board', 'usb'],
-    how: '一體板先不要裝上去，也不要插電池。USB-C 線接電腦，用 ESP32 Web Flasher 燒官方 flix.esp32.merged.bin（位址 0，不用按鍵），再在主控台輸入 p IMU_MODEL 4、p PWR_VOLT_PIN 33，重開機。',
+    how: '一體板先不要裝上去，也不要插電池。USB-C 線接電腦，用 ESP32 Web Flasher 燒官方 flix.esp32.merged.bin（位址 0，不用按鍵），再在主控台輸入 p IMU_MODEL 4、p PWR_VOLT_PIN 33、p PWR_VOLT_LOW 3.5，重開機。',
     check: ['電腦看得到 CH340 序列埠', '燒錄成功，不用按任何按鍵', '輸入 imu，狀態正常'],
     cam: [100, -14, 14, 0.25, -0.85, 0.9, 125] },
   { t: '鎖上一體板', parts: ['board', 'screwT'],
@@ -175,10 +175,10 @@ export function initOnboard3D() {
     } else if (c.part === 'USBC') {
       g.add(box(w, d, 3.2, metal(0xc9cdd2, 0.22), cx, cy, 0));
       const hole = box(0.2, 8.2, 2.4, mat(0x111111), bx0 - 0.05, cy, 0.4); g.add(hole);
-    } else if (c.part === 'PH2' || c.part === 'PICO2') {
-      const h = c.part === 'PH2' ? 4.6 : 3.4;
+    } else if (c.part === 'PH2' || c.part === 'PICO2' || c.part === 'SH4') {
+      const h = c.part === 'PH2' ? 4.6 : c.part === 'SH4' ? 2.95 : 3.4;
       g.add(box(w, d, h, CREAM, cx, cy, 0));
-      const open = c.part === 'PH2' ? box(5.6, 0.2, h - 1.2, mat(0x3a3a3a), cx, by0 - 0.05, 0.6) : box(0.2, 4.4, h - 1.0, mat(0x3a3a3a), c.x < 0 ? bx0 - 0.05 : bx1 + 0.05, cy, 0.5);
+      const open = c.part === 'PH2' ? box(5.6, 0.2, h - 1.2, mat(0x3a3a3a), cx, by0 - 0.05, 0.6) : box(0.2, c.part === 'SH4' ? 4.0 : 4.4, h - 1.0, mat(0x3a3a3a), c.x < 0 ? bx0 - 0.05 : bx1 + 0.05, cy, 0.5);
       g.add(open);
     } else {   // 0603 / 0805 被動元件
       const isC = /[nuμ]$/.test(c.part) || /u$/.test(c.part), isR = !isC;

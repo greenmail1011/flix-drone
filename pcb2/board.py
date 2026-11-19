@@ -42,7 +42,11 @@ FP = {
     'USBC': 'Connector_USB.pretty/USB_C_Receptacle_HRO_TYPE-C-31-M-12',
     'PH2': 'Connector_JST.pretty/JST_PH_S2B-PH-SM4-TB_1x02-1MP_P2.00mm_Horizontal',
     'PICO2': 'Connector_Molex.pretty/Molex_PicoBlade_53261-0271_1x02-1MP_P1.25mm_Horizontal',
+    'SH4': 'Connector_JST.pretty/JST_SH_SM04B-SRSS-TB_1x04-1MP_P1.00mm_Horizontal',
 }
+import os as _os
+_HERE = _os.path.dirname(_os.path.abspath(__file__))
+BATPAD_FP = _os.path.join(_HERE, 'fp_custom', 'BatteryPads_THT_P12mm')
 _cache = {}
 def fpobj(k):
     if k not in _cache: _cache[k] = Footprint(FP[k])
@@ -57,6 +61,7 @@ PARTS = {
     'USBC': ('TYPE-C-31-M-12', 'C165948', 'USB-C-SMD_TYPE-C-31-M-12'),
     'PH2': ('WAFER-PH2.0-2PWB', 'C3029440', 'SMD,P=2.0mm,Right Angle'),
     'PICO2': ('A1251WR-S-2P', 'C225111', 'SMD,P=1.25mm,Right Angle'),
+    'SH4': ('SM04B-SRSS-TB(LF)(SN)', 'C160404', 'SMD,P=1mm,Right Angle'),
     'AO3400A': ('AO3400A', 'C20917', 'SOT-23'),
     'AO3401A': ('AO3401A', 'C15127', 'SOT-23'),
     'MMBT3904': ('MMBT3904', 'C20526', 'SOT-23'),
@@ -79,7 +84,7 @@ def add(ref, part, fpk, x, y, rot, nets, note=''):
 
 # ESP32 模組：天線朝機頭（+Y），底面中心 (0, 3.75)
 U1_ORIGIN = (0.0, 3.75)
-esp = {'1': 'GND', '15': 'GND', '38': 'GND', '39': 'GND', '2': '3V3', '3': 'EN',
+esp = {'1': 'GND', '15': 'GND', '38': 'GND', '39': 'GND', '2': '3V3', '3': 'EN', '33': 'SDA', '36': 'SCL',
        '9': 'VSENSE', '13': 'GATE_FR', '14': 'GATE_RL', '16': 'GATE_RR', '23': 'GATE_FL', '24': 'LED',
        '25': 'IO0', '29': 'CS', '30': 'SCK', '31': 'MISO', '34': 'RXD0', '35': 'TXD0', '37': 'MOSI'}
 add('U1', 'ESP32', 'ESP32', *U1_ORIGIN, 0, esp, '主控')
@@ -151,6 +156,12 @@ add('C11', '100n', 'C0603', X_L, -1.0, 0, {'1': 'VSENSE', '2': 'GND'}, '分壓�
 add('D2', 'LED', 'LED0603', 17.0, -17.6, 0, {'1': 'GND', '2': 'LEDA'}, '狀態燈')
 add('R13', '5.1k', 'R0603', 17.0, -16.0, 0, {'1': 'LED', '2': 'LEDA'}, 'LED 限流')
 
+# 擴充插座（v2.0.1）：JST SH 1.0 mm 4P，Qwiic / STEMMA QT 腳位（1 GND、2 3V3、3 SDA、4 SCL），右側板邊、開口朝右
+# IO21 = SDA、IO22 = SCL；也可在韌體改成 UART 給光流模組用。上拉 5.1 kΩ（和 R13 同料）
+add('J7', 'SH4', 'SH4', 19.3, -9.9, 90, {'1': 'GND', '2': '3V3', '3': 'SDA', '4': 'SCL', 'MP': 'MP_J7'}, '擴充 I2C（Qwiic）')
+add('R14', '5.1k', 'R0603', 20.3, -14.9, 0, {'1': '3V3', '2': 'SDA'}, 'SDA 上拉')
+add('R15', '5.1k', 'R0603', 20.3, -16.4, 0, {'1': '3V3', '2': 'SCL'}, 'SCL 上拉')
+
 
 def build():
     pads, courts, fabs = [], {}, {}
@@ -171,6 +182,11 @@ def build():
 
 
 PADS, COURTS, FABS = build()
+
+# 電池備用焊墊（v2.0.1，不貼片、不進 BOM）：後方凸片兩側通孔，左 + 右 −，和 J2 並聯。
+# 平常不用；PH2.0 壓降太大時可焊 BT2.0／XT30 電池線（拔掉 PH2.0 電池，不要兩個同時接）。
+BATPAD_XY = (0.0, -23.0)
+PADS += place(Footprint(BATPAD_FP), 'BT1', BATPAD_XY[0], BATPAD_XY[1], 0, {'1': 'VBAT', '2': 'GND'})
 
 # 天線下方：兩面都不放銅（模組天線區 + 往外 1 mm）
 ANT_KEEPOUT = box(-14.5, U1_ORIGIN[1] + 9.97, 14.5, 25)

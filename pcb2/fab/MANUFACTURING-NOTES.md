@@ -10,7 +10,7 @@ ESP32 module, IMU, USB programming, regulator and 4 motor switches on one board.
 | 檔案 File | 用途 Purpose |
 | --- | --- |
 | `fz-flix-onboard-gerber.zip` | Gerber + 鑽孔（PTH、NPTH，含 USB 外殼長圓孔）/ Gerbers + drills (incl. USB shell slots) |
-| `fz-flix-onboard-BOM.csv` | BOM（JLC 格式，20 種料件、43 個元件）|
+| `fz-flix-onboard-BOM.csv` | BOM（JLC 格式，21 種料件、46 個元件）|
 | `fz-flix-onboard-CPL.csv` | 座標檔 Pick & place（Top only）|
 | `fz-flix-onboard-assembly.pdf` | 組裝圖 Assembly drawing |
 | `fz-flix-onboard-schematic.pdf` | 原理圖（接線表式）Schematic (net-label table) |
@@ -48,6 +48,8 @@ ESP32 module, IMU, USB programming, regulator and 4 motor switches on one board.
 | J1 USB-C | 開口朝**左**板邊。Opening to left edge. |
 | J2 PH2.0 | 開口朝**後**（板子下方凸片）。Opening to rear tab. |
 | J3–J6 1.25 mm | 開口朝左右板邊。Openings to side edges. |
+| J7 JST SH 4P | 開口朝**右**板邊。Opening to right edge. |
+| BT1 | 通孔焊墊，**不貼片**（不在 BOM／座標檔）。Plain PTH pads, not assembled. |
 
 ## 4. 電路重點 / Circuit summary
 
@@ -56,11 +58,13 @@ ESP32 module, IMU, USB programming, regulator and 4 motor switches on one board.
 - 電源：電池 → AO3401A（USB 插著時自動關閉）→ VSYS；USB 5V → B5819W → VSYS；VSYS → AP2112K → 3.3V。**只插 USB 時馬達沒有電**（安全）。
 - USB：CH340C + 2 顆 MMBT3904 自動燒錄（DTR/RTS → EN/IO0），不用按鍵。
 - 電池電壓：100 kΩ/100 kΩ 分壓 → IO33。LED：IO2。
+- 擴充 J7（v2.0.1）：JST SH 1.0 mm 4P，Qwiic 腳位 1 GND、2 3V3、3 SDA（IO21）、4 SCL（IO22），R14/R15 5.1 kΩ 上拉。
+- 電池備用焊墊 BT1（v2.0.1）：後方凸片兩側 Ø0.9 mm 通孔（左 + VBAT、右 − GND），和 J2 並聯，給 BT2.0／XT30 電池線用。
 
 ## 5. 品質確認 / Verification done
 
 - 自寫 DRC（精確幾何）：0 錯誤（v2.0.1 加過孔後重跑）；最小間距 0.150 mm、銅到板邊 0.35 mm、孔壁間距 ≥ 0.40 mm。
-- 連通檢查：32 個網路全部連通、沒有短路。
+- 連通檢查：34 個網路全部連通、沒有短路。
 - Gerber 用 pygerber 獨立算圖，和設計資料逐像素比對：0 處差異 > 0.1 mm。
 - 封裝取自 KiCad 官方元件庫；**板子不是用 KiCad 畫的**（Python 產生、自動佈線），下單前請再看 JLC 線上 Gerber Viewer 和 DFM。
 - Not drawn in KiCad (Python-generated, auto-routed). Footprints from the official KiCad library. Please run JLC's online DFM.
@@ -71,7 +75,7 @@ ESP32 module, IMU, USB programming, regulator and 4 motor switches on one board.
 2. **先不插電池**，USB 接電腦：應出現 CH340 序列埠；LED 不會亮（韌體還沒燒）。
 3. 用 ESP32 Web Flasher 燒 `flix.esp32.merged.bin`（位址 0），不用按鍵。
 4. 在 Flix 主控台設定參數：`p IMU_MODEL 4`、`p PWR_VOLT_PIN 33`、`p PWR_VOLT_LOW 3.5`（`PWR_VOLT_SCALE` 預設 2），重開機後用 `imu` 指令確認 status OK。IMU 轉向和 Flix 預設相同，不用改 `IMU_ROT_*`，但仍要用 QGroundControl 轉動機身確認姿態方向。
-5. **確認電池插頭的正負極**和板上 + / − 一致（PH2.0 電池各家正負極不一定一樣，接反會讓 4 顆馬達直接轉）。
+5. **確認電池插頭的正負極**和板上 + / − 一致（PH2.0 電池各家正負極不一定一樣，接反會讓 4 顆馬達直接轉）。**PH2.0 插座和 BT1 備用焊墊只能用一個**，不要同時接兩顆電池。
 6. 拆槳，插電池，用 `mfl`、`mfr`、`mrl`、`mrr` 測四顆馬達的位置和轉向。轉向反了就把該顆馬達插頭的線對調（空心杯馬達的轉向由正負極決定）。
 
 ## 7. 電流與壓降 / Current and voltage drop（v2.0.1）
@@ -88,6 +92,7 @@ ESP32 module, IMU, USB programming, regulator and 4 motor switches on one board.
 - **J2 PH2.0 電池插座**（額定 2 A）：懸停就超過 1.5–2.5 倍，是整條電源路徑最弱的一環；壓降約 0.1 V（懸停）～0.3 V（全油門）。和早期 Tiny Whoop 一樣的用法，會溫、接點會慢慢氧化，電池插頭要定期換。
 - **3.3 V 穩壓（AP2112K，600 mA 時壓降典型 0.25 V、最大 0.4 V）**：ESP32 規格 3.0–3.6 V。電池在負載下低於約 3.3 V 時 3.3 V 會跟著往下掉；**低電量又全油門**時板上電壓可能掉到約 2.8 V，3.3 V 掉到約 2.65 V，有重開機（brown-out）、空中斷電的風險。
   → 韌體設定 `p PWR_VOLT_LOW 3.5`（Flix 預設 2.7 V 太低），教學上電池到 3.5 V 就降落。
+- 如果實測 PH2.0 壓降太大：拔掉 PH2.0 電池，在 BT1 焊 BT2.0（連續 9 A）或 XT30（15 A）電池線，不用重做板子。
 
 ## 8. 已知限制 / Known limitations
 

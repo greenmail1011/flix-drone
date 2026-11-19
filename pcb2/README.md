@@ -52,4 +52,5 @@ python3 notes_pdf.py  # 製造說明 PDF
 | `route.py` | 格點 A* 兩層自動佈線、GND 扇出、鋪銅、縫合過孔 |
 | `make.py` | 佈線順序、VBAT 主幹（預先佈好）、IMU 周邊手動走線 |
 | `reinforce.py` | 大電流換層點加並聯過孔（v2.0.1） |
+| `fp_custom/` | 自訂封裝：電池備用通孔焊墊 BT1（v2.0.1） |
 | `silk.py` | 絲印 |

@@ -4,9 +4,9 @@ import board as B
 from route import Router, WIDTH
 import plot
 
-ORDER = ['VBAT', 'MOT_FL', 'MOT_FR', 'MOT_RL', 'MOT_RR', 'VBUS', 'VSYS', 'DM', 'DP', 'CC1', 'CC2', '3V3',
+ORDER = ['VBAT', 'MOT_FL', 'MOT_FR', 'MOT_RL', 'MOT_RR', 'VBUS', 'VSYS', 'DM', 'DP', 'CC1', 'CC2',
          'GATE_FL', 'GATE_FR', 'GATE_RL', 'GATE_RR', 'SCK', 'MOSI', 'MISO', 'CS', 'TXD0', 'RXD0',
-         'DTR', 'RTS', 'EN', 'IO0', 'Q6B', 'Q7B', 'VSENSE', 'LED', 'LEDA']
+         'DTR', 'RTS', 'EN', 'IO0', 'Q6B', 'Q7B', 'VSENSE', 'LED', 'LEDA', '3V3', 'SDA', 'SCL']
 
 SPINE_X = 3.0
 def preroute(R):
@@ -20,6 +20,9 @@ def preroute(R):
     R.add_track('B', 'VBAT', [(j2.x - 0.45, vy), (SPINE_X, vy), (SPINE_X, 9.9)], 1.5)
     R.add_track('B', 'VBAT', [(-15.6, 9.9), (14.9, 9.9)], 1.2)
     R.add_track('B', 'VBAT', [(-15.6, -0.8), (15.1, -0.8)], 1.2)
+    # 電池備用焊墊 BT1 +（v2.0.1）：正面直接拉到 J2 正極焊墊
+    bp = [p for p in B.PADS if p.ref == 'BT1' and p.name == '1'][0]
+    R.add_track('F', 'VBAT', [(bp.x, bp.y), (bp.x, -17.3), (j2.x, -17.3)], 1.0)
     # 模組底部大焊墊（GND）的散熱/接地過孔
     # IMU 第 11 腳（GND，在上排中間）：直接往上拉一小段打孔
     p11 = [p for p in B.PADS if p.ref == 'U2' and p.name == '11'][0]

@@ -43,9 +43,10 @@
   <tr><td>馬達開關</td><td>100N03A，學生焊</td><td>AO3400A，JLC 貼好</td><td>AO3400A，JLC 貼好</td></tr>
   <tr><td>USB 燒錄</td><td>MINI32 上的 USB</td><td>MINI32 上的 USB</td><td>板上 USB-C＋CH340C，自動燒錄，不用按鍵</td></tr>
   <tr><td>馬達接法</td><td>焊在 MOSFET 上</td><td>焊在載板上</td><td><b>插 1.25 mm 2P 插座</b></td></tr>
-  <tr><td>電池接法</td><td>MX2.0 線焊到主板</td><td>MX2.0 線焊到載板</td><td><b>插 PH2.0 2P 插座</b></td></tr>
+  <tr><td>電池接法</td><td>MX2.0 線焊到主板</td><td>MX2.0 線焊到載板</td><td><b>插 PH2.0 2P 插座</b>（另有備用通孔焊墊）</td></tr>
+  <tr><td>擴充接口</td><td>—</td><td>—</td><td><b>4P I2C（Qwiic）</b>，給測距、光流等感測器</td></tr>
   <tr><td>學生要焊的</td><td>約 40 個焊點</td><td>16 條線</td><td><b>0</b></td></tr>
-  <tr><td>韌體</td><td>官方 bin，不用改參數</td><td>官方 bin，不用改參數</td><td>官方 bin，設 2 個參數</td></tr>
+  <tr><td>韌體</td><td>官方 bin，不用改參數</td><td>官方 bin，不用改參數</td><td>官方 bin，設 3 個參數</td></tr>
   <tr><td>每片板子成本</td><td>—</td><td>約 US$5～6（5 片）</td><td>5 片約 NT$1,050／片；20 片約 NT$550；50 片約 NT$460</td></tr>
 </table>
 </div>
@@ -60,6 +61,8 @@
   <tr><td>自動燒錄</td><td>CH340C 的 DTR／RTS 經 2 顆 MMBT3904 控制 EN、IO0，網頁燒錄器會自動讓 ESP32 進入燒錄模式</td></tr>
   <tr><td>電池電壓</td><td>100 kΩ／100 kΩ 分壓 → IO33</td></tr>
   <tr><td>指示燈</td><td>紅色 LED → IO2</td></tr>
+  <tr><td>擴充 I2C（J7）</td><td>JST SH 1.0 mm 4P，Qwiic／STEMMA QT 腳位：1 GND、2 3.3 V、3 SDA＝IO21、4 SCL＝IO22，板上 5.1 kΩ 上拉。可以直接插 Qwiic 感測器（例如 VL53L1X 測距），也可以在程式裡把 IO21／IO22 改成 UART 接光流模組。未來要做定高、定點、群飛時用</td></tr>
+  <tr><td>電池備用焊墊（BT1）</td><td>後方凸片兩側的兩個通孔（左 +、右 −），和 PH2.0 插座並聯，<b>平常不用</b>。如果 PH2.0 壓降太大，可以焊一條 BT2.0 或 XT30 電池線上去（這時就不要再插 PH2.0 電池）</td></tr>
 </table>
 <p class="hint">板上<b>沒有充電電路</b>，電池要拔下來用充電器（例如 TP4056 充電板）充。</p>
 
@@ -68,7 +71,7 @@
   <li>到 <a href="https://cart.jlcpcb.com/quote" target="_blank" rel="noopener">JLCPCB 線上報價</a>，登入後按 <b>Add gerber file</b>，上傳 <a href="https://github.com/greenmail1011/flix-drone/raw/main/pcb2/fab/fz-flix-onboard-gerber.zip">fz-flix-onboard-gerber.zip</a>。應該自動讀到 <b>2 層、70 × 70 mm</b>（含工藝邊）。</li>
   <li>照下表設定 PCB 選項，其他用預設值。</li>
   <li>打開 <b>PCB Assembly</b>，選 <b>Standard</b>（ESP32 模組只能用標準貼片），按 <b>NEXT</b>。</li>
-  <li>上傳 <a href="https://github.com/greenmail1011/flix-drone/raw/main/pcb2/fab/fz-flix-onboard-BOM.csv">BOM</a> 和 <a href="https://github.com/greenmail1011/flix-drone/raw/main/pcb2/fab/fz-flix-onboard-CPL.csv">座標檔（CPL）</a>，確認 20 種料全部配到料號、都有庫存。</li>
+  <li>上傳 <a href="https://github.com/greenmail1011/flix-drone/raw/main/pcb2/fab/fz-flix-onboard-BOM.csv">BOM</a> 和 <a href="https://github.com/greenmail1011/flix-drone/raw/main/pcb2/fab/fz-flix-onboard-CPL.csv">座標檔（CPL）</a>，確認 21 種料全部配到料號、都有庫存。</li>
   <li><b>看貼片預覽</b>，照下面的「方向檢查表」逐顆對。座標檔用 KiCad 的旋轉慣例，JLC 預覽可能有零件轉錯方向，不對就在預覽裡旋轉。</li>
   <li>上傳後也看一下 JLC 的線上 Gerber 檢視和 DFM 檢查結果。</li>
   <li>右邊運費把國家改成台灣，選<b>順豐 SF Express</b>，再結帳。</li>
@@ -98,6 +101,7 @@
   <tr><td>J1 USB-C</td><td>開口朝<b>左</b>板邊</td></tr>
   <tr><td>J2 PH2.0 電池插座</td><td>開口朝<b>後</b>（後方凸片）</td></tr>
   <tr><td>J3～J6 馬達插座</td><td>開口朝左右板邊</td></tr>
+  <tr><td>J7 擴充插座</td><td>開口朝<b>右</b>板邊</td></tr>
 </table>
 <p class="hint">1.25 mm 馬達插座（C225111）和 PH2.0 電池插座（C3029440）用的是 KiCad 裡 Molex 53261／JST S2B-PH-SM4-TB 的封裝（相容品），預覽時要確認焊墊有對上。</p>
 
@@ -114,9 +118,10 @@
   <tr><td>J1</td><td>USB-C TYPE-C-31-M-12</td><td>C165948</td></tr>
   <tr><td>J2</td><td>PH2.0 2P 臥式插座（電池）</td><td>C3029440</td></tr>
   <tr><td>J3～J6</td><td>1.25 mm 2P 臥式插座（馬達）</td><td>C225111</td></tr>
-  <tr><td>其他</td><td>B5819W、紅色 LED、電阻、電容共 26 顆</td><td>見 BOM</td></tr>
+  <tr><td>J7</td><td>JST SH 1.0 mm 4P 臥式插座（擴充 I2C）</td><td>C160404</td></tr>
+  <tr><td>其他</td><td>B5819W、紅色 LED、電阻、電容共 28 顆</td><td>見 BOM</td></tr>
 </table>
-<p class="hint"><b>費用估計（2026/11/18 的價目）：</b>每批固定費用約 US$82（標準貼片設定費、鋼網、治具、20 種料的上料費），每片零件約 US$11～12。5 片每片約 NT$1,050，20 片約 NT$550，50 片約 NT$460，以 JLC 頁面算出來的為準。</p>
+<p class="hint"><b>費用估計（2026/11/18 的價目）：</b>每批固定費用約 US$82（標準貼片設定費、鋼網、治具、21 種料的上料費），每片零件約 US$11～12。5 片每片約 NT$1,050，20 片約 NT$550，50 片約 NT$460，以 JLC 頁面算出來的為準。</p>
 
 <h2>要另外準備的</h2>
 <table>
