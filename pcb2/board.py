@@ -13,7 +13,7 @@ from shapely.ops import unary_union
 from fp import Footprint, place, transform_pts
 
 NAME = 'fz-flix-onboard'
-VERSION = 'v2.0'
+VERSION = 'v2.0.1'
 BOARD_T = 1.0
 
 # ---------------- 板子外框（與載板 v1.x 相同外形，後方凸片加長放 USB-C） ----------------

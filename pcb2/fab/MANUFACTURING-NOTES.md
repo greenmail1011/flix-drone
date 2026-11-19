@@ -1,6 +1,6 @@
-# FutureZebra × Flix 一體板 v2.0 製造說明 / Manufacturing Notes
+# FutureZebra × Flix 一體板 v2.0.1 製造說明 / Manufacturing Notes
 
-板名 Board：`fz-flix-onboard` v2.0 ｜ 廠商 Fab：JLCPCB ｜ 日期 Date：2026-11-19
+板名 Board：`fz-flix-onboard` v2.0.1 ｜ 廠商 Fab：JLCPCB ｜ 日期 Date：2026-11-19
 
 ESP32 模組、IMU、USB 燒錄、穩壓和 4 路馬達開關全部做在一塊板上，**學生不用焊接**：插電池、插馬達、裝槳就能飛。
 ESP32 module, IMU, USB programming, regulator and 4 motor switches on one board. **No soldering for students.**
@@ -59,7 +59,7 @@ ESP32 module, IMU, USB programming, regulator and 4 motor switches on one board.
 
 ## 5. 品質確認 / Verification done
 
-- 自寫 DRC（精確幾何）：0 錯誤；最小間距 0.150 mm、銅到板邊 0.35 mm、孔壁間距 ≥ 0.40 mm。
+- 自寫 DRC（精確幾何）：0 錯誤（v2.0.1 加過孔後重跑）；最小間距 0.150 mm、銅到板邊 0.35 mm、孔壁間距 ≥ 0.40 mm。
 - 連通檢查：32 個網路全部連通、沒有短路。
 - Gerber 用 pygerber 獨立算圖，和設計資料逐像素比對：0 處差異 > 0.1 mm。
 - 封裝取自 KiCad 官方元件庫；**板子不是用 KiCad 畫的**（Python 產生、自動佈線），下單前請再看 JLC 線上 Gerber Viewer 和 DFM。
@@ -70,13 +70,27 @@ ESP32 module, IMU, USB programming, regulator and 4 motor switches on one board.
 1. 折掉工藝邊，用砂紙磨平郵票孔毛邊。
 2. **先不插電池**，USB 接電腦：應出現 CH340 序列埠；LED 不會亮（韌體還沒燒）。
 3. 用 ESP32 Web Flasher 燒 `flix.esp32.merged.bin`（位址 0），不用按鍵。
-4. 在 Flix 主控台設定參數：`p IMU_MODEL 4`、`p PWR_VOLT_PIN 33`（`PWR_VOLT_SCALE` 預設 2），重開機後用 `imu` 指令確認 status OK。IMU 轉向和 Flix 預設相同，不用改 `IMU_ROT_*`，但仍要用 QGroundControl 轉動機身確認姿態方向。
+4. 在 Flix 主控台設定參數：`p IMU_MODEL 4`、`p PWR_VOLT_PIN 33`、`p PWR_VOLT_LOW 3.5`（`PWR_VOLT_SCALE` 預設 2），重開機後用 `imu` 指令確認 status OK。IMU 轉向和 Flix 預設相同，不用改 `IMU_ROT_*`，但仍要用 QGroundControl 轉動機身確認姿態方向。
 5. **確認電池插頭的正負極**和板上 + / − 一致（PH2.0 電池各家正負極不一定一樣，接反會讓 4 顆馬達直接轉）。
 6. 拆槳，插電池，用 `mfl`、`mfr`、`mrl`、`mrr` 測四顆馬達的位置和轉向。轉向反了就把該顆馬達插頭的線對調（空心杯馬達的轉向由正負極決定）。
 
-## 7. 已知限制 / Known limitations
+## 7. 電流與壓降 / Current and voltage drop（v2.0.1）
+
+估算條件：Flix 整機約 50–66 g、8520 馬達 + 55 mm 槳、1S 1000 mAh 25C 電池。
+
+| 狀況 | 每顆馬達 | 電池總電流 |
+| --- | --- | --- |
+| 懸停 Hover | 約 0.8–1.2 A | 約 3–5 A |
+| 全油門 Full throttle（短時間）| 約 2–2.5 A | 約 8–10 A（Flix 建議電池能給 15 A）|
+
+- **v2.0.1 補強**：大電流換層點全部改成多個並聯過孔（每個 0.3 mm 過孔約可長時間流 1–1.5 A）。電池正極 → 背面主幹 5 個、每個馬達插座 3 個、左後馬達訊號 2 個；背面 VBAT 橫向分支現在也直接供電給左邊兩顆馬達（v2.0 左邊只靠正面 0.8 mm 細線）。
+- **J3–J6 1.25 mm 插座**（相容件額定 1 A）：懸停接近額定、全油門約 2 倍。正版 Molex PicoBlade 2P 用 26/28 AWG 線時是 2.5/2.0 A（溫升 30 °C）。一次飛 5 分鐘以內可接受；插座會溫、會磨耗，壞了換馬達插頭即可。
+- **J2 PH2.0 電池插座**（額定 2 A）：懸停就超過 1.5–2.5 倍，是整條電源路徑最弱的一環；壓降約 0.1 V（懸停）～0.3 V（全油門）。和早期 Tiny Whoop 一樣的用法，會溫、接點會慢慢氧化，電池插頭要定期換。
+- **3.3 V 穩壓（AP2112K，600 mA 時壓降典型 0.25 V、最大 0.4 V）**：ESP32 規格 3.0–3.6 V。電池在負載下低於約 3.3 V 時 3.3 V 會跟著往下掉；**低電量又全油門**時板上電壓可能掉到約 2.8 V，3.3 V 掉到約 2.65 V，有重開機（brown-out）、空中斷電的風險。
+  → 韌體設定 `p PWR_VOLT_LOW 3.5`（Flix 預設 2.7 V 太低），教學上電池到 3.5 V 就降落。
+
+## 8. 已知限制 / Known limitations
 
 - 沒有電池反接保護。/ No reverse-battery protection.
-- 1.25 mm 馬達插座額定 1 A，8520 馬達全速可能超過；插座旁沒有另外的焊點。
-- PH2.0 電池插座額定 2 A，四顆馬達同時全速會超過，電壓會掉一些。
+- 1.25 mm 馬達插座、PH2.0 電池插座都在額定以上使用（見第 7 節）。
 - 原理圖是接線表式（同名網路相連），不是傳統圖形原理圖。

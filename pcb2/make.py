@@ -64,7 +64,9 @@ def run(save='/tmp/r.pkl', tries=14):
     return R
 
 def finish(R):
-    """GND：模組大焊墊打孔、每個 GND 焊墊扇出、兩面鋪銅、縫合過孔。"""
+    """大電流過孔補強；GND：模組大焊墊打孔、每個 GND 焊墊扇出、兩面鋪銅、縫合過孔。"""
+    import reinforce
+    reinforce.run(R)
     R.gnd_fanout(refs={p.ref for p in B.PADS if p.ref not in ('U1', 'U2', 'U3', 'U4')})
     top = R.pour('F'); bot = R.pour('B')
     n = R.stitch(top, bot)

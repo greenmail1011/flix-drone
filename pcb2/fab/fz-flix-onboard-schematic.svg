@@ -6,7 +6,7 @@
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-11-19T23:11:14.054193</dc:date>
+    <dc:date>2026-11-19T23:22:32.728918</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -36,7 +36,7 @@ L 385.0512 75.7512
 L 23.8176 75.7512 
 L 23.8176 437.6736 
 z
-" clip-path="url(#p7e9103338e)" style="fill: none; stroke-dasharray: 2.96,1.28; stroke-dashoffset: 0; stroke: #777777; stroke-width: 0.8; stroke-linejoin: miter"/>
+" clip-path="url(#p996e8b0c29)" style="fill: none; stroke-dasharray: 2.96,1.28; stroke-dashoffset: 0; stroke: #777777; stroke-width: 0.8; stroke-linejoin: miter"/>
    </g>
    <g id="text_1">
     <text style="font-weight: 700; font-size: 10.5px; font-family: 'Noto Sans CJK TC', 'DejaVu Sans', 'Noto Sans CJK JP'; text-anchor: start" x="31.042272" y="99.468096" transform="rotate(-0 31.042272 99.468096)">USB-C 與 USB 轉序列</text>
@@ -104,7 +104,7 @@ L 385.0512 471.3408
 L 23.8176 471.3408 
 L 23.8176 833.2632 
 z
-" clip-path="url(#p43cdf53a98)" style="fill: none; stroke-dasharray: 2.96,1.28; stroke-dashoffset: 0; stroke: #777777; stroke-width: 0.8; stroke-linejoin: miter"/>
+" clip-path="url(#p8ce851bec1)" style="fill: none; stroke-dasharray: 2.96,1.28; stroke-dashoffset: 0; stroke: #777777; stroke-width: 0.8; stroke-linejoin: miter"/>
    </g>
    <g id="text_20">
     <text style="font-weight: 700; font-size: 10.5px; font-family: 'Noto Sans CJK TC', 'DejaVu Sans', 'Noto Sans CJK JP'; text-anchor: start" x="31.042272" y="495.057696" transform="rotate(-0 31.042272 495.057696)">自動燒錄（DTR/RTS → EN/IO0）</text>
@@ -154,7 +154,7 @@ L 782.0112 75.7512
 L 420.7776 75.7512 
 L 420.7776 437.6736 
 z
-" clip-path="url(#p7753837fd7)" style="fill: none; stroke-dasharray: 2.96,1.28; stroke-dashoffset: 0; stroke: #777777; stroke-width: 0.8; stroke-linejoin: miter"/>
+" clip-path="url(#p0170c61664)" style="fill: none; stroke-dasharray: 2.96,1.28; stroke-dashoffset: 0; stroke: #777777; stroke-width: 0.8; stroke-linejoin: miter"/>
    </g>
    <g id="text_33">
     <text style="font-weight: 700; font-size: 10.5px; font-family: 'Noto Sans CJK TC', 'DejaVu Sans', 'Noto Sans CJK JP'; text-anchor: start" x="428.002272" y="99.468096" transform="rotate(-0 428.002272 99.468096)">電源：電池 / USB 切換、3.3V 穩壓</text>
@@ -258,7 +258,7 @@ L 782.0112 471.3408
 L 420.7776 471.3408 
 L 420.7776 833.2632 
 z
-" clip-path="url(#p010431e707)" style="fill: none; stroke-dasharray: 2.96,1.28; stroke-dashoffset: 0; stroke: #777777; stroke-width: 0.8; stroke-linejoin: miter"/>
+" clip-path="url(#p0a9111ab05)" style="fill: none; stroke-dasharray: 2.96,1.28; stroke-dashoffset: 0; stroke: #777777; stroke-width: 0.8; stroke-linejoin: miter"/>
    </g>
    <g id="text_64">
     <text style="font-weight: 700; font-size: 10.5px; font-family: 'Noto Sans CJK TC', 'DejaVu Sans', 'Noto Sans CJK JP'; text-anchor: start" x="428.002272" y="495.057696" transform="rotate(-0 428.002272 495.057696)">ESP32 模組</text>
@@ -356,7 +356,7 @@ L 1178.9712 75.7512
 L 817.7376 75.7512 
 L 817.7376 437.6736 
 z
-" clip-path="url(#pfb6c1fbe27)" style="fill: none; stroke-dasharray: 2.96,1.28; stroke-dashoffset: 0; stroke: #777777; stroke-width: 0.8; stroke-linejoin: miter"/>
+" clip-path="url(#p6dc8d8ffdd)" style="fill: none; stroke-dasharray: 2.96,1.28; stroke-dashoffset: 0; stroke: #777777; stroke-width: 0.8; stroke-linejoin: miter"/>
    </g>
    <g id="text_93">
     <text style="font-weight: 700; font-size: 10.5px; font-family: 'Noto Sans CJK TC', 'DejaVu Sans', 'Noto Sans CJK JP'; text-anchor: start" x="824.962272" y="99.468096" transform="rotate(-0 824.962272 99.468096)">IMU（SPI）</text>
@@ -412,7 +412,7 @@ L 1178.9712 471.3408
 L 817.7376 471.3408 
 L 817.7376 833.2632 
 z
-" clip-path="url(#pc42a03accb)" style="fill: none; stroke-dasharray: 2.96,1.28; stroke-dashoffset: 0; stroke: #777777; stroke-width: 0.8; stroke-linejoin: miter"/>
+" clip-path="url(#p7bb4587bad)" style="fill: none; stroke-dasharray: 2.96,1.28; stroke-dashoffset: 0; stroke: #777777; stroke-width: 0.8; stroke-linejoin: miter"/>
    </g>
    <g id="text_108">
     <text style="font-weight: 700; font-size: 10.5px; font-family: 'Noto Sans CJK TC', 'DejaVu Sans', 'Noto Sans CJK JP'; text-anchor: start" x="824.962272" y="495.057696" transform="rotate(-0 824.962272 495.057696)">馬達開關 ×4（低側 N-MOSFET）</text>
@@ -527,29 +527,29 @@ z
    </g>
   </g>
   <g id="text_145">
-   <text style="font-size: 15px; font-family: 'Noto Sans CJK TC', 'DejaVu Sans', 'Noto Sans CJK JP'; text-anchor: start" x="23.8176" y="25.8252" transform="rotate(-0 23.8176 25.8252)">FutureZebra × Flix 一體板 v2.0 原理圖（同名網路標籤相連）</text>
+   <text style="font-size: 15px; font-family: 'Noto Sans CJK TC', 'DejaVu Sans', 'Noto Sans CJK JP'; text-anchor: start" x="23.8176" y="25.8252" transform="rotate(-0 23.8176 25.8252)">FutureZebra × Flix 一體板 v2.0.1 原理圖（同名網路標籤相連）</text>
   </g>
   <g id="text_146">
    <text style="font-size: 8.5px; font-family: 'Noto Sans CJK TC', 'DejaVu Sans', 'Noto Sans CJK JP'; text-anchor: start; fill: #1d1d1f" x="23.8176" y="831.57984" transform="rotate(-0 23.8176 831.57984)">馬達接腳照 Flix 韌體預設：RL=IO12、RR=IO13、FR=IO14、FL=IO15；IMU：SCK=IO18、MISO=IO19、MOSI=IO23、CS=IO5；LED=IO2；電池分壓→IO33（PWR_VOLT_PIN=33、PWR_VOLT_SCALE=2）；IMU_MODEL=4（ICM-40609-D）。</text>
   </g>
  </g>
  <defs>
-  <clipPath id="p7e9103338e">
+  <clipPath id="p996e8b0c29">
    <rect x="23.8176" y="75.7512" width="361.2336" height="361.9224"/>
   </clipPath>
-  <clipPath id="p43cdf53a98">
+  <clipPath id="p8ce851bec1">
    <rect x="23.8176" y="471.3408" width="361.2336" height="361.9224"/>
   </clipPath>
-  <clipPath id="p7753837fd7">
+  <clipPath id="p0170c61664">
    <rect x="420.7776" y="75.7512" width="361.2336" height="361.9224"/>
   </clipPath>
-  <clipPath id="p010431e707">
+  <clipPath id="p0a9111ab05">
    <rect x="420.7776" y="471.3408" width="361.2336" height="361.9224"/>
   </clipPath>
-  <clipPath id="pfb6c1fbe27">
+  <clipPath id="p6dc8d8ffdd">
    <rect x="817.7376" y="75.7512" width="361.2336" height="361.9224"/>
   </clipPath>
-  <clipPath id="pc42a03accb">
+  <clipPath id="p7bb4587bad">
    <rect x="817.7376" y="471.3408" width="361.2336" height="361.9224"/>
   </clipPath>
  </defs>

@@ -140,9 +140,10 @@
 <ol>
   <li>USB-C 接電腦，應該會出現 CH340 序列埠（Windows 沒有的話要裝 CH340 驅動程式）。</li>
   <li>用 ESP32 Web Flasher 燒官方 <code>flix.esp32.merged.bin</code>，Flash address 填 0。<b>不用按任何按鍵</b>。</li>
-  <li>在 Flix 主控台輸入下面兩行，然後重開機：
+  <li>在 Flix 主控台輸入下面三行，然後重開機（第三行是電池 3.5 V 就警告，一體板的 3.3 V 穩壓在更低電壓時會不穩）：
     <pre><code>p IMU_MODEL 4
-p PWR_VOLT_PIN 33</code></pre></li>
+p PWR_VOLT_PIN 33
+p PWR_VOLT_LOW 3.5</code></pre></li>
   <li>輸入 <code>imu</code>，確認 IMU 狀態正常；再用 <code>ca</code> 校正。</li>
 </ol>
 <h3>3. 裝到機身</h3>

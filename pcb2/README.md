@@ -1,4 +1,4 @@
-# FutureZebra × Flix 一體板 v2.0（免焊接版）
+# FutureZebra × Flix 一體板 v2.0.1（免焊接版）
 
 ESP32-WROOM-32E、ICM-40609-D IMU、CH340C USB 燒錄、AP2112K 3.3V 穩壓、4 路 AO3400A 馬達開關，全部由 JLCPCB 貼片。
 學生只要插電池、插馬達（1.25 mm 2P 插頭）、裝槳。機身與安裝方式和載板 v1.x 相同（鎖在原 ESP32 支架的 4 個柱腳位置，可用 `../pcb/fab/carrier-posts.stl`）。
@@ -23,6 +23,7 @@ ESP32-WROOM-32E、ICM-40609-D IMU、CH340C USB 燒錄、AP2112K 3.3V 穩壓、4 
 ```
 p IMU_MODEL 4
 p PWR_VOLT_PIN 33
+p PWR_VOLT_LOW 3.5
 ```
 
 馬達接腳與 IMU SPI 腳位都是 Flix 預設值，不用改。
@@ -50,4 +51,5 @@ python3 notes_pdf.py  # 製造說明 PDF
 | `board.py` | 板形、元件擺放、網路、料號 |
 | `route.py` | 格點 A* 兩層自動佈線、GND 扇出、鋪銅、縫合過孔 |
 | `make.py` | 佈線順序、VBAT 主幹（預先佈好）、IMU 周邊手動走線 |
+| `reinforce.py` | 大電流換層點加並聯過孔（v2.0.1） |
 | `silk.py` | 絲印 |
